@@ -20,7 +20,7 @@ export const AdminDashboard = () => {
   return (
     <Box sx={{ padding: 3 }}>
       <Typography variant="h4" fontWeight="bold" gutterBottom sx={{ textAlign: "center", mb: 3 }}>
-        🚗 Admin Dashboard
+        🚗 Admin Dashboard page
       </Typography>
 
       {/* Stats Cards */}
