@@ -1,61 +1,67 @@
 import { useEffect, useState } from "react";
-import "../../../src/assets/css/UpdateUser.css";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import { GetAppointmentDetail } from "../user/GetUserAppointmentdetail";
+import "../../../src/assets/css/UpdateUser.css";
 
 export const ProfileDetail = () => {
   const [user, setUser] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [userId] = useState(localStorage.getItem("id"));
+  const userId = localStorage.getItem("id");
+  const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    formState: { errors }
   } = useForm();
 
-  // Function to fetch user details
-  const fetchUserDetails = async () => {
-    if (!userId) return;
-    try {
-      const response = await axios.get(`/users/${userId}`);
-      if (response.data?.data) {
-        const userData = response.data.data;
-        setUser(userData);
-        setValue("fullName", userData.fullName || "");
-        setValue("contact", userData.contact || "");
-        setValue("email", userData.email || "");
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
-
   useEffect(() => {
+    const fetchUserDetails = async () => {
+      if (!userId) return;
+      try {
+        const response = await axios.get(`/users/${userId}`);
+        if (response.data?.data) {
+          const userData = response.data.data;
+          setUser(userData);
+          setValue("fullName", userData.fullName || "");
+          setValue("contact", userData.contact || "");
+          setValue("email", userData.email || "");
+          setSelectedImage(null);
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
     fetchUserDetails();
-  }, [userId]);
+  }, [userId, setValue]);
 
   const handleUpdate = async (data) => {
     try {
       const updatedData = new FormData();
       updatedData.append("fullName", data.fullName);
       updatedData.append("contact", data.contact);
-      if (data.image?.[0]) {
-        updatedData.append("image", data.image[0]);
+      if (selectedImage) {
+        updatedData.append("image", selectedImage);
       }
 
       const response = await axios.put(`/updateuser/${userId}`, updatedData, {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: { "Content-Type": "multipart/form-data" }
       });
 
       if (response.status === 200) {
-        toast.success("Profile Updated Successfully!");
-        
-        // ✅ Re-fetch user details after update
-        fetchUserDetails();
+        toast.success("Profile Updated Successfully!", {
+          position: "top-right",
+          autoClose: 2000,
+          theme: "dark",
+
+          transition: Bounce,
+          onClose: () => navigate("/user")
+        });
+        setUser((prev) => ({ ...prev, ...data }));
       }
     } catch (error) {
       console.error("Error updating profile:", error);
@@ -63,17 +69,40 @@ export const ProfileDetail = () => {
     }
   };
 
+  const defaultAvatar =
+    user?.imageURL ||
+    `https://ui-avatars.com/api/?name=${
+      user?.fullName?.charAt(0) || "U"
+    }&background=random&color=fff&size=100`;
+
   return (
     <>
-      <ToastContainer position="top-right" autoClose={2000} theme="dark" transition={Bounce} />
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        theme="dark"
+        transition={Bounce}
+      />
       <div className="profile-container">
         <div className="profile-card">
           <h2 className="profile-header">Update Profile</h2>
+          <img
+            src={
+              selectedImage ? URL.createObjectURL(selectedImage) : defaultAvatar
+            }
+            alt="Profile"
+            className="profile-img"
+          />
           <form className="profile-form" onSubmit={handleSubmit(handleUpdate)}>
             <div className="form-group">
               <label>Full Name</label>
-              <input type="text" {...register("fullName", { required: "Name is required" })} />
-              {errors.fullName && <span className="error-text">{errors.fullName.message}</span>}
+              <input
+                type="text"
+                {...register("fullName", { required: "Name is required" })}
+              />
+              {errors.fullName && (
+                <span className="error-text">{errors.fullName.message}</span>
+              )}
             </div>
 
             <div className="form-group">
@@ -83,13 +112,22 @@ export const ProfileDetail = () => {
 
             <div className="form-group">
               <label>Contact</label>
-              <input type="text" {...register("contact", { required: "Contact is required" })} />
-              {errors.contact && <span className="error-text">{errors.contact.message}</span>}
+              <input
+                type="text"
+                {...register("contact", { required: "Contact is required" })}
+              />
+              {errors.contact && (
+                <span className="error-text">{errors.contact.message}</span>
+              )}
             </div>
 
             <div className="form-group">
               <label>Profile Image</label>
-              <input type="file" {...register("image")} onChange={(e) => setSelectedImage(e.target.files[0])} accept="image/*" />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setSelectedImage(e.target.files[0])}
+              />
             </div>
 
             <button type="submit" className="update-btn">
@@ -98,7 +136,7 @@ export const ProfileDetail = () => {
           </form>
         </div>
       </div>
-      <div style={{ display: "flex" }}>
+      <div className="appointment-section">
         <GetAppointmentDetail />
       </div>
     </>

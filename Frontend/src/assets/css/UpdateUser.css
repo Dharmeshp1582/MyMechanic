@@ -81,3 +81,13 @@
     transform: translateY(0);
   }
 }
+
+
+.profile-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%; /* Makes it round */
+  object-fit: cover; /* Ensures the image fits well inside the circle */
+  border: 3px solid white; /* Optional: Adds a border */
+  box-shadow: 0px 4px 10px rgba(224, 220, 220, 0.3); /* Optional: Adds a shadow */
+}

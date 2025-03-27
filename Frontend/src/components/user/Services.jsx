@@ -1,15 +1,12 @@
 import { useState, useEffect } from "react";
-// import { useForm } from "react-hook-form";
 import axios from "axios";
-// import { Bounce, toast } from "react-toastify";
-// import { useNavigate } from "react-router-dom";
-import "../../../src/assets/css/addservice.css";
 import { Link } from "react-router-dom";
+import "../../../src/assets/css/addservice.css";
 
 export const Services = () => {
-  // const navigate = useNavigate();
   const [availableServices, setAvailableServices] = useState([]);
   const [error, setError] = useState("");
+  const [fullScreenImage, setFullScreenImage] = useState(null); // Store clicked image
 
   useEffect(() => {
     axios
@@ -22,35 +19,15 @@ export const Services = () => {
       });
   }, []);
 
-
   return (
-    <div
-      style={{
-        padding: "20px",
-        fontFamily: "Arial, sans-serif",
-        justifyContent: "center"
-      }}
-    >
-      
+    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif", justifyContent: "center" }}>
       {error && <p style={{ color: "red" }}>{error}</p>}
       
-      
-      <div
-        style={{
-          textAlign: "center",
-          padding: "20px",
-         backgroundColor:"d5cdcc",
-          minHeight: "100vh"
-        }}
-      >
-        <h2 style={{ marginBottom: "20px", fontSize: "2rem", color: "#333" }}>
-         Services
-        </h2>
+      <div style={{ textAlign: "center", padding: "20px", backgroundColor: "#d5cdcc", minHeight: "100vh" }}>
+        <h2 style={{ marginBottom: "20px", fontSize: "2rem", color: "#333" }}>Services</h2>
 
         {availableServices.length === 0 ? (
-          <p style={{ fontSize: "1.2rem", color: "#666" }}>
-            No services available.
-          </p>
+          <p style={{ fontSize: "1.2rem", color: "#666" }}>No services available.</p>
         ) : (
           <div
             style={{
@@ -71,12 +48,8 @@ export const Services = () => {
                   textAlign: "center",
                   transition: "transform 0.2s ease-in-out"
                 }}
-                onMouseOver={(e) =>
-                  (e.currentTarget.style.transform = "scale(1.03)")
-                }
-                onMouseOut={(e) =>
-                  (e.currentTarget.style.transform = "scale(1)")
-                }
+                onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.03)")}
+                onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1.03)")}
               >
                 {/* Service Image */}
                 {service.imageURL && (
@@ -86,25 +59,19 @@ export const Services = () => {
                     style={{
                       width: "100%",
                       height: "200px",
-                      objectFit: "cover"
+                      objectFit: "cover",
+                      cursor: "pointer" // Show pointer to indicate clickability
                     }}
+                    onClick={() => setFullScreenImage(service.imageURL)}
                   />
                 )}
 
                 {/* Service Details */}
                 <div style={{ padding: "15px" }}>
-                  <h3
-                    style={{
-                      marginBottom: "5px",
-                      fontSize: "1.4rem",
-                      color: "#007bff"
-                    }}
-                  >
+                  <h3 style={{ marginBottom: "5px", fontSize: "1.4rem", color: "#007bff" }}>
                     {service.name}
                   </h3>
-                  <p style={{ color: "#666", fontSize: "1rem" }}>
-                    {service.description}
-                  </p>
+                  <p style={{ color: "#666", fontSize: "1rem" }}>{service.description}</p>
 
                   <p style={{ fontWeight: "bold", color: "#444" }}>
                     <strong>Category:</strong> {service.category}
@@ -117,12 +84,7 @@ export const Services = () => {
                   </p>
                   <p style={{ fontWeight: "bold" }}>
                     <strong>Availability:</strong>{" "}
-                    <span
-                      style={{
-                        color: service.availability ? "green" : "red",
-                        fontWeight: "bold"
-                      }}
-                    >
+                    <span style={{ color: service.availability ? "green" : "red", fontWeight: "bold" }}>
                       {service.availability ? "Available" : "Not Available"}
                     </span>
                   </p>
@@ -131,7 +93,9 @@ export const Services = () => {
                   </p>
 
                   {/* Booking Button */}
-                   <Link to="/user/booking" style={{
+                  <Link
+                    to="/user/booking"
+                    style={{
                       marginTop: "12px",
                       padding: "10px 18px",
                       border: "none",
@@ -140,23 +104,51 @@ export const Services = () => {
                       color: "#fff",
                       fontSize: "1rem",
                       cursor: "pointer",
-                      transition: "background 0.3s"
+                      transition: "background 0.3s",
+                      display: "inline-block"
                     }}
-                    onMouseOver={(e) =>
-                      (e.currentTarget.style.backgroundColor = "#0056b3")
-                    }
-                    onMouseOut={(e) =>
-                      (e.currentTarget.style.backgroundColor = "#007bff")
-                    }>
-                              Book Appointment Now
-                            </Link>
-                  
+                    onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#0056b3")}
+                    onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#007bff")}
+                  >
+                    Book Appointment Now
+                  </Link>
                 </div>
               </div>
             ))}
           </div>
         )}
       </div>
+
+      {/* Full-Screen Image Overlay */}
+      {fullScreenImage && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.8)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1000
+          }}
+          onClick={() => setFullScreenImage(null)} // Close on click outside
+        >
+          <img
+            src={fullScreenImage}
+            alt="Full Screen"
+            style={{
+              width: "80%", // Fixed width for all images
+              height: "80%", // Fixed height for all images
+              objectFit: "contain", // Maintain aspect ratio
+              borderRadius: "10px",
+              boxShadow: "0px 6px 15px rgba(255,255,255,0.2)"
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 };

@@ -39,23 +39,37 @@ export const AdminNavbar = ({ toggleSidebar }) => {
   };
 
   useEffect(() => {
-    fetchUserData();
+    fetchUserData(); // Initial fetch
+
+    const interval = setInterval(() => {
+      fetchUserData(); // Fetch data every 3 seconds
+    }, 3000);
+
+    return () => clearInterval(interval); // Cleanup to prevent memory leaks
   }, []);
 
- const handleLogout = () => {
-     localStorage.clear();
-     toast.success("Logged out successfully!", { position: "top-right", autoClose: 2000, theme: "dark" });
- 
-     // Delay navigation to show toast before redirecting
-     setTimeout(() => {
-       navigate("/login");
-     }, 2000);
-   };
- 
+  const handleLogout = () => {
+    localStorage.clear();
+    toast.success("Logged out successfully!", {
+      position: "top-right",
+      autoClose: 2000,
+      theme: "dark"
+    });
+
+    // Delay navigation to show toast before redirecting
+    setTimeout(() => {
+      navigate("/login");
+    }, 2000);
+  };
 
   return (
-    <nav className="app-header navbar navbar-expand bg-body" >
-    <ToastContainer position="top-right" autoClose={2000} theme="dark" transition={Bounce} />
+    <nav className="app-header navbar navbar-expand bg-body">
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        theme="dark"
+        transition={Bounce}
+      />
       <div className="container-fluid">
         <ul className="navbar-nav">
           <li className="nav-item">

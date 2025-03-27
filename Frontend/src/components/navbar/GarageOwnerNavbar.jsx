@@ -38,8 +38,15 @@ export const GarageOwnerNavbar = ({ toggleSidebar }) => {
   
 
   useEffect(() => {
-    fetchUserData();
+    fetchUserData(); // Initial fetch
+  
+    const interval = setInterval(() => {
+      fetchUserData(); // Fetch data every 3 seconds
+    }, 3000);
+  
+    return () => clearInterval(interval); // Cleanup to prevent memory leaks
   }, []);
+  
 
   const handleLogout = () => {
       localStorage.clear();
