@@ -1,0 +1,162 @@
+/* .addgarage-body{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.addgarage-footer{
+    display: flex;
+}
+.addgarage-button{
+    margin: auto;
+} */
+
+
+/* Alternate AddGarage Page Styling */
+.addgarage-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+    width: 100%;
+    height: 100%;
+    /* background-color: #e8f0fe; */
+    /* padding: 20px 20px; */
+}
+
+.addgarage-container2 {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+    width: 100%;
+    height: 90%;
+    /* background-color: #e8f0fe; */
+    /* padding: 20px 20px; */
+}
+
+.addgarage-wrapper {
+    /* width: 60%; */
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.addgarage-card {
+    width: 100%;
+}
+
+.addgarage-header {
+    /* background-color: #0056b3; */
+    background-color: #1771d8;
+    color: white;
+    padding: 18px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    /* border-radius: 15px 15px 0 0; */
+    border-radius: 80px 6px 80px 6px;
+}
+
+.addgarage-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px 20px;
+    padding: 25px;
+}
+
+.addgarage-form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.addgarage-label {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #333;
+}
+
+.addgarage-input, .addgarage-select {
+    width: 100%;
+    padding: 8px;
+    border: 2px solid #aaa;
+    border-radius: 6px;
+    font-size: 15px;
+    background: #f9f9f9;
+    transition: border-color 0.3s;
+}
+
+.addgarage-input:focus, .addgarage-select:focus {
+    border-color: #0056b3;
+    outline: none;
+    background: white;
+}
+
+.addgarage-submit-container {
+    grid-column: span 2;
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.addgarage-submit {
+    /* background-color: #0056b3; */
+    background-color: #1b71d4;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    transition: background 0.3s ease;
+}
+
+.addgarage-submit:hover {
+    background-color: #003d80;
+}
+
+.addgarage-error {
+    color: #ff4d4d;
+    font-size: 12px;
+    margin-top: 5px;
+    line-height: 0.75;
+  }
+
+  /* Input fields */
+.input-field {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+    
+    font-size: 16px;
+    transition: border 0.3s ease-in-out;
+  }
+  
+  .input-field:focus {
+    border: 1px solid #007bff;
+  }
+  
+  /* File input */
+  .file-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+  }
+  
+  /* Error message */
+  .error {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  

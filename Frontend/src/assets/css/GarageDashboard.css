@@ -1,0 +1,75 @@
+/* Dashboard Container */
+.dashboard-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Title */
+.dashboard-title {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #222;
+}
+
+/* Stats Cards */
+.stats-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  width: 30%;
+  text-align: center;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card h3 {
+  font-size: 18px;
+  color: #333;
+}
+
+.stat-card p {
+  font-size: 22px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+/* Services Table */
+.services-container {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.service-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.service-table th, .service-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.service-table th {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Loading */
+.loading {
+  text-align: center;
+  margin-top: 50px;
+  font-size: 24px;
+  color: #333;
+}

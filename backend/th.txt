@@ -1,0 +1,65 @@
+data dictionary of project 
+
+https://pminternship.mca.gov.in/login/
+
+req,response --> web server | app server
+
+java: tomcat
+python : django
+.net   :isi server
+.node | express :
+
+npm install express
+
+npm install nodemon -g
+
+
+folder structure:
+
+nodemon app.js
+
+
+
+user tables: 
+roleId fk 
+joins: select * from users natural joins roles
+
+
+const addUser1  = async(req,res)=>{
+
+    //try catch if else...
+    try{
+
+        const createdUser = await userModel.create(req.body)
+        res.status(201).json({
+            message:"user created..",
+            data:createdUser
+        })
+
+
+
+    }catch(err){
+
+        res.status(500).json({
+            message:"error",
+            data:err
+        })
+
+    }
+}
+
+
+api -> forgetpassword api
+frontend: forgetpassword --> email --> post api --> req.body --> database user 
+
+if user found --> token... -> email -->
+if not found --> response --> user not found ...
+
+Token :- jwt : jsonwebtoken 
+auth2 -->
+
+Authorization: 
+Authe: 
+
+
+

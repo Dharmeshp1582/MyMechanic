@@ -1,0 +1,76 @@
+.signup-body{
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+}
+
+.signup-container{
+    /* background-color: color-mix(in srgb-linear,#cbd7d9  50%,#ded2ef 50%); */
+    /* background: linear-gradient(110deg, #1492ff 0%, #0860c4 50%, #eb0066 100%); */
+    /* background: linear-gradient(110deg, #1d3448 0%, #a4b9d1 50%, #eb0066 100%); */
+    width: 600px;
+    background: rgba(20, 20, 20, 0.082);
+    backdrop-filter: blur(4px);
+    /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); */
+    box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.872);
+
+    /* height: 530px; */
+    margin: auto;
+    margin-top: 4rem; 
+    border-radius: 25px;
+    padding: 20px;
+    /* box-shadow: 10px 12px 5px black; */
+}
+
+.signup-container h1{
+    margin-bottom: 2rem;
+    color: black;
+}
+ 
+input[type="submit"]{
+    background-color: #212529;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 22px;
+    margin-top: 2.12rem;
+    opacity: 0.9;
+}
+
+input[type="submit"]:hover{
+    cursor: pointer;
+    opacity: 1;
+    transform: scale(1.03);
+}
+
+
+form{
+    padding: 0 8rem;
+}
+
+.input{
+    margin-top: 12px;
+    /* text-align: justify; */
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.input label{
+    margin-right: 10px;
+    align-self: baseline;
+    font-size: 1.2rem;
+}
+
+.input select{
+    background: rgba(249, 246, 246, 0.708);
+    color: black;
+    outline: none;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+span {
+    font-size: 16px; 
+    display: block;
+}
