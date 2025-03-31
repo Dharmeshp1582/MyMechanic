@@ -177,7 +177,7 @@ export const Signup = () => {
           <button
             type="submit"
             style={{
-              background: "#0056b3",
+              background: "#2d3436",
               color: "white",
               padding: "10px",
               border: "none",

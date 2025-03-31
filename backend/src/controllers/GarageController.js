@@ -121,29 +121,66 @@ const addGarageWithFile = async (req, res) => {
 };
 
 //update garage detail
-const updateGarage = async (req, res) => {
-  //update tablename set ? where id = ?
-  //update new data -->req.body
-  //id --> req.params.id
+// const updateGarage = async (req, res) => {
+//   //update tablename set ? where id = ?
+//   //update new data -->req.body
+//   //id --> req.params.id
+//   try {
+//     const updatedGarage = await garageModel.findByIdAndUpdate(
+//       req.params.id,
+//       req.body,
+//       { new: true }
+//     );
+//     console.log(req.body);
+
+//     res.status(200).json({
+//       message: "garage update successfully",
+//       data: updatedGarage
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       message: "error while update garage detail",
+//       err: error
+//     });
+//   }
+// };
+const updateGarageWithFile = async (req, res) => {
   try {
-    const updatedGarage = await garageModel.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
-    console.log(req.body);
+    await new Promise((resolve, reject) => {
+      upload(req, res, (err) => {
+        if (err) reject(err);
+        else resolve();
+      });
+    });
+
+    const garageId = req.params.id;
+    const updateData = req.body;
+
+    if (req.file) {
+      // Upload new image to Cloudinary
+      const cloudinaryResponse = await cloudinaryUtil.uploadFileToCloudinary(req.file)
+      updateData.imageURL = cloudinaryResponse.secure_url;
+    }
+
+    // Update garage details in the database
+    const updatedGarage = await garageModel.findByIdAndUpdate(garageId, updateData, { new: true });
+
+    if (!updatedGarage) {
+      return res.status(404).json({ message: "Garage not found" });
+    }
 
     res.status(200).json({
-      message: "garage update successfully",
-      data: updatedGarage
+      message: "Garage updated successfully",
+      data: updatedGarage,
     });
+
   } catch (error) {
     res.status(500).json({
-      message: "error while update garage detail",
-      err: error
+      message: error.message || "Error updating garage details",
     });
   }
 };
+
 
 //get garage by garage id
 const getGarageByGarageId = async (req, res) => {
@@ -183,7 +220,7 @@ module.exports = {
   getAllGarages,
   addGarageWithFile,
   getAllGaragesByUserId,
-  updateGarage,
+  updateGarageWithFile,
   getGarageByGarageId,
   DeletedGarage
 };

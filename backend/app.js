@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const nodemailer = require("nodemailer");
 const cookieParser = require("cookie-parser");
 //express object
 const app = express();
@@ -31,7 +32,6 @@ app.get("/test", (req, res) => {
 //     })
 // })
 
-
 // Logout route
 app.post("/logout", (req, res) => {
   try {
@@ -44,7 +44,7 @@ app.post("/logout", (req, res) => {
 
 //import role routes
 const roleRoutes = require("./src/routes/RoleRoute");
-app.use("/role",roleRoutes);
+app.use("/role", roleRoutes);
 
 //import user routes
 const userRoutes = require("./src/routes/UserRoute");
@@ -80,12 +80,45 @@ app.use("/mechanic", mechanicRoutes);
 
 // import Appointment routes
 const appointmentRoutes = require("./src/routes/AppointmentRoute");
-app.use("/appointment", appointmentRoutes );
+app.use("/appointment", appointmentRoutes);
 
 // import Payment routes
 const paymentRoutes = require("./src/routes/PaymentRoute");
-app.use("/payment", paymentRoutes );
+app.use("/payment", paymentRoutes);
 
+//contact form validation with controller
+app.post("/contact", async (req, res) => {
+  const { name, email, message } = req.body;
+
+  if (!name || !email || !message) {
+    return res.status(400).json({ error: "All fields are required" });
+  }
+
+  // Setup nodemailer transporter
+  let transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "alpeshpatelvirpur@gmail.com",
+      pass: "xopi zvba daav aoub" // Use App Password for security
+    }
+  });
+
+  let mailOptions = {
+    from: email,
+    to: "alpeshpatelvirpur@gmail.com",
+    subject: `New Contact Form Message from ${email}`,
+    text: message
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    res
+      .status(200)
+      .json({ success: true, message: "Message sent successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Error sending message" });
+  }
+});
 
 //database connection
 mongoose.connect("mongodb://127.0.0.1:27017/25_node_internship").then(() => {

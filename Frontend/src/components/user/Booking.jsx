@@ -81,7 +81,7 @@ export const Booking = () => {
         autoClose: 2000,
         theme: "dark",
         transition: Bounce,
-        onClose: () => navigate("/user/")
+        onClose: () => navigate("/user")
       });
     
     
@@ -160,7 +160,7 @@ export const Booking = () => {
             <option value="">-- Choose a Vehicle --</option>
             {vehicles.map((vehicle) => (
               <option key={vehicle._id} value={vehicle._id}>
-                {vehicle.model} - {vehicle.licensePlate}
+                {vehicle.model}
               </option>
             ))}
           </select>
@@ -222,9 +222,7 @@ export const Booking = () => {
             <p>
               <strong>Base Price:</strong> ₹{formData.basePrice}
             </p>
-            <p>
-              <strong>Final Price:</strong> ₹{formData.finalPrice}
-            </p>
+            
           </div>
 
           <button

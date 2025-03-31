@@ -1,11 +1,14 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { UserNavbar } from "../navbar/UserNavbar";
 import { Link, Outlet } from "react-router-dom";
-import GarageLogo from "../../assets/images/logo.webp"
+import GarageLogo from "../../assets/images/logo.webp";
+import { Footer } from "../common/Footer";
+import { FaTachometerAlt, FaWrench, FaCar, FaBox, FaCircle } from "react-icons/fa";
+
 // import { Footer } from "./Footer";
 
 export const UserSidebar = () => {
-    const [hover, setHover] = useState(false);
+  const [hover, setHover] = useState(false);
   const [isSidebarOpen, setSidebarOpen] = useState(true);
 
   const toggleSidebar = () => {
@@ -16,18 +19,21 @@ export const UserSidebar = () => {
     <>
       <UserNavbar toggleSidebar={toggleSidebar} />
       <aside
-        className={`app-sidebar shadow ${isSidebarOpen ? "open" : "d-none"
-          }`}
+        className={`app-sidebar shadow ${isSidebarOpen ? "open" : "d-none"}`}
         data-bs-theme="dark"
         style={{ backgroundColor: "black" }}
       >
-        <div className="sidebar-brand" style={{ fontFamily: "'Electrolize', sans-serif" }}>
+        <div
+          className="sidebar-brand"
+          style={{ fontFamily: "'Electrolize', sans-serif" }}
+        >
           <Link to="" className="brand-link">
             <img
               src={GarageLogo}
               className="brand-image opacity-75 shadow"
               style={{
-                borderRadius: "60px", transform: hover ? "scale(1.2)" : "scale(1)",
+                borderRadius: "60px",
+                transform: hover ? "scale(1.2)" : "scale(1)",
                 transition: "transform 0.3s ease-in-out"
               }}
               onMouseEnter={() => setHover(true)}
@@ -50,7 +56,7 @@ export const UserSidebar = () => {
             right: "auto",
             left: "-8px",
             width: "calc(100% + 16px)",
-            padding: 8,
+            padding: 8
           }}
         >
           <nav className="mt-2">
@@ -60,28 +66,44 @@ export const UserSidebar = () => {
               role="menu"
               data-accordion="false"
             >
-              <li className="nav-item menu-open" >
-                <Link to="" className="nav-link active" style={{ color: "white" }}>
+              <li className="nav-item menu-open">
+                <Link
+                  to=""
+                  className="nav-link active"
+                  style={{ color: "white" }}
+                >
                   <i className="nav-icon bi bi-speedometer" />
-                  <p>
-                    User dashboard
-
-                  </p>
+                  <FaTachometerAlt size={20} style={{ marginRight: "10px" }} />
+                  <p>User dashboard</p>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="services" className="nav-link" style={{ color: "white" }}>
+                <Link
+                  to="services"
+                  className="nav-link"
+                  style={{ color: "white" }}
+                >
                   <i className="bi bi-tools"></i>
+                  <FaWrench size={20} style={{ marginRight: "10px" }} />
                   <p>Our Services</p>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  to="addvehicle"
+                  className="nav-link"
+                  style={{ color: "white" }}
+                >
+                  <i className="bi bi-tools"></i>
+                  <FaCar size={20} style={{ marginRight: "10px" }} />
+                  <p>Add Vehicle</p>
                 </Link>
               </li>
               <li className="nav-item">
                 <Link href="" className="nav-link">
                   <i className="nav-icon bi bi-box-seam-fill" />
-                  <p>
-                    Widgets
-
-                  </p>
+                  <FaBox size={20} style={{ marginRight: "10px" }} />
+                  <p>Widgets</p>
                 </Link>
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
@@ -109,7 +131,12 @@ export const UserSidebar = () => {
         </div>
       </aside>
       <main className="app-main" style={{ backgroundColor: "#87aac9" }}>
-        <Outlet></Outlet>
+        <Outlet />
+        <section style={{ marginTop: "70px" }}>
+          {" "}
+          {/* Space above footer */}
+          <Footer />
+        </section>
       </main>
     </>
   );

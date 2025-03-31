@@ -35,6 +35,10 @@ import { Booking } from "./components/user/Booking";
 import { ViewServiceDetail } from "./components/shared/ViewServiceDetail";
 import { ForgotPassword } from "./components/common/ForgetPassword";
 
+import { GetAppointmentByUserId } from "./components/garageowner/GetAppointmentByUserId";
+import { GetUserAppointmentDetail } from "./components/user/GetUserAppointmentDetail";
+import { AddVehicle } from "./components/user/AddVehicle";
+
 
 function App() {
   axios.defaults.baseURL = "http://localhost:3000";
@@ -77,19 +81,24 @@ function App() {
             <Route path="mygarages" element={<ViewMyGarages />}></Route>
             <Route path="updategarage/:id" element={<UpdateMyGarage />}></Route>
             <Route path="updateuser/:id" element={<ProfileDetail/>}></Route>
+            <Route path="getappointmentsbygarageownerid/:id" element={<GetAppointmentByUserId/>}></Route>
             <Route path="addservice" element={<AddServices/>}></Route>
             <Route path="availableservice" element={<AvailableServices/>}>
             </Route>
             <Route path="updateservice/:id" element={<UpdateServiceData/>}></Route>
+            <Route path="contact" element={<Contact />}></Route>
           </Route>
           <Route path="/user" element={<UserSidebar />}>
             <Route path="services" element={<Services />}></Route>
-            <Route path="viewdetail" element={<ViewServiceDetail/>}></Route>
+            <Route path="service/:serviceId" element={<ViewServiceDetail />} ></Route>
+
             <Route path="" element={<UserDashboard />}></Route>
             <Route path="contact" element={<Contact />}></Route>
             <Route path="updateuser/:id" element={<ProfileDetail/>}></Route>
             <Route path="aboutus" element={<AboutUs />}></Route>
+            <Route path="addvehicle" element={<AddVehicle/>}></Route>
             <Route path="booking" element={<Booking/>}></Route>
+            <Route path="appointment" element={<GetUserAppointmentDetail/>}></Route>
           </Route>
           
           

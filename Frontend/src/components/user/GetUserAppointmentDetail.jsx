@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export const GetAppointmentDetail = () => {
+export const GetUserAppointmentDetail = () => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState("");

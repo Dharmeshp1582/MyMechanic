@@ -41,7 +41,7 @@ const garageSchema = new Schema({
     email:{
         type:String,
         required:true,
-        unique:true
+        // unique:true
     },
     userId:{
         type:Schema.Types.ObjectId,

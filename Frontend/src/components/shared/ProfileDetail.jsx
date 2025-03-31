@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { Bounce, toast, ToastContainer } from "react-toastify";
-import { GetAppointmentDetail } from "../user/GetUserAppointmentdetail";
 import "../../../src/assets/css/UpdateUser.css";
 
 export const ProfileDetail = () => {
@@ -135,9 +134,6 @@ export const ProfileDetail = () => {
             </button>
           </form>
         </div>
-      </div>
-      <div className="appointment-section">
-        <GetAppointmentDetail />
       </div>
     </>
   );

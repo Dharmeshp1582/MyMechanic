@@ -37,9 +37,9 @@ const LandingPage = () => {
             >
               <div className="d-flex mx-auto flex-column flex-lg-row align-items-center">
                 <ul className="navbar-nav  ">
-                  {/* <li className="nav-item active">
+                   <li className="nav-item active">
               <a className="nav-link" href="index.html">
-                Home <span className="sr-only">(current)</span>
+                Home 
               </a>
             </li>
             <li className="nav-item">
@@ -53,7 +53,7 @@ const LandingPage = () => {
                 {" "}
                 Services{" "}
               </a>
-            </li> */}
+            </li> 
                   {/* <li className="nav-item">
               <a className="nav-link" href="#contactLink">
                 Contact Us
@@ -63,7 +63,7 @@ const LandingPage = () => {
               </div>
               <div className="quote_btn-container ">
                 <div className="btn-box">
-                  <Link to="/login" className="btn-1" >
+                  <Link to="/login" className="btn-1 " >
                     Login 
                   </Link>
                   <Link to="/signup" className="btn-2">

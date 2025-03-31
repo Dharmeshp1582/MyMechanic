@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import ServicesGrid from "../user/ServiceGrid";
+import { Faqs } from "../user/Faqs";
+import { HowMyWork } from "../user/HowMyWork";
 
 export const UserDashboard = () => {
   const [services, setServices] = useState([]);
@@ -17,58 +20,43 @@ export const UserDashboard = () => {
     }
   };
 
-  
-
   useEffect(() => {
     getServices();
   }, []);
 
   return (
-    <>
-    <div className="bg-gray-100 min-h-screen">
-      <div
+    <div
+      style={{ width: "100%", minHeight: "100vh", backgroundColor: "#f9fafb" }}
+    >
+      {/* Hero Section */}
+      <section
         style={{
-          fontFamily: "'Poppins', sans-serif",
-          backgroundColor: "#f9fafb"
+          background: "linear-gradient(90deg, #1e3a8a, #3b82f6)",
+          color: "white",
+          padding: "80px 20px",
+          textAlign: "center",
+          width: "100%"
         }}
       >
-        {/* Hero Section */}
-        <div>
-          <section
-            style={{
-              background: "linear-gradient(90deg, #1e3a8a, #3b82f6)",
-              color: "white",
-              padding: "80px 20px",
-              textAlign: "center"
-            }}
-          >
-            <h1
-              style={{
-                fontSize: "3rem",
-                fontWeight: "bold",
-                marginBottom: "10px"
-              }}
-            >
-              Welcome to MyMechanic
-            </h1>
-            <p
-              style={{
-                fontSize: "1.2rem",
-                maxWidth: "700px",
-                margin: "0 auto",
-                opacity: "0.9"
-              }}
-            >
-              Your one-stop solution for all vehicle maintenance and repair
-              needs.
-            </p>
-          </section>
-        </div>
-      </div>
+        <h1
+          style={{ fontSize: "3rem", fontWeight: "bold", marginBottom: "10px" }}
+        >
+          Welcome to MyMechanic
+        </h1>
+        <p
+          style={{
+            fontSize: "1.2rem",
+            maxWidth: "700px",
+            margin: "0 auto",
+            opacity: "0.9"
+          }}
+        >
+          Your one-stop solution for all vehicle maintenance and repair needs.
+        </p>
+      </section>
 
       {/* Services Section */}
-
-      <div style={{ maxWidth: "1200px", margin: "auto", padding: "20px" }}>
+      <div style={{ maxWidth: "100%", padding: "20px" }}>
         <h2
           style={{
             textAlign: "center",
@@ -104,6 +92,7 @@ export const UserDashboard = () => {
               key={service._id}
               style={{
                 display: "flex",
+                flexWrap: "wrap",
                 alignItems: "center",
                 justifyContent: "space-between",
                 border: "1px solid #ddd",
@@ -112,7 +101,8 @@ export const UserDashboard = () => {
                 borderRadius: "12px",
                 boxShadow: "0 6px 12px rgba(0, 0, 0, 0.1)",
                 transition: "0.3s ease-in-out",
-                background: "#fff"
+                background: "#fff",
+                width: "100%"
               }}
             >
               <div style={{ flex: 1, paddingRight: "25px" }}>
@@ -191,7 +181,8 @@ export const UserDashboard = () => {
                   {new Date(service.updatedAt).toLocaleDateString()}
                 </p>
                 <div style={{ textAlign: "center", marginTop: "20px" }}>
-                  <Link to="viewdetail"
+                  <Link
+                    to="service/:serviceId"
                     style={{
                       padding: "14px 28px",
                       fontSize: "16px",
@@ -203,51 +194,97 @@ export const UserDashboard = () => {
                       transition: "0.3s ease-in-out",
                       fontWeight: "bold"
                     }}
-                    onMouseOver={(e) =>
-                      (e.target.style.backgroundColor = "#0056b3")
-                    }
-                    onMouseOut={(e) =>
-                      (e.target.style.backgroundColor = "#007BFF")
-                    }
                   >
                     View Details
                   </Link>
                 </div>
               </div>
               <div>
-              <img
-                src={service.imageURL || "/default-service.jpg"}
-                alt={service.name}
-                style={{
-                  width: "350px",
-                  height: "280px",
-                  marginBottom:"0 px",
-                  objectFit: "cover",
-                  border:"2px solid black",
-                  borderRadius: "12px",
-                  marginLeft: "20px",
-                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)"
-                }}
-              />
+                <img
+                  src={service.imageURL || "/default-service.jpg"}
+                  alt={service.name}
+                  style={{
+                    width: "100%",
+                    maxWidth: "350px",
+                    height: "280px",
+                    objectFit: "cover",
+                    border: "2px solid black",
+                    borderRadius: "12px",
+                    marginLeft: "20px",
+                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)"
+                  }}
+                />
               </div>
             </div>
           ))
         )}
       </div>
-        
-      {/* CTA Section */}
-      <section className="py-16 bg-secondary text-white">
+
+      {/* Regular Services */}
+      <section
+        style={{ width: "100%", backgroundColor: "#e2e8f0", padding: "20px 0" }}
+      >
+        <h1 style={{ textAlign: "center" }}>Regular Services</h1>
         <div className="container text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Book an appointment today and experience our top-quality automotive services.
-          </p>
-          <Link to="/user/booking" className="btn bg-white text-secondary hover:bg-gray-100 inline-block" style={{marginBottom:"10px"}}>
-            Book Appointment Now
-          </Link>
+          <ServicesGrid />
         </div>
       </section>
+
+      {/* FAQs Section */}
+      <section style={{ width: "100%", padding: "20px 0" }}>
+        <div>
+          <Faqs />
+        </div>
+      </section>
+
+      {/* how MyMechanic works  */}
+
+      <section  style={{ width: "100%", backgroundColor: "#e2e8f0", padding: "20px 0" }}>
+        <div className="Works">
+          <HowMyWork/>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section
+        style={{
+          marginTop: "20px",
+          width: "100%",
+          textAlign: "center",
+          background: "#1e3a8a",
+          color: "white",
+          padding: "40px 0"
+        }}
+      >
+        <h2 style={{ fontSize: "2rem", fontWeight: "bold" }}>
+          Ready to Get Started?
+        </h2>
+        <p
+          style={{
+            fontSize: "1.2rem",
+            maxWidth: "700px",
+            margin: "0 auto",
+            opacity: "0.9"
+          }}
+        >
+          Book an appointment today and experience our top-quality automotive
+          services.
+        </p>
+        <Link
+          to="/user/booking"
+          style={{
+            display: "inline-block",
+            padding: "14px 28px",
+            fontSize: "16px",
+            backgroundColor: "white",
+            color: "#1e3a8a",
+            borderRadius: "6px",
+            marginTop: "20px"
+          }}
+        >
+          Book Appointment Now
+        </Link>
+      </section>
     </div>
-    </>
   );
 };

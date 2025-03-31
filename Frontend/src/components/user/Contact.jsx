@@ -1,69 +1,148 @@
-// import React from "react";
-import { Card, CardContent } from "@mui/material";
-import { Button } from "@mui/material";
-import { TextField } from "@mui/material";
-import { TextareaAutosize } from "@mui/material";
-import { Mail, Phone, LocationOn } from "@mui/icons-material";
+import axios from "axios";
+import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const Contact = () => {
-  return (
-    <div className="container mx-auto py-10 px-4">
-      <h1 className="text-3xl font-bold text-center mb-6">Contact Us</h1>
-      <div className="grid md:grid-cols-2 gap-8">
-        {/* Contact Information */}
-        <Card className="p-6">
-          <CardContent>
-            <h2 className="text-xl font-semibold mb-4">Get in Touch</h2>
-            <p className="flex items-center mb-2">
-              <Mail className="w-5 h-5 mr-2" /> support@mymechanic.com
-            </p>
-            <p className="flex items-center mb-2">
-              <Phone className="w-5 h-5 mr-2" /> +91 98765 43210
-            </p>
-            <p className="flex items-center">
-              <LocationOn className="w-5 h-5 mr-2" /> 123, Auto Street, New Delhi, India 
-            </p>
-          </CardContent>
-        </Card>
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: ""
+  });
 
-        {/* Contact Form */}
-        <Card className="p-6">
-          <CardContent>
-            <h2 className="text-xl font-semibold mb-4">Send us a Message</h2>
-            <form>
-              <div className="mb-4">
-                <label className="block text-sm font-medium">Name</label>
-                <TextField type="text" placeholder="Your Name" fullWidth required />
-              </div>
-              <div className="mb-4">
-                <label className="block text-sm font-medium">Email</label>
-                <TextField type="email" placeholder="Your Email" fullWidth required />
-              </div>
-              <div className="mb-4">
-                <label className="block text-sm font-medium">Message</label>
-                <TextareaAutosize placeholder="Your Message" minRows={4} className="w-full p-2 border rounded" required />
-              </div>
-              <Button type="submit" variant="contained" color="primary" fullWidth>Send Message</Button>
-            </form>
-          </CardContent>
-        </Card>
-      </div>
-      
-      {/* Map Section */}
-      <div className="mt-10">
-        <h2 className="text-xl font-semibold text-center mb-4">Find Us Here</h2>
-        <div className="w-full h-full">
-          <iframe
-            title="MyMechanic Location"
-            className="w-full h-full rounded-lg"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d224345.83921276945!2d77.06889716958891!3d28.52728034206024!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce3e16f6bdfbb%3A0x27b7058ef7a37e0a!2sNew%20Delhi%2C%20Delhi%2C%20India!5e0!3m2!1sen!2sin!4v1619436183329!5m2!1sen!2sin"
-            allowFullScreen=""
-            loading="lazy"
-          ></iframe>
+  const [errors, setErrors] = useState({});
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const validateForm = () => {
+    let errors = {};
+    if (!formData.name) errors.name = "Name is required";
+    if (!formData.email) errors.email = "Email is required";
+    else if (!/\S+@\S+\.\S+/.test(formData.email))
+      errors.email = "Invalid email format";
+    if (!formData.message) errors.message = "Message is required";
+    return errors;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+    setErrors({});
+
+    try {
+      const response = await axios.post("/contact", formData, {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+
+      if (response.status === 200) {
+        toast.success("Message sent successfully!");
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        toast.error("Something went wrong!");
+      }
+    } catch (error) {
+      toast.error(`Error submitting form: ${error.message}`);
+    }
+  };
+
+  return (
+    <div
+      style={{
+        margin: "auto",
+        padding: "20px",
+        borderRadius: "10px",
+        boxShadow: "0px 4px 10px rgba(0,0,0,0.1)",
+        backgroundColor: "#fff"
+      }}
+    >
+      <h2 style={{ textAlign: "center", marginBottom: "20px" }}>Contact Us</h2>
+      <ToastContainer />
+      <form onSubmit={handleSubmit} style={{width:"600px"}}>
+        <div style={{ marginBottom: "15px" }}>
+          <label style={{ fontWeight: "bold" }}>Name:</label>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            style={{
+              width: "100%",
+              padding: "10px",
+              marginTop: "5px",
+              borderRadius: "5px",
+              border: "1px solid #ccc"
+            }}
+          />
+          {errors.name && (
+            <p style={{ color: "red", marginTop: "5px" }}>{errors.name}</p>
+          )}
         </div>
-      </div>
+
+        <div style={{ marginBottom: "15px" }}>
+          <label style={{ fontWeight: "bold" }}>Email:</label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            style={{
+              width: "100%",
+              padding: "10px",
+              marginTop: "5px",
+              borderRadius: "5px",
+              border: "1px solid #ccc"
+            }}
+          />
+          {errors.email && (
+            <p style={{ color: "red", marginTop: "5px" }}>{errors.email}</p>
+          )}
+        </div>
+
+        <div style={{ marginBottom: "15px" }}>
+          <label style={{ fontWeight: "bold" }}>Message:</label>
+          <textarea
+            name="message"
+            value={formData.message}
+            onChange={handleChange}
+            style={{
+              width: "100%",
+              padding: "10px",
+              marginTop: "5px",
+              borderRadius: "5px",
+              border: "1px solid #ccc",
+              resize: "none"
+            }}
+            rows="4"
+          />
+          {errors.message && (
+            <p style={{ color: "red", marginTop: "5px" }}>{errors.message}</p>
+          )}
+        </div>
+
+        <button
+          type="submit"
+          style={{
+            width: "100%",
+            padding: "10px",
+            backgroundColor: "#007bff",
+            color: "#fff",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+            fontSize: "16px"
+          }}
+        >
+          Send
+        </button>
+      </form>
     </div>
   );
 };
-
-

@@ -8,5 +8,5 @@ routes.post("/addservicewithfile",serviceController.addServiceWithFile);
 routes.put("/updateservice/:id",serviceController.updateService);
 routes.get("/getservicesbyuserid/:userId", serviceController.getAllServicesByUserId);
 routes.get("/getservicebyid/:id",serviceController.getServiceByServiceId);
-
+routes.get("/getservicebyid/:id",serviceController.getservicebyId); //for fetch perticular service data
 module.exports = routes; 

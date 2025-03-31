@@ -30,7 +30,9 @@ export const UserNavbar = ({ toggleSidebar }) => {
       const response = await axios.get(`/getuserbyid/${userId}`);
       if (response.data && response.data.data) {
         setUser(response.data.data);
-        setRole(response.data.data.roleId?.name || localStorage.getItem("role"));
+        setRole(
+          response.data.data.roleId?.name || localStorage.getItem("role")
+        );
       }
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -39,18 +41,21 @@ export const UserNavbar = ({ toggleSidebar }) => {
 
   useEffect(() => {
     fetchUserData(); // Initial fetch
-  
+
     const interval = setInterval(() => {
       fetchUserData(); // Fetch data every 3 seconds
     }, 2000);
-  
+
     return () => clearInterval(interval); // Cleanup to prevent memory leaks
   }, []);
-  
 
   const handleLogout = () => {
     localStorage.clear();
-    toast.success("Logged out successfully!", { position: "top-right", autoClose: 2000, theme: "dark" });
+    toast.success("Logged out successfully!", {
+      position: "top-right",
+      autoClose: 2000,
+      theme: "dark"
+    });
 
     // Delay navigation to show toast before redirecting
     setTimeout(() => {
@@ -60,14 +65,26 @@ export const UserNavbar = ({ toggleSidebar }) => {
 
   return (
     <>
-      <ToastContainer position="top-right" autoClose={2000} theme="dark" transition={Bounce} />
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        theme="dark"
+        transition={Bounce}
+      />
 
       <nav className="app-header navbar navbar-expand bg-body">
         <div className="container-fluid">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <button className="nav-link btn btn-light" onClick={toggleSidebar}>
-                <img src={hamburgermenu} alt="Menu" style={{ height: "25px", width: "25px" }} />
+              <button
+                className="nav-link btn btn-light"
+                onClick={toggleSidebar}
+              >
+                <img
+                  src={hamburgermenu}
+                  alt="Menu"
+                  style={{ height: "25px", width: "25px" }}
+                />
               </button>
             </li>
             <li className="nav-item d-none d-md-block">
@@ -80,9 +97,17 @@ export const UserNavbar = ({ toggleSidebar }) => {
                 Contact
               </Link>
             </li>
+            <li className="nav-item d-none d-md-block">
+              <Link to="appointment" className="nav-link">
+                Booking Requests
+              </Link>
+            </li>
           </ul>
 
-          <ul className="navbar-nav" style={{ listStyle: "none", padding: 0, margin: 0 }}>
+          <ul
+            className="navbar-nav"
+            style={{ listStyle: "none", padding: 0, margin: 0 }}
+          >
             <Avatar
               alt={user?.fullName || "User"}
               src={user?.imageURL || "/default-avatar.png"}
@@ -118,7 +143,14 @@ export const UserNavbar = ({ toggleSidebar }) => {
                   }}
                 />
 
-                <Typography style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "5px", color: "#333" }}>
+                <Typography
+                  style={{
+                    fontSize: "18px",
+                    fontWeight: "bold",
+                    marginBottom: "5px",
+                    color: "#333"
+                  }}
+                >
                   {user?.fullName}
                 </Typography>
 
