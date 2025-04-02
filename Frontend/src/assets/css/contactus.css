@@ -1,0 +1,348 @@
+/* Contact Hero Section */
+.contact-hero {
+    background-color: #1e3a8a; /* Tailwind primary color */
+    color: white;
+    padding: 4rem 1rem;
+    text-align: center;
+    margin: 30px 0;
+}
+
+.contact-hero-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Heading */
+.contact-hero-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+/* Description */
+.contact-hero-description {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+    opacity: 0.9;
+}
+
+/* Contact Section */
+.contact-section {
+    padding: 4rem 1rem;
+}
+
+
+.success-message {
+    background-color: #f0fdf4; /* Light green background */
+    border: 1px solid #bbf7d0; /* Green border */
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+}
+
+.success-icon {
+    width: 4rem;
+    height: 4rem;
+    color: #16a34a; /* Green icon */
+    margin: 0 auto 1rem;
+}
+
+.success-heading {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #1f2937; /* Dark gray */
+    margin-bottom: 0.5rem;
+}
+
+.success-text {
+    color: #4b5563; /* Medium gray */
+    margin-bottom: 1rem;
+}
+
+.success-button {
+    background-color: #16a34a; /* Primary green */
+    color: white;
+    font-weight: bold;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.success-button:hover {
+    background-color: #15803d; /* Darker green */
+}
+
+
+
+/* Form Container */
+.contact-form {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Labels */
+.contact-form label {
+    font-weight: 600;
+    color: #374151;
+}
+
+/* Inputs & Textarea */
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    transition: 0.3s ease-in-out;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: #1e3a8a;
+    outline: none;
+    box-shadow: 0 0 5px rgba(30, 58, 138, 0.2);
+}
+
+/* Submit Button */
+.contact-form button {
+    background-color: #1e3a8a;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+}
+
+.contact-form button:hover {
+    background-color: #162d68;
+}
+
+.contact-info-card-container{
+    margin: 30px 0;
+}
+
+/* Contact Info Cards */
+.contact-info-card {
+    background: #f9fafb;
+    padding: 1.5rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: 0.3s;
+    margin: 12px 0;
+}
+
+.contact-info-card:hover {
+    background: #e5e7eb;
+}
+
+/* Icon Circle */
+.contact-icon {
+    width: 50px;
+    height: 50px;
+    background: rgba(30, 58, 138, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1e3a8a;
+    font-size: 1.5rem;
+}
+
+/* Contact Text */
+.contact-text h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #1f2937;
+}
+
+.contact-text p {
+    color: #6b7280;
+    font-size: 0.95rem;
+}
+
+/* Emergency Section */
+.emergency-box {
+    background-color: #1e3a8a;
+    color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.emergency-box h3 {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.emergency-box .emergency-number {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 1rem;
+}
+
+
+/* Map Section */
+.map-section {
+    padding: 4rem 1rem;
+    background-color: #f9fafb;
+    text-align: center;
+}
+
+/* Section Title */
+.map-section h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #1f2937;
+}
+
+.map-section p {
+    color: #6b7280;
+    font-size: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Map Container */
+.map-container-2 {
+    background: #ffffff;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+    margin-top: 2rem;
+}
+
+/* Map Placeholder */
+.map-placeholder {
+    background: #e5e7eb;
+    height: 24rem;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    font-size: 1.2rem;
+}
+
+
+.faq-section {
+    padding: 4rem 0;
+    background-color: #f9fafb;
+}
+
+.faq-container {
+    max-width: 90%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.faq-heading {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.faq-description {
+    color: #555;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    font-size: 1.1rem;
+}
+
+.faq-grid {
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+.faq-item {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    margin-bottom: 10px;
+}
+
+.faq-item.active { 
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.faq-question {
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 0;
+    cursor: pointer;
+}
+
+.faq-question .icon {
+    transition: transform 0.3s ease-in-out;
+}
+
+.faq-question .rotate {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    color: #666;
+    font-size: 1rem;
+    line-height: 1.5;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.faq-answer.show {
+    max-height: 200px;
+    opacity: 1;
+    margin-top: 0.5rem;
+}
+
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .contact-hero {
+        padding: 3rem 1rem;
+    }
+
+    .contact-hero-title {
+        font-size: 2.5rem;
+    }
+
+    .contact-hero-description {
+        font-size: 1rem;
+    }
+
+    .contact-section {
+        padding: 3rem 1rem;
+    }
+
+    .contact-form,
+    .contact-info-card {
+        padding: 1.5rem;
+    }
+
+    .map-placeholder {
+        height: 18rem;
+        font-size: 1rem;
+    }
+}

@@ -37,12 +37,12 @@ export const UpdateMyGarage = () => {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
+    setValue
   } = useForm({
     defaultValues: async () => {
       const res = await axios.get("/garage/getgaragebyid/" + id);
       return res.data.data;
-    },
+    }
   });
 
   const submitHandler = async (data) => {
@@ -60,11 +60,15 @@ export const UpdateMyGarage = () => {
         formData.append("image", selectedFile);
       }
 
-      const res = await axios.put(`/garage/updategaragewithfile/${id}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const res = await axios.put(
+        `/garage/updategaragewithfile/${id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        }
+      );
 
       if (res.status === 200) {
         toast.success("Garage updated successfully!", {
@@ -72,7 +76,7 @@ export const UpdateMyGarage = () => {
           autoClose: 2000,
           theme: "dark",
           transition: Bounce,
-          onClose: () => navigate("/garageowner/mygarages"),
+          onClose: () => navigate("/garageowner/mygarages")
         });
       }
     } catch (err) {
@@ -80,50 +84,86 @@ export const UpdateMyGarage = () => {
         position: "top-center",
         autoClose: 2000,
         theme: "dark",
-        transition: Bounce,
+        transition: Bounce
       });
     }
   };
 
   return (
     <>
-      <ToastContainer position="top-right" autoClose={2000} theme="dark" transition={Bounce} />
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        theme="dark"
+        transition={Bounce}
+      />
       <div className="addgarage-container">
         <div className="addgarage-wrapper">
           <div className="addgarage-card">
             <div className="addgarage-header">Update Garage</div>
-            <form className="addgarage-form" onSubmit={handleSubmit(submitHandler)}>
+            <form
+              className="addgarage-form"
+              onSubmit={handleSubmit(submitHandler)}
+            >
               <div className="addgarage-form-group">
                 <label className="addgarage-label">Garage Name</label>
-                <input type="text" {...register("name")} className="addgarage-input" />
+                <input
+                  type="text"
+                  {...register("name")}
+                  className="addgarage-input"
+                />
               </div>
               <div className="addgarage-form-group">
                 <label className="addgarage-label">Owner Name</label>
-                <input type="text" {...register("owner")} className="addgarage-input" />
+                <input
+                  type="text"
+                  {...register("owner")}
+                  className="addgarage-input"
+                />
               </div>
               <div className="addgarage-form-group">
                 <label className="addgarage-label">Phone No</label>
-                <input type="text" {...register("phoneno")} className="addgarage-input" />
+                <input
+                  type="text"
+                  {...register("phoneno")}
+                  className="addgarage-input"
+                />
               </div>
               <div className="addgarage-form-group">
                 <label className="addgarage-label">Email</label>
-                <input type="text" {...register("email")} className="addgarage-input" />
+                <input
+                  type="text"
+                  {...register("email")}
+                  className="addgarage-input"
+                />
               </div>
               <div className="addgarage-form-group">
                 <label className="addgarage-label">Select State</label>
-                <select {...register("stateId")} className="addgarage-select" onChange={(e) => getCityByStateId(e.target.value)}>
+                <select
+                  {...register("stateId")}
+                  className="addgarage-select"
+                  onChange={(e) => getCityByStateId(e.target.value)}
+                >
                   <option>Select State</option>
                   {states.map((state) => (
-                    <option key={state._id} value={state._id}>{state.name}</option>
+                    <option key={state._id} value={state._id}>
+                      {state.name}
+                    </option>
                   ))}
                 </select>
               </div>
               <div className="addgarage-form-group">
                 <label className="addgarage-label">Select City</label>
-                <select {...register("cityId")} className="addgarage-select" onChange={(e) => getAreaByCityId(e.target.value)}>
+                <select
+                  {...register("cityId")}
+                  className="addgarage-select"
+                  onChange={(e) => getAreaByCityId(e.target.value)}
+                >
                   <option>Select City</option>
                   {cities.map((city) => (
-                    <option key={city._id} value={city._id}>{city.cityName}</option>
+                    <option key={city._id} value={city._id}>
+                      {city.cityName}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -132,28 +172,49 @@ export const UpdateMyGarage = () => {
                 <select {...register("areaId")} className="addgarage-select">
                   <option>Select Area</option>
                   {areas.map((area) => (
-                    <option key={area._id} value={area._id}>{area.name}</option>
+                    <option key={area._id} value={area._id}>
+                      {area.name}
+                    </option>
                   ))}
                 </select>
               </div>
               <div className="addgarage-form-group">
                 <label className="addgarage-label">Opening Hours</label>
-                <input type="text" {...register("openingHours")} className="addgarage-input" />
+                <input
+                  type="text"
+                  {...register("openingHours")}
+                  className="addgarage-input"
+                />
               </div>
               <div className="addgarage-form-group">
                 <label className="addgarage-label">Latitude</label>
-                <input type="text" {...register("latitude")} className="addgarage-input" />
+                <input
+                  type="text"
+                  {...register("latitude")}
+                  className="addgarage-input"
+                />
               </div>
               <div className="addgarage-form-group">
                 <label className="addgarage-label">Longitude</label>
-                <input type="text" {...register("longitude")} className="addgarage-input" />
+                <input
+                  type="text"
+                  {...register("longitude")}
+                  className="addgarage-input"
+                />
               </div>
               <div className="addgarage-form-group">
                 <label className="addgarage-label">Upload New Image</label>
-                <input type="file" className="addgarage-input"   {...register("image")} onChange={(e) => setSelectedFile(e.target.files[0])} />
+                <input
+                  type="file"
+                  className="addgarage-input"
+                  {...register("image")}
+                  onChange={(e) => setSelectedFile(e.target.files[0])}
+                />
               </div>
               <div className="addgarage-submit-container">
-                <button type="submit" className="addgarage-submit">Submit</button>
+                <button type="submit" className="addgarage-submit">
+                  Submit
+                </button>
               </div>
             </form>
           </div>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { UserNavbar } from "../navbar/UserNavbar";
+import { UserNavbar } from "./UserNavbar";
 import { Link, Outlet } from "react-router-dom";
 import GarageLogo from "../../assets/images/logo.webp";
 import { Footer } from "../common/Footer";

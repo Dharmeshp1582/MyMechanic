@@ -2,17 +2,17 @@
 // import { UserNavbar } from "./components/layouts/UserNavbar";
 // import viteLogo from "/vite.svg";
 import "./assets/css/adminlte.css";
-import "./assets/css/adminlte.min.css"; 
-import { UserSidebar } from "./components/sidebar/UserSidebar";
+import "./assets/css/adminlte.min.css";
+import { UserSidebar } from "./components/user/UserSidebar";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { Login } from "./components/common/Login";
 import { Signup } from "./components/common/Signup";
-import { UserDashboard } from "./components/dashboard/UserDashboard";
-import { AdminSidebar } from "./components/sidebar/AdminSidebar";
-import { AdminDashboard } from "./components/dashboard/AdminDashboard";
+import { UserDashboard } from "./components/user/UserDashboard";
+import { AdminSidebar } from "./components/admin/AdminSidebar";
+import { AdminDashboard } from "./components/admin/AdminDashboard";
 import { AddGarage } from "./components/garageowner/AddGarage";
-import { GarageOwnerSidebar } from "./components/sidebar/GarageOwnerSidebar";
-import { GarageOwnerDashboard } from "./components/dashboard/GarageOwnerDashboard";
+import { GarageOwnerSidebar } from "./components/garageowner/GarageOwnerSidebar";
+import { GarageOwnerDashboard } from "./components/garageowner/GarageOwnerDashboard";
 import { useEffect } from "react";
 import axios from "axios";
 import PrivateRoutes from "./components/hooks/PrivateRoutes";
@@ -29,7 +29,7 @@ import { AddServices } from "./components/garageowner/AddServices";
 import { AvailableServices } from "./components/garageowner/AvailableServices";
 import { Services } from "./components/user/Services";
 import { ProfileDetail } from "./components/shared/ProfileDetail";
-import {ResetPassword} from "./components/common/ResetPassword";
+import { ResetPassword } from "./components/common/ResetPassword";
 import { UpdateServiceData } from "./components/garageowner/UpdateServiceData";
 import { Booking } from "./components/user/Booking";
 import { ViewServiceDetail } from "./components/shared/ViewServiceDetail";
@@ -38,7 +38,7 @@ import { ForgotPassword } from "./components/common/ForgetPassword";
 import { GetAppointmentByUserId } from "./components/garageowner/GetAppointmentByUserId";
 import { GetUserAppointmentDetail } from "./components/user/GetUserAppointmentDetail";
 import { AddVehicle } from "./components/user/AddVehicle";
-
+import { ContactUs } from "./components/common/ContactUs";
 
 function App() {
   axios.defaults.baseURL = "http://localhost:3000";
@@ -64,15 +64,18 @@ function App() {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/" element={<LandingPage />}></Route>
-        <Route path="/resetpassword/:token" element={<ResetPassword/>}></Route>
-        <Route path="/forgetpassword" element={<ForgotPassword/>}></Route>
+        <Route path="/contactus" element={<ContactUs/>}></Route>
+        <Route path="/aboutus" element={<AboutUs/>}></Route>
+        <Route></Route>
+        <Route path="/resetpassword/:token" element={<ResetPassword />}></Route>
+        <Route path="/forgetpassword" element={<ForgotPassword />}></Route>
 
         <Route path="" element={<PrivateRoutes />}>
           <Route path="/admin" element={<AdminSidebar />}>
-            <Route path="manage" element={<ManageUsers/>}></Route>
+            <Route path="manage" element={<ManageUsers />}></Route>
             <Route path="" element={<AdminDashboard />}></Route>
             <Route path="garagelist" element={<GarageList />}></Route>
-            <Route path="updateuser/:id" element={<ProfileDetail/>}></Route>
+            <Route path="updateuser/:id" element={<ProfileDetail />}></Route>
           </Route>
           <Route path="/garageowner" element={<GarageOwnerSidebar />}>
             <Route path="" element={<GarageOwnerDashboard />}></Route>
@@ -80,32 +83,39 @@ function App() {
             <Route path="addgarage2" element={<AddGarage2 />}></Route>
             <Route path="mygarages" element={<ViewMyGarages />}></Route>
             <Route path="updategarage/:id" element={<UpdateMyGarage />}></Route>
-            <Route path="updateuser/:id" element={<ProfileDetail/>}></Route>
-            <Route path="getappointmentsbygarageownerid/:id" element={<GetAppointmentByUserId/>}></Route>
-            <Route path="addservice" element={<AddServices/>}></Route>
-            <Route path="availableservice" element={<AvailableServices/>}>
-            </Route>
-            <Route path="updateservice/:id" element={<UpdateServiceData/>}></Route>
+            <Route path="updateuser/:id" element={<ProfileDetail />}></Route>
+            <Route
+              path="getappointmentsbygarageownerid/:id"
+              element={<GetAppointmentByUserId />}
+            ></Route>
+            <Route path="addservice" element={<AddServices />}></Route>
+            <Route
+              path="availableservice"
+              element={<AvailableServices />}
+            ></Route>
+            <Route
+              path="updateservice/:id"
+              element={<UpdateServiceData />}
+            ></Route>
             <Route path="contact" element={<Contact />}></Route>
           </Route>
           <Route path="/user" element={<UserSidebar />}>
             <Route path="services" element={<Services />}></Route>
-            <Route path="service/:serviceId" element={<ViewServiceDetail />} ></Route>
-
+            <Route path="service/:id" element={<ViewServiceDetail />}></Route>
             <Route path="" element={<UserDashboard />}></Route>
             <Route path="contact" element={<Contact />}></Route>
-            <Route path="updateuser/:id" element={<ProfileDetail/>}></Route>
+            <Route path="updateuser/:id" element={<ProfileDetail />}></Route>
             <Route path="aboutus" element={<AboutUs />}></Route>
-            <Route path="addvehicle" element={<AddVehicle/>}></Route>
-            <Route path="booking" element={<Booking/>}></Route>
-            <Route path="appointment" element={<GetUserAppointmentDetail/>}></Route>
+            <Route path="addvehicle" element={<AddVehicle />}></Route>
+            <Route path="booking" element={<Booking />}></Route>
+            <Route
+              path="appointment"
+              element={<GetUserAppointmentDetail />}
+            ></Route>
           </Route>
-          
-          
         </Route>
-        <Route path="*" element={<PageNotFound/>}></Route>
+        <Route path="*" element={<PageNotFound />}></Route>
       </Routes>
-      
     </div>
   );
 }

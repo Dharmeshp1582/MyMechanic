@@ -67,7 +67,14 @@ const FAQItem = ({ faq }) => {
       </div>
 
       {isOpen && (
-        <p style={{ padding: "10px", backgroundColor: "#f9f9f9" }}>
+        <p style={{  fontWeight: "bold",
+          fontSize: "16px",
+          padding: "10px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          textAlign: "left",
+          backgroundColor:"#f9f9f9"}}>
           {faq.answer}
         </p>
       )}

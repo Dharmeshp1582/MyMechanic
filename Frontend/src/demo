@@ -1,0 +1,143 @@
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import ServicesGrid from "../user/ServiceGrid";
+import { Faqs } from "../user/Faqs";
+import { HowMyWork } from "../user/HowMyWork";
+
+export const UserDashboard = () => {
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  const getServices = async () => {
+    try {
+      const serviceRes = await axios.get("/service/services");
+      setServices(serviceRes.data.data);
+    } catch (error) {
+      console.error("Error fetching services:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getServices();
+  }, []);
+
+  return (
+    <div style={{ width: "100%", minHeight: "100vh", backgroundColor: "#f9fafb" }}>
+      <section
+        style={{
+          background: "linear-gradient(90deg, #1e3a8a, #3b82f6)",
+          color: "white",
+          padding: "80px 20px",
+          textAlign: "center",
+          width: "100%"
+        }}
+      >
+        <h1 style={{ fontSize: "3rem", fontWeight: "bold", marginBottom: "10px" }}>
+          Welcome to MyMechanic
+        </h1>
+        <p
+          style={{ fontSize: "1.2rem", maxWidth: "700px", margin: "0 auto", opacity: "0.9" }}
+        >
+          Your one-stop solution for all vehicle maintenance and repair needs.
+        </p>
+      </section>
+
+      <div style={{ maxWidth: "100%", padding: "20px" }}>
+        <h2
+          style={{
+            textAlign: "center",
+            fontSize: "28px",
+            fontWeight: "bold",
+            marginBottom: "30px",
+            color: "#222",
+            textTransform: "uppercase",
+            letterSpacing: "1px"
+          }}
+        >
+          Our Services
+        </h2>
+
+        {loading ? (
+          <div style={{ textAlign: "center", fontSize: "20px", fontWeight: "bold", color: "#007BFF" }}>
+            Loading...
+          </div>
+        ) : services.length === 0 ? (
+          <p style={{ textAlign: "center", fontSize: "18px", color: "#777" }}>
+            No services available at the moment.
+          </p>
+        ) : (
+          services.map((service) => (
+            <div
+              key={service._id}
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "center",
+                justifyContent: "space-between",
+                border: "1px solid #ddd",
+                padding: "25px",
+                margin: "20px 0",
+                borderRadius: "12px",
+                boxShadow: "0 6px 12px rgba(0, 0, 0, 0.1)",
+                transition: "0.3s ease-in-out",
+                background: "#fff",
+                width: "100%"
+              }}
+            >
+              <div style={{ flex: 1, paddingRight: "25px" }}>
+                <h3 style={{ fontSize: "24px", fontWeight: "bold", color: "#333", marginBottom: "10px" }}>
+                  {service.name}
+                </h3>
+                <p style={{ fontSize: "16px", color: "#555", marginBottom: "15px", lineHeight: "1.6" }}>
+                  {service.description}
+                </p>
+                <div style={{ fontSize: "16px", fontWeight: "bold", marginBottom: "8px" }}>
+                  <span>Price: </span>
+                  <span style={{ color: "#007BFF", fontWeight: "bold" }}>₹{service.price || "N/A"}</span>
+                </div>
+                <div style={{ textAlign: "center", marginTop: "20px" }}>
+                  <button
+                    onClick={() => navigate(`/service/${service._id}`)}
+                    style={{
+                      padding: "14px 28px",
+                      fontSize: "16px",
+                      backgroundColor: "#007BFF",
+                      color: "#fff",
+                      border: "none",
+                      borderRadius: "6px",
+                      cursor: "pointer",
+                      transition: "0.3s ease-in-out",
+                      fontWeight: "bold"
+                    }}
+                  >
+                    View Details
+                  </button>
+                </div>
+              </div>
+              <div>
+                <img
+                  src={service.imageURL || "/default-service.jpg"}
+                  alt={service.name}
+                  style={{
+                    width: "100%",
+                    maxWidth: "350px",
+                    height: "280px",
+                    objectFit: "cover",
+                    border: "2px solid black",
+                    borderRadius: "12px",
+                    marginLeft: "20px",
+                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)"
+                  }}
+                />
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+    </div>
+  );
+};

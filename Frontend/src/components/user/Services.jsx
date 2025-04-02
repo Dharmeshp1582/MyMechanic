@@ -6,7 +6,7 @@ import "../../../src/assets/css/addservice.css";
 export const Services = () => {
   const [availableServices, setAvailableServices] = useState([]);
   const [error, setError] = useState("");
-  const [fullScreenImage, setFullScreenImage] = useState(null); // Store clicked image
+  const [fullScreenImage, setFullScreenImage] = useState(null);
 
   useEffect(() => {
     axios
@@ -24,7 +24,7 @@ export const Services = () => {
       style={{
         padding: "20px",
         fontFamily: "Arial, sans-serif",
-        justifyContent: "center"
+        justifyContent: "center",
       }}
     >
       {error && <p style={{ color: "red" }}>{error}</p>}
@@ -33,8 +33,8 @@ export const Services = () => {
         style={{
           textAlign: "center",
           padding: "20px",
-          backgroundColor: "#d5cdcc",
-          minHeight: "100vh"
+          backgroundColor: "#f8f9fa",
+          minHeight: "100vh",
         }}
       >
         <h2 style={{ marginBottom: "20px", fontSize: "2rem", color: "#333" }}>
@@ -42,67 +42,54 @@ export const Services = () => {
         </h2>
 
         {availableServices.length === 0 ? (
-          <p style={{ fontSize: "1.2rem", color: "#666" }}>
-            No services available.
-          </p>
+          <p style={{ fontSize: "1.2rem", color: "#666" }}>No services available.</p>
         ) : (
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
-              gap: "20px",
-              padding: "20px"
+              gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
+              gap: "25px",
+              padding: "20px",
             }}
           >
             {availableServices.map((service) => (
               <div
                 key={service._id}
                 style={{
-                  borderRadius: "12px",
-                  border: "1px solid black",
+                  borderRadius: "15px",
+                  border: "1px solid #ddd",
                   overflow: "hidden",
-                  boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+                  boxShadow: "0px 6px 15px rgba(0, 0, 0, 0.15)",
                   backgroundColor: "#fff",
                   textAlign: "center",
-                  transition: "transform 0.2s ease-in-out"
+                  transition: "transform 0.3s ease-in-out",
+                  height: "600px",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
                 }}
-                onMouseOver={(e) =>
-                  (e.currentTarget.style.transform = "scale(1.03)")
-                }
-                onMouseOut={(e) =>
-                  (e.currentTarget.style.transform = "scale(1.03)")
-                }
+                onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+                onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
               >
-                {/* Service Image */}
                 {service.imageURL && (
                   <img
                     src={service.imageURL}
                     alt={service.name}
                     style={{
                       width: "100%",
-                      height: "200px",
+                      height: "220px",
                       objectFit: "cover",
-                      cursor: "pointer" // Show pointer to indicate clickability
+                      cursor: "pointer",
                     }}
                     onClick={() => setFullScreenImage(service.imageURL)}
                   />
                 )}
 
-                {/* Service Details */}
                 <div style={{ padding: "15px" }}>
-                  <h3
-                    style={{
-                      marginBottom: "5px",
-                      fontSize: "1.4rem",
-                      color: "#007bff"
-                    }}
-                  >
+                  <h3 style={{ marginBottom: "5px", fontSize: "1.4rem", color: "#007bff" }}>
                     {service.name}
                   </h3>
-                  <p style={{ color: "#666", fontSize: "1rem" }}>
-                    {service.description}
-                  </p>
-
+                  <p style={{ color: "#666", fontSize: "1rem" }}>{service.description}</p>
                   <p style={{ fontWeight: "bold", color: "#444" }}>
                     <strong>Category:</strong> {service.category}
                   </p>
@@ -117,7 +104,7 @@ export const Services = () => {
                     <span
                       style={{
                         color: service.availability ? "green" : "red",
-                        fontWeight: "bold"
+                        fontWeight: "bold",
                       }}
                     >
                       {service.availability ? "Available" : "Not Available"}
@@ -126,28 +113,22 @@ export const Services = () => {
                   <p style={{ fontWeight: "bold", color: "#444" }}>
                     <strong>Ratings:</strong> ⭐ {service.ratings}/5
                   </p>
-
-                  {/* Booking Button */}
                   <Link
                     to="/user/booking"
                     style={{
                       marginTop: "12px",
-                      padding: "10px 18px",
+                      padding: "12px 20px",
                       border: "none",
-                      borderRadius: "8px",
+                      borderRadius: "10px",
                       backgroundColor: "#007bff",
                       color: "#fff",
                       fontSize: "1rem",
                       cursor: "pointer",
                       transition: "background 0.3s",
-                      display: "inline-block"
+                      display: "inline-block",
                     }}
-                    onMouseOver={(e) =>
-                      (e.currentTarget.style.backgroundColor = "#0056b3")
-                    }
-                    onMouseOut={(e) =>
-                      (e.currentTarget.style.backgroundColor = "#007bff")
-                    }
+                    onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#0056b3")}
+                    onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#007bff")}
                   >
                     Book Appointment Now
                   </Link>
@@ -158,7 +139,6 @@ export const Services = () => {
         )}
       </div>
 
-      {/* Full-Screen Image Overlay */}
       {fullScreenImage && (
         <div
           style={{
@@ -171,19 +151,19 @@ export const Services = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            zIndex: 1000
+            zIndex: 1000,
           }}
-          onClick={() => setFullScreenImage(null)} // Close on click outside
+          onClick={() => setFullScreenImage(null)}
         >
           <img
             src={fullScreenImage}
             alt="Full Screen"
             style={{
-              width: "80%", // Fixed width for all images
-              height: "80%", // Fixed height for all images
-              objectFit: "contain", // Maintain aspect ratio
+              width: "80%",
+              height: "80%",
+              objectFit: "contain",
               borderRadius: "10px",
-              boxShadow: "0px 6px 15px rgba(255,255,255,0.2)"
+              boxShadow: "0px 6px 15px rgba(255,255,255,0.2)",
             }}
           />
         </div>

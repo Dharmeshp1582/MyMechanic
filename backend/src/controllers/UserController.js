@@ -71,6 +71,59 @@ const loginUser = async (req, res) => {
   }
 };
 
+//login user with token 
+// const loginUserWithToken = async (req, res) => {
+//   //req.body email and password: password
+
+//   //password -->plain-->db-->encrypted
+//   //bcrypt --> plain,enc -->
+
+//   const email = req.body.email;
+//   const password = req.body.password;
+
+//   //select * from users where email = ? and password = ?  //for sql db
+//   //userModel.find({email:email,password:password})
+//   //email --> object -->abc -->  {password:hashedPassword}
+//   //normal password compare -->
+
+//   // const foundUserFromEmail = userModel.findOne({email:req.body.email})
+//   const foundUserFromEmail = await userModel
+//     .findOne({ email: email })
+//     .populate("roleId");
+//   console.log(foundUserFromEmail);
+//   //check if email is exist or not //
+
+//   if (foundUserFromEmail != null) {
+//     //password
+//     const isMatch = await bcrypt.compareSync(
+//       password,
+//       foundUserFromEmail.password
+//     );
+//     // res.send("ok...");
+//     //true || false
+
+//     if (isMatch ) {
+     
+
+//       //token 
+//       const token = jwt.sign(foundUserFromEmail.toObject(),secret)
+//      // const token = jwt.sign({id:foundUserFromEmail.toObject()._id},secret)
+//      res.status(200).json({
+//       message:'user Loggedin...',
+//       token:token
+//      })
+//     } else {
+//       res.status(402).json({
+//         message: "user cred. incorrect"
+//       });
+//     }
+//   } else {
+//     res.status(404).json({
+//       message: "user not found"
+//     });
+//   }
+// };
+
 //signup
 const Signup = async (req, res) => {
   try {
@@ -371,6 +424,7 @@ module.exports = {
   addUser1,
   Signup,
   loginUser,
+  // loginUserWithToken,
   addUserWithFile,
   getUserByUserId,
   updateUser,

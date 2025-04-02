@@ -75,7 +75,7 @@ export const Login = () => {
           style={{ display: "flex", flexDirection: "column" }}
         >
           <h2
-            style={{ marginBottom: "1rem", color: "#2d3436", textAlign: "center" }}
+            style={{ marginBottom: "20px", color: "#2d3436", textAlign: "center" }}
           >
             Login
           </h2>

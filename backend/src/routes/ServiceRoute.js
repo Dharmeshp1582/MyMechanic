@@ -5,8 +5,8 @@ routes.get("/services", serviceController.getAllServices);
 routes.post("/addservice", serviceController.addService);
 routes.delete("/service/:id", serviceController.deleteService);
 routes.post("/addservicewithfile",serviceController.addServiceWithFile);
-routes.put("/updateservice/:id",serviceController.updateService);
+routes.put("/updateservice/:id",serviceController.updateServiceWithFile);
 routes.get("/getservicesbyuserid/:userId", serviceController.getAllServicesByUserId);
-routes.get("/getservicebyid/:id",serviceController.getServiceByServiceId);
-routes.get("/getservicebyid/:id",serviceController.getservicebyId); //for fetch perticular service data
+routes.get("/getservicebyid/:id",serviceController.getservicebyId);
+// routes.get("/getservicebyid/:id",serviceController.getservicebyId); //for fetch perticular service data
 module.exports = routes; 

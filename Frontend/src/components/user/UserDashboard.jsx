@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import ServicesGrid from "../user/ServiceGrid";
-import { Faqs } from "../user/Faqs";
-import { HowMyWork } from "../user/HowMyWork";
+import { Link, useNavigate } from "react-router-dom";
+import ServicesGrid from "./ServiceGrid";
+import { Faqs } from "./Faqs";
+import { HowMyWork } from "./HowMyWork";
 
 export const UserDashboard = () => {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const getServices = async () => {
     try {
@@ -181,8 +182,8 @@ export const UserDashboard = () => {
                   {new Date(service.updatedAt).toLocaleDateString()}
                 </p>
                 <div style={{ textAlign: "center", marginTop: "20px" }}>
-                  <Link
-                    to="service/:serviceId"
+                  <button
+                    onClick={() => navigate(`/user/service/${service._id}`)}
                     style={{
                       padding: "14px 28px",
                       fontSize: "16px",
@@ -196,7 +197,7 @@ export const UserDashboard = () => {
                     }}
                   >
                     View Details
-                  </Link>
+                  </button>
                 </div>
               </div>
               <div>
@@ -239,9 +240,11 @@ export const UserDashboard = () => {
 
       {/* how MyMechanic works  */}
 
-      <section  style={{ width: "100%", backgroundColor: "#e2e8f0", padding: "20px 0" }}>
+      <section
+        style={{ width: "100%", backgroundColor: "#e2e8f0", padding: "20px 0" }}
+      >
         <div className="Works">
-          <HowMyWork/>
+          <HowMyWork />
         </div>
       </section>
 

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
-import { AdminNavbar } from "../navbar/AdminNavbar";
+import { AdminNavbar } from "./AdminNavbar";
 import GarageLogo from "../../assets/images/logo.webp";
 import { Footer } from "../common/Footer";
 
 // Importing Different Icons
-import { MdDashboard } from "react-icons/md";  // Dashboard Icon
+import { MdDashboard } from "react-icons/md"; // Dashboard Icon
 import { AiOutlineOrderedList } from "react-icons/ai"; // Garage List Icon
 import { RiUserSettingsLine } from "react-icons/ri"; // Manage Users Icon
 import { TbLayoutDashboard } from "react-icons/tb"; // Dashboard v3 Icon
@@ -41,7 +41,7 @@ export const AdminSidebar = () => {
               style={{
                 borderRadius: "60px",
                 transform: hover ? "scale(1.2)" : "scale(1)",
-                transition: "transform 0.3s ease-in-out",
+                transition: "transform 0.3s ease-in-out"
               }}
               onMouseEnter={() => setHover(true)}
               onMouseLeave={() => setHover(false)}
@@ -61,7 +61,7 @@ export const AdminSidebar = () => {
             right: "auto",
             left: "-8px",
             width: "calc(100% + 16px)",
-            padding: 8,
+            padding: 8
           }}
         >
           <nav className="mt-2">
@@ -70,7 +70,11 @@ export const AdminSidebar = () => {
                 <Link
                   to=""
                   className="nav-link active"
-                  style={{ color: "white", display: "flex", alignItems: "center" }}
+                  style={{
+                    color: "white",
+                    display: "flex",
+                    alignItems: "center"
+                  }}
                 >
                   <MdDashboard size={20} style={{ marginRight: "10px" }} />
                   <p>Dashboard</p>
@@ -81,9 +85,16 @@ export const AdminSidebar = () => {
                 <Link
                   to="garagelist"
                   className="nav-link active"
-                  style={{ color: "white", display: "flex", alignItems: "center" }}
+                  style={{
+                    color: "white",
+                    display: "flex",
+                    alignItems: "center"
+                  }}
                 >
-                  <AiOutlineOrderedList size={20} style={{ marginRight: "10px" }} />
+                  <AiOutlineOrderedList
+                    size={20}
+                    style={{ marginRight: "10px" }}
+                  />
                   <p>Garage List</p>
                 </Link>
               </li>
@@ -92,9 +103,16 @@ export const AdminSidebar = () => {
                 <Link
                   to="manage"
                   className="nav-link"
-                  style={{ color: "white", display: "flex", alignItems: "center" }}
+                  style={{
+                    color: "white",
+                    display: "flex",
+                    alignItems: "center"
+                  }}
                 >
-                  <RiUserSettingsLine size={20} style={{ marginRight: "10px" }} />
+                  <RiUserSettingsLine
+                    size={20}
+                    style={{ marginRight: "10px" }}
+                  />
                   <p>Manage Users</p>
                 </Link>
               </li>
@@ -103,9 +121,16 @@ export const AdminSidebar = () => {
                 <Link
                   to="index3.html"
                   className="nav-link"
-                  style={{ color: "white", display: "flex", alignItems: "center" }}
+                  style={{
+                    color: "white",
+                    display: "flex",
+                    alignItems: "center"
+                  }}
                 >
-                  <TbLayoutDashboard size={20} style={{ marginRight: "10px" }} />
+                  <TbLayoutDashboard
+                    size={20}
+                    style={{ marginRight: "10px" }}
+                  />
                   <p>Dashboard v3</p>
                 </Link>
               </li>
@@ -114,7 +139,11 @@ export const AdminSidebar = () => {
                 <Link
                   to="generate/theme.html"
                   className="nav-link"
-                  style={{ color: "white", display: "flex", alignItems: "center" }}
+                  style={{
+                    color: "white",
+                    display: "flex",
+                    alignItems: "center"
+                  }}
                 >
                   <FiEdit size={20} style={{ marginRight: "10px" }} />
                   <p>Theme Generate</p>
@@ -122,7 +151,15 @@ export const AdminSidebar = () => {
               </li>
 
               <li className="nav-item">
-                <Link to="#" className="nav-link" style={{ color: "white", display: "flex", alignItems: "center" }}>
+                <Link
+                  to="#"
+                  className="nav-link"
+                  style={{
+                    color: "white",
+                    display: "flex",
+                    alignItems: "center"
+                  }}
+                >
                   <IoMdApps size={20} style={{ marginRight: "10px" }} />
                   <p>Widgets</p>
                 </Link>
