@@ -107,14 +107,18 @@ export const GetUserAppointmentDetail = () => {
                     style={{ borderBottom: "1px solid #ddd" }}
                   >
                     <td style={{ padding: "10px", border: "1px solid #ddd" }}>
-                      {appointment.serviceId?.join(", ") || "N/A"}
+                      {appointment.serviceId
+                        ?.map((service) => service.name)
+                        .join(", ") || "N/A"}
+                    </td>
+
+                    <td style={{ padding: "10px", border: "1px solid #ddd" }}>
+                      {appointment.vehicleId?.model || "N/A"}
                     </td>
                     <td style={{ padding: "10px", border: "1px solid #ddd" }}>
-                      {appointment.vehicleId || "N/A"}
+                      {appointment.garageownerId?.name || "N/A"}
                     </td>
-                    <td style={{ padding: "10px", border: "1px solid #ddd" }}>
-                      {appointment.garageownerId || "N/A"}
-                    </td>
+
                     <td style={{ padding: "10px", border: "1px solid #ddd" }}>
                       {appointment.appointmentDate
                         ? new Date(

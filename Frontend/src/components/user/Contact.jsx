@@ -61,7 +61,8 @@ export const Contact = () => {
         borderRadius: "10px",
         boxShadow: "0px 4px 10px rgba(0,0,0,0.1)",
         backgroundColor: "#fff",
-        marginTop:"50px"
+        marginTop:"50px",
+        
       }}
     >
       <h2 style={{ textAlign: "center", marginBottom: "20px" }}>Contact Us</h2>

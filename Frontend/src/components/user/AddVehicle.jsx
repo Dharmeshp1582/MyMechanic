@@ -6,6 +6,7 @@ export const AddVehicle = () => {
     userId: localStorage.getItem("id"), // Assuming user is logged in
     model: "",
     mfgYear: "",
+    licensePlate:"",
     vehicleType: "",
   });
 
@@ -73,6 +74,23 @@ export const AddVehicle = () => {
             name="mfgYear"
             placeholder="Manufacturing Year"
             value={vehicle.mfgYear}
+            onChange={handleChange}
+            required
+            style={{
+              padding: "10px",
+              border: "1px solid #ccc",
+              borderRadius: "5px",
+              fontSize: "16px",
+            }}
+          />
+        </div>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <label style={{ marginBottom: "5px", fontWeight: "bold" }}>Vehicle Numberplate:</label>
+          <input
+            type="text"
+            name="licensePlate"
+            placeholder="Example: MH6778 etc."
+            value={vehicle.licensePlate}
             onChange={handleChange}
             required
             style={{

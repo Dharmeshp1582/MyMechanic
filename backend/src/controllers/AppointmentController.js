@@ -19,7 +19,6 @@ const getAllAppointments = async (req, res) => {
   }
 };
 
-
 // modified
 const addAppointments = async (req, res) => {
   try {
@@ -27,7 +26,7 @@ const addAppointments = async (req, res) => {
       userId,
       serviceId,
       vehicleId,
-      garageownerId, // Using garageownerId
+      garageownerId,
       appointmentDate,
       basePrice,
       finalPrice,
@@ -38,13 +37,15 @@ const addAppointments = async (req, res) => {
     // Validate required fields
     if (
       !userId ||
-      !serviceId.length ||
+      !serviceId?.length ||
       !vehicleId ||
       !garageownerId ||
       !appointmentDate ||
       !reason
     ) {
-      return res.status(400).json({ message: "All required fields must be filled" });
+      return res
+        .status(400)
+        .json({ message: "All required fields must be filled" });
     }
 
     // Fetch selected services and calculate total base price
@@ -52,7 +53,9 @@ const addAppointments = async (req, res) => {
     for (const id of serviceId) {
       const service = await ServiceModel.findById(id);
       if (!service) {
-        return res.status(404).json({ message: `Service not found for ID: ${id}` });
+        return res
+          .status(404)
+          .json({ message: `Service not found for ID: ${id}` });
       }
       calculatedBasePrice += service.price;
     }
@@ -62,38 +65,48 @@ const addAppointments = async (req, res) => {
       return res.status(400).json({ message: "Base price mismatch" });
     }
 
-    // Populate userId from GarageOwner schema
-    const garageOwner = await GarageModel.findById(garageownerId).populate("userId");
+    // Fetch garage owner details
+    const garageOwner = await GarageModel.findById(garageownerId).populate(
+      "userId",
+      "name email phone"
+    );
     if (!garageOwner) {
       return res.status(404).json({ message: "Garage owner not found" });
     }
 
     // Create new appointment
     const newAppointment = new Appointment({
-      userId, // Populated userId from GarageOwner schema
+      userId,
       serviceId,
       vehicleId,
-      garageownerId: garageOwner.userId, // Using garageownerId
+      garageownerId, // Keeping the garage owner ID
       appointmentDate,
       basePrice: calculatedBasePrice,
-      finalPrice: finalPrice || calculatedBasePrice, // Default to base price if not provided
+      finalPrice: finalPrice ?? calculatedBasePrice, // Defaulting final price
       status,
-      reason
+      reason,
+      garageOwnerDetails: {
+        userId: garageOwner.userId._id, // Storing user ID separately
+        name: garageOwner.userId.name,
+        email: garageOwner.userId.email,
+        phone: garageOwner.userId.phone
+      }
     });
 
     // Save appointment to DB
     await newAppointment.save();
 
-    res.status(201).json({
-      message: "Appointment booked successfully",
-      data: newAppointment
-    });
+    res
+      .status(201)
+      .json({
+        message: "Appointment booked successfully",
+        data: newAppointment
+      });
   } catch (error) {
     console.error("Error booking appointment:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
-
 
 const deleteAppointmentById = async (req, res) => {
   try {
@@ -139,7 +152,12 @@ const getAllAppointmentByUserId = async (req, res) => {
 
     const appointments = await appointmentModel
       .find({ userId })
-      .populate("serviceId", "name -_id");
+      .populate({
+        path: "serviceId", // Correct way to populate an array of ObjectIds
+        select: "name -_id"
+      })
+      .populate("garageownerId", "name _id")
+      .populate("vehicleId", "model -_id");
 
     if (!appointments.length) {
       return res.status(404).json({
@@ -160,28 +178,36 @@ const getAllAppointmentByUserId = async (req, res) => {
 
 const getAppointmentByGarageownerId = async (req, res) => {
   try {
-    const { garageownerId } = req.params;
+    const { userId } = req.params; // Extract userId from request parameters
+
+    // Find all appointments where garageownerId.userId._id matches the provided userId
     const appointments = await appointmentModel
-      .find({ garageownerId })
-      .populate("userId", "fullName email")
-      .populate("serviceId", "name"); // Populate service details;
+      .find({
+        "garageownerId.userId._id": userId
+      })
+      .populate("userId", "fullName email") // Populate user details
+      .populate("serviceId", "name") // Populate service details
+      .populate("vehicleId", "model") // Populate vehicle details
+      .populate("garageownerId.userId", "email"); // Populate garage owner's user details
 
     if (!appointments.length) {
-      return res.status(404).json({
-        success: false,
-        message: "No appointments found for this garage owner."
-      });
+      return res
+        .status(404)
+        .json({
+          success: false,
+          message: "No appointments found for this garage owner user."
+        });
     }
 
-    // Count unique users
-    const uniqueUsers = new Set(
-      appointments.map((appointment) => appointment.userId)
-    ).size;
-
-    res.json({ success: true, data: appointments, uniqueUsers });
+    return res.status(200).json({ success: true, data: appointments });
   } catch (error) {
     console.error("Error fetching appointments:", error);
-    res.status(500).json({ success: false, message: "Internal Server Error" });
+    return res
+      .status(500)
+      .json({
+        success: false,
+        message: "Server error, please try again later."
+      });
   }
 };
 

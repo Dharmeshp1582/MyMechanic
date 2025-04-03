@@ -3,12 +3,12 @@ import { UserNavbar } from "./UserNavbar";
 import { Link, Outlet } from "react-router-dom";
 import GarageLogo from "../../assets/images/logo.webp";
 import { Footer } from "../common/Footer";
+import { IoCaretDownCircleOutline } from "react-icons/io5";
 import {
   FaTachometerAlt,
   FaWrench,
   FaCar,
   FaBox,
-  FaCircle
 } from "react-icons/fa";
 
 export const UserSidebar = () => {
@@ -101,6 +101,17 @@ export const UserSidebar = () => {
                   <i className="bi bi-tools"></i>
                   <FaCar size={20} style={{ marginRight: "10px" }} />
                   <p>Add Vehicle</p>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  to="getvehiclebyuserid"
+                  className="nav-link"
+                  style={{ color: "white" }}
+                >
+                  <i className="bi bi-tools"></i>
+                  <IoCaretDownCircleOutline size={20} style={{ marginRight: "10px" }} />
+                  <p>My Vehicle</p>
                 </Link>
               </li>
               <li className="nav-item">

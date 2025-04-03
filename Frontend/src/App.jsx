@@ -41,6 +41,7 @@ import { AddVehicle } from "./components/user/AddVehicle";
 import { ContactUs } from "./components/layouts/ContactUs";
 import { About } from "./components/layouts/About";
 import { ComServices } from "./components/layouts/ComServices";
+import { ViewMyVehicle } from "./components/user/ViewMyVehicle";
 
 function App() {
   axios.defaults.baseURL = "http://localhost:3000";
@@ -110,6 +111,7 @@ function App() {
             <Route path="aboutus" element={<AboutUs />}></Route>
             <Route path="addvehicle" element={<AddVehicle />}></Route>
             <Route path="booking" element={<Booking />}></Route>
+            <Route path="getvehiclebyuserid" element={<ViewMyVehicle/>}></Route>
             <Route
               path="appointment"
               element={<GetUserAppointmentDetail />}

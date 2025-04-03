@@ -17,6 +17,11 @@ const vehicleSchema = new Schema(
       type: Number,
       require: true
     },
+    licensePlate:{
+        type:String,
+        unique:true,
+        required:true
+      },
     vehicleType: {
       enum: ["two Wheeler", "three Wheeler", "four Wheeler"],
       type: String,
