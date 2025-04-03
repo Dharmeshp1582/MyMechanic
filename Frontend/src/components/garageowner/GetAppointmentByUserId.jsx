@@ -121,7 +121,7 @@ export const GetAppointmentByUserId = () => {
                     style={{ borderBottom: "1px solid #ddd" }}
                   >
                     <td style={{ padding: "10px", border: "1px solid #ddd" }}>
-                      {appointment.userId?.name || "N/A"}
+                      {appointment.userId?.fullName || "N/A"}
                     </td>
                     <td style={{ padding: "10px", border: "1px solid #ddd" }}>
                       {Array.isArray(appointment.serviceId)
@@ -181,3 +181,6 @@ export const GetAppointmentByUserId = () => {
     </>
   );
 };
+
+
+

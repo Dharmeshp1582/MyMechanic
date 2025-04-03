@@ -103,7 +103,7 @@ export const AvailableServices = () => {
                     <strong>Category:</strong> {service.category}
                   </p>
                   <p style={{ fontWeight: "bold", color: "#444" }}>
-                    <strong>Price:</strong> ${service.price}
+                    <strong>Price:</strong> ₹{service.price}
                   </p>
                   <p style={{ fontWeight: "bold", color: "#444" }}>
                     <strong>Duration:</strong> {service.duration} mins

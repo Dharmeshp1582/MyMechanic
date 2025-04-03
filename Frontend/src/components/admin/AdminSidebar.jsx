@@ -169,11 +169,12 @@ export const AdminSidebar = () => {
         </div>
       </aside>
 
-      <main className="app-main" style={{ backgroundColor: "#87aac9" }}>
-        <Outlet />
-        <section style={{ marginTop: "50px" }}>
-          <Footer />
-        </section>
+      <main
+        className="app-main"
+        style={{ backgroundColor: "#87aac9", paddingBottom: "0" }}
+      >
+        <Outlet /> {/* Space above footer */}
+        <Footer />
       </main>
     </>
   );

@@ -78,7 +78,7 @@ export const GarageOwnerNavbar = ({ toggleSidebar }) => {
           <li className="nav-item d-none d-md-block"> 
           <Link to="availableservice" className="nav-link">Available Services</Link></li>
           <li className="nav-item d-none d-md-block"> 
-          <Link to="getappointmentsbygarageownerid/:id" className="nav-link">Booking requests</Link></li>
+          <Link to="getappointmentsbygarageownerid/:garageownerId" className="nav-link">Booking requests</Link></li>
         </ul>
 
         <ul

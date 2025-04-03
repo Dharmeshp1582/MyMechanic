@@ -19,13 +19,15 @@ const getAllAppointments = async (req, res) => {
   }
 };
 
+
+// modified
 const addAppointments = async (req, res) => {
   try {
     const {
       userId,
       serviceId,
       vehicleId,
-      garageownerId,
+      garageownerId, // Using garageownerId
       appointmentDate,
       basePrice,
       finalPrice,
@@ -42,9 +44,7 @@ const addAppointments = async (req, res) => {
       !appointmentDate ||
       !reason
     ) {
-      return res
-        .status(400)
-        .json({ message: "All required fields must be filled" });
+      return res.status(400).json({ message: "All required fields must be filled" });
     }
 
     // Fetch selected services and calculate total base price
@@ -52,9 +52,7 @@ const addAppointments = async (req, res) => {
     for (const id of serviceId) {
       const service = await ServiceModel.findById(id);
       if (!service) {
-        return res
-          .status(404)
-          .json({ message: `Service not found for ID: ${id}` });
+        return res.status(404).json({ message: `Service not found for ID: ${id}` });
       }
       calculatedBasePrice += service.price;
     }
@@ -64,12 +62,18 @@ const addAppointments = async (req, res) => {
       return res.status(400).json({ message: "Base price mismatch" });
     }
 
+    // Populate userId from GarageOwner schema
+    const garageOwner = await GarageModel.findById(garageownerId).populate("userId");
+    if (!garageOwner) {
+      return res.status(404).json({ message: "Garage owner not found" });
+    }
+
     // Create new appointment
     const newAppointment = new Appointment({
-      userId,
+      userId, // Populated userId from GarageOwner schema
       serviceId,
       vehicleId,
-      garageownerId,
+      garageownerId: garageOwner.userId, // Using garageownerId
       appointmentDate,
       basePrice: calculatedBasePrice,
       finalPrice: finalPrice || calculatedBasePrice, // Default to base price if not provided
@@ -89,6 +93,7 @@ const addAppointments = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
 
 const deleteAppointmentById = async (req, res) => {
   try {
@@ -132,7 +137,9 @@ const getAllAppointmentByUserId = async (req, res) => {
         .json({ success: false, message: "User ID is required." });
     }
 
-    const appointments = await appointmentModel.find({ userId });
+    const appointments = await appointmentModel
+      .find({ userId })
+      .populate("serviceId", "name -_id");
 
     if (!appointments.length) {
       return res.status(404).json({
@@ -153,10 +160,10 @@ const getAllAppointmentByUserId = async (req, res) => {
 
 const getAppointmentByGarageownerId = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { garageownerId } = req.params;
     const appointments = await appointmentModel
-      .find({ garageownerId: id })
-      .populate("userId", "name email")
+      .find({ garageownerId })
+      .populate("userId", "fullName email")
       .populate("serviceId", "name"); // Populate service details;
 
     if (!appointments.length) {
@@ -255,6 +262,5 @@ module.exports = {
   deleteAppointmentById,
   getAllAppointmentByUserId,
   getAppointmentByGarageownerId,
-  UpdateStatus,
-  
+  UpdateStatus
 };

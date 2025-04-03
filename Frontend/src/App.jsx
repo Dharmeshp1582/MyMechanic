@@ -87,7 +87,7 @@ function App() {
             <Route path="updategarage/:id" element={<UpdateMyGarage />}></Route>
             <Route path="updateuser/:id" element={<ProfileDetail />}></Route>
             <Route
-              path="getappointmentsbygarageownerid/:id"
+              path="getappointmentsbygarageownerid/:garageownerId"
               element={<GetAppointmentByUserId />}
             ></Route>
             <Route path="addservice" element={<AddServices />}></Route>

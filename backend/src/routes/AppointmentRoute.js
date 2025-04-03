@@ -7,7 +7,7 @@ routes.get("/getappointmentbyid/:id",appointmentController.getAppointmentsById);
 routes.delete("/deleteappointment",appointmentController.deleteAppointmentById);
 routes.get("/getappointmentbyuserid/:userId",appointmentController.getAllAppointmentByUserId
 )
-routes.get("/getappointmentbygarageownerid/:id",appointmentController.getAppointmentByGarageownerId);
+routes.get("/getappointmentbygarageownerid/:garageownerId",appointmentController.getAppointmentByGarageownerId);
 routes.put("/updatestatus/:id",appointmentController.UpdateStatus);
 // routes.get("/getappointmentbyuserid/:userId", appointmentController.getappointmentByUserId);
 module.exports = routes;
