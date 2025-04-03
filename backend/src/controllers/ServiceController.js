@@ -113,14 +113,14 @@ const updateServiceWithFile = async (req, res) => {
       });
     });
 
-    const serviceId = req.params;
+    const serviceId = req.params.id;
     let updateData = { ...req.body }; // Copy request body
 
     // If an image file is uploaded, upload to Cloudinary
     if (req.file) {
       try {
         const cloudinaryResponse = await cloudinaryUtil.uploadFileToCloudinary(req.file);
-        updateData.image = cloudinaryResponse.secure_url;
+        updateData.imageURL = cloudinaryResponse.secure_url;
       } catch (cloudinaryError) {
         console.error("Cloudinary upload error:", cloudinaryError);
         return res.status(500).json({

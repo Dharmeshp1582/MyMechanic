@@ -49,10 +49,12 @@ export const GetUserAppointmentDetail = () => {
             padding: "20px",
             borderRadius: "10px",
             backgroundColor: "#fff",
-            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)"
           }}
         >
-          <h2 style={{ textAlign: "center", color: "#333", marginBottom: "15px" }}>
+          <h2
+            style={{ textAlign: "center", color: "#333", marginBottom: "15px" }}
+          >
             My Appointments
           </h2>
 
@@ -65,20 +67,45 @@ export const GetUserAppointmentDetail = () => {
           ) : (
             <table style={{ width: "100%", borderCollapse: "collapse" }}>
               <thead>
-                <tr style={{ backgroundColor: "#007bff", color: "#fff", textAlign: "left" }}>
-                  <th style={{ padding: "10px", border: "1px solid #ddd" }}>Service</th>
-                  <th style={{ padding: "10px", border: "1px solid #ddd" }}>Vehicle</th>
-                  <th style={{ padding: "10px", border: "1px solid #ddd" }}>Garage</th>
-                  <th style={{ padding: "10px", border: "1px solid #ddd" }}>Date</th>
-                  <th style={{ padding: "10px", border: "1px solid #ddd" }}>Base Price</th>
-                  <th style={{ padding: "10px", border: "1px solid #ddd" }}>Final Price</th>
-                  <th style={{ padding: "10px", border: "1px solid #ddd" }}>Status</th>
-                  <th style={{ padding: "10px", border: "1px solid #ddd" }}>Reason</th>
+                <tr
+                  style={{
+                    backgroundColor: "#007bff",
+                    color: "#fff",
+                    textAlign: "left"
+                  }}
+                >
+                  <th style={{ padding: "10px", border: "1px solid #ddd" }}>
+                    Service
+                  </th>
+                  <th style={{ padding: "10px", border: "1px solid #ddd" }}>
+                    Vehicle
+                  </th>
+                  <th style={{ padding: "10px", border: "1px solid #ddd" }}>
+                    Garage
+                  </th>
+                  <th style={{ padding: "10px", border: "1px solid #ddd" }}>
+                    Date
+                  </th>
+                  <th style={{ padding: "10px", border: "1px solid #ddd" }}>
+                    Base Price
+                  </th>
+                  <th style={{ padding: "10px", border: "1px solid #ddd" }}>
+                    Final Price
+                  </th>
+                  <th style={{ padding: "10px", border: "1px solid #ddd" }}>
+                    Status
+                  </th>
+                  <th style={{ padding: "10px", border: "1px solid #ddd" }}>
+                    Reason
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {appointments.map((appointment) => (
-                  <tr key={appointment._id} style={{ borderBottom: "1px solid #ddd" }}>
+                  <tr
+                    key={appointment._id}
+                    style={{ borderBottom: "1px solid #ddd" }}
+                  >
                     <td style={{ padding: "10px", border: "1px solid #ddd" }}>
                       {appointment.serviceId?.join(", ") || "N/A"}
                     </td>
@@ -90,7 +117,9 @@ export const GetUserAppointmentDetail = () => {
                     </td>
                     <td style={{ padding: "10px", border: "1px solid #ddd" }}>
                       {appointment.appointmentDate
-                        ? new Date(appointment.appointmentDate).toLocaleDateString()
+                        ? new Date(
+                            appointment.appointmentDate
+                          ).toLocaleDateString()
                         : "N/A"}
                     </td>
                     <td style={{ padding: "10px", border: "1px solid #ddd" }}>
@@ -103,7 +132,8 @@ export const GetUserAppointmentDetail = () => {
                       style={{
                         padding: "10px",
                         border: "1px solid #ddd",
-                        color: appointment.status === "pending" ? "orange" : "green",
+                        color:
+                          appointment.status === "pending" ? "orange" : "green"
                       }}
                     >
                       {appointment.status}

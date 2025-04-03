@@ -1,19 +1,21 @@
+/* eslint-disable react/no-unescaped-entities */
 import React from "react";
 // import "bootstrap/dist/css/bootstrap.min.css";
-
-import "../../assets/landing/css/bootstrap.css";
+import "../../assets/landing/css/landingPage.css";
+import "../../assets/landing/css/style.css";
 import "../../assets/landing/css/responsive.css";
 import about2image from "../../assets/landing/images/about-img2.png";
 import sliderImage from "../../assets/landing/images/slider-img.png";
-import garagelogo from "../../assets/images/E-Garage_logo.webp"
+import garagelogo from "../../assets/images/logo.webp";
 import { Link } from "react-router-dom";
-import { motion } from 'framer-motion'
-import { FaTools, FaUserCheck, FaHistory, FaAward } from 'react-icons/fa'
+import { motion } from "framer-motion";
+import { FaTools, FaUserCheck, FaHistory, FaAward } from "react-icons/fa";
 // import "../../assets/landing/js/custom"
-import "../../assets/css/aboutus.css"
+import "../../assets/landing/css/aboutus.css"
 import { Footer } from "../layouts/Footer";
+import { SliderSection } from "../layouts/SliderSection";
 
-export const AboutUs = () => {
+export const About = () => {
   const teamMembers = [
     {
       name: "John Doe",
@@ -39,25 +41,41 @@ export const AboutUs = () => {
       image: "https://randomuser.me/api/portraits/women/65.jpg",
       bio: "Sarah is dedicated to ensuring that every customer has a positive experience with our garage."
     }
-  ]
+  ];
 
   const milestones = [
-    { year: "2010", title: "Founded E-Garage", description: "Started with a small 2-bay garage providing honest repairs." },
-    { year: "2015", title: "Expanded Services", description: "Added diagnostics, tire services, and maintenance plans." },
-    { year: "2020", title: "New Workshop", description: "Moved to a larger facility to serve more customers." },
-    { year: "2025", title: "Digital Platform Launch", description: "Introduced E-Garage online booking & service tracking." },
+    {
+      year: "2010",
+      title: "Founded My Mechanic",
+      description: "Started with a small 2-bay garage providing honest repairs."
+    },
+    {
+      year: "2015",
+      title: "Expanded Services",
+      description: "Added diagnostics, tire services, and maintenance plans."
+    },
+    {
+      year: "2020",
+      title: "New Workshop",
+      description: "Moved to a larger facility to serve more customers."
+    },
+    {
+      year: "2025",
+      title: "Digital Platform Launch",
+      description: "Introduced My Mechanic online booking & service tracking."
+    }
   ];
 
   return (
-
-    <div className="hero_area">
-      <header className="header_section">
+    <div className="aboutus-container">
+      <header
+        className="header_section"
+        style={{ backgroundColor: "rgb(18 23 105)" }}
+      >
         <div className="container-fluid">
           <nav className="navbar navbar-expand-lg custom_nav-container ">
             <Link className="navbar-brand" to="/">
-              <span className="bg-orange-400">
-                E-Garage
-              </span>
+              <span className="bg-orange-400">My Mechanic</span>
             </Link>
             <button
               className="navbar-toggler"
@@ -79,35 +97,42 @@ export const AboutUs = () => {
               <div className="d-flex mx-auto flex-column flex-lg-row align-items-center">
                 <ul className="navbar-nav  ">
                   <li className="nav-item ">
-                    <Link className="nav-link" to="/">
+                    <Link className="nav-link about-head-link" to="/">
                       Home
                     </Link>
                   </li>
                   <li className="nav-item active">
-                    <Link className="nav-link" to="/aboutus">
+                    <Link className="nav-link about-head-link" to="/about">
                       {" "}
                       About Us
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" to="/user/services">
+                    <Link className="nav-link about-head-link" to="/services">
                       {" "}
                       Services{" "}
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" to="/contactus">
+                    <Link className="nav-link about-head-link" to="/contactus">
                       Contact Us
                     </Link>
                   </li>
                 </ul>
               </div>
-              <div className="quote_btn-container " style={{ marginBottom: "7px" }}>
-                <div className="btn-box">
-                  <Link to="/login" className="btn-1">
+              <div
+                className="quote_btn-container "
+                style={{ marginBottom: "7px" }}
+              >
+                <div className="">
+                  <Link to="/login" className="btn-1 ">
                     Login
                   </Link>
-                  <Link to="/signup" className="btn-2">
+                  <Link
+                    to="/signup"
+                    className="btn-2"
+                    style={{ color: "black" }}
+                  >
                     Signup
                   </Link>
                 </div>
@@ -123,119 +148,7 @@ export const AboutUs = () => {
         </div>
       </header>
 
-      <section className=" slider_section ">
-        <div
-          id="carouselExampleIndicators"
-          className="carousel slide"
-          data-ride="carousel"
-        >
-          <div className="carousel-inner">
-            <div className="carousel-item active carousel-item-left">
-              <div className="container">
-                <div className="row">
-                  <div className="col-md-6 ">
-                    <div className="detail_box">
-                      <h1>About Us</h1>
-                      <p>
-                        Learn about our story, our team, and our commitment to providing the best automotive services.
-                      </p>
-                      <div className="btn-box">
-                        <Link to="/contactus" className="btn-1">
-                          Contact Us
-                        </Link>
-                        <Link to="" className="btn-2">
-                          Get A Quote
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="img-box">
-                      <img src={sliderImage} alt="" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="carousel-item carousel-item-next carousel-item-left">
-              <div className="container">
-                <div className="row">
-                  <div className="col-md-6 ">
-                    <div className="detail_box">
-                      <h1>The best marketing</h1>
-                      <p>
-                        It is a long established fact that a reader will be
-                        distracted by the readable content of a page when
-                        looking
-                      </p>
-                      <div className="btn-box">
-                        <Link href="" className="btn-1">
-                          Contact Us
-                        </Link>
-                        <Link href="" className="btn-2">
-                          Get A Quote
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="img-box">
-                      <img src={sliderImage} alt="" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="carousel-item">
-              <div className="container">
-                <div className="row">
-                  <div className="col-md-6 ">
-                    <div className="detail_box">
-                      <h1>The best marketing</h1>
-                      <p>
-                        It is a long established fact that a reader will be
-                        distracted by the readable content of a page when
-                        looking
-                      </p>
-                      <div className="btn-box">
-                        <Link to="/contactus" className="btn-1">
-                          Contact Us
-                        </Link>
-                        <Link to="" className="btn-2">
-                          Get A Quote
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="img-box">
-                      <img src={sliderImage} alt="" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="carousel_btn-container">
-            <Link
-              className="carousel-control-prev"
-              to="#carouselExampleIndicators"
-              role="button"
-              data-slide="prev"
-            >
-              <span className="sr-only"></span>
-            </Link>
-            <Link
-              className="carousel-control-next"
-              to="#carouselExampleIndicators"
-              role="button"
-              data-slide="next"
-            >
-              <span className="sr-only"></span>
-            </Link>
-          </div>
-        </div>
-      </section>
+      <SliderSection />
 
       <div>
         {/* Our Story Section */}
@@ -251,13 +164,25 @@ export const AboutUs = () => {
                 transition={{ duration: 0.5 }}
               >
                 <p>
-                  E-Garage was founded in 2005 with a simple mission: to provide honest, high-quality automotive repair services at fair prices. What started as a small garage with just two service bays has grown into a full-service automotive repair center.
+                  My mechanic was founded in 2005 with a simple mission: to
+                  provide honest, high-quality automotive repair services at
+                  fair prices. What started as a small garage with just two
+                  service bays has grown into a full-service automotive repair
+                  center.
                 </p>
                 <p>
-                  Our founder, John Doe, had worked in various automotive repair shops for over a decade before deciding to start his own business. He was frustrated with the industry's reputation for overcharging and performing unnecessary repairs, and he wanted to create a garage that prioritized honesty, transparency, and customer education.
+                  Our founder, John Doe, had worked in various automotive repair
+                  shops for over a decade before deciding to start his own
+                  business. He was frustrated with the industry&apos;s reputation for
+                  overcharging and performing unnecessary repairs, and he wanted
+                  to create a garage that prioritized honesty, transparency, and
+                  customer education.
                 </p>
                 <p>
-                  Today, E-Garage continues to operate with those same values. We've grown in size and capabilities, but our commitment to honest service and customer satisfaction remains unchanged.
+                  Today, My Mechanic continues to operate with those same
+                  values. We've grown in size and capabilities, but our
+                  commitment to honest service and customer satisfaction remains
+                  unchanged.
                 </p>
               </motion.div>
               <motion.div
@@ -275,14 +200,13 @@ export const AboutUs = () => {
           </div>
         </section>
 
-
-
         {/* Our Values Section */}
         <section className="values-section">
           <div className="values-container">
             <h2 className="values-heading">Our Values</h2>
             <p className="values-description">
-              These core values guide everything we do at E-Garage, from how we treat our customers to how we approach repairs.
+              These core values guide everything we do at My Mechanic, from how
+              we treat our customers to how we approach repairs.
             </p>
 
             <div className="values-grid">
@@ -292,7 +216,8 @@ export const AboutUs = () => {
                 </div>
                 <h3 className="value-title">Quality</h3>
                 <p className="value-text">
-                  We use only high-quality parts and follow manufacturer specifications for all repairs.
+                  We use only high-quality parts and follow manufacturer
+                  specifications for all repairs.
                 </p>
               </div>
 
@@ -302,7 +227,8 @@ export const AboutUs = () => {
                 </div>
                 <h3 className="value-title">Integrity</h3>
                 <p className="value-text">
-                  We're honest about what repairs are needed and provide transparent pricing.
+                  We're honest about what repairs are needed and provide
+                  transparent pricing.
                 </p>
               </div>
 
@@ -312,7 +238,8 @@ export const AboutUs = () => {
                 </div>
                 <h3 className="value-title">Reliability</h3>
                 <p className="value-text">
-                  We complete repairs on time and stand behind our work with solid warranties.
+                  We complete repairs on time and stand behind our work with
+                  solid warranties.
                 </p>
               </div>
 
@@ -322,20 +249,21 @@ export const AboutUs = () => {
                 </div>
                 <h3 className="value-title">Expertise</h3>
                 <p className="value-text">
-                  Our ASE-certified mechanics have the training and experience to handle any repair.
+                  Our ASE-certified mechanics have the training and experience
+                  to handle any repair.
                 </p>
               </div>
             </div>
           </div>
         </section>
 
-
         {/* Our Team Section */}
         <section className="team-section">
           <div className="team-container">
             <h2 className="team-heading">Meet Our Team</h2>
             <p className="team-description">
-              Our team of certified mechanics and service professionals are dedicated to providing you with the best service experience.
+              Our team of certified mechanics and service professionals are
+              dedicated to providing you with the best service experience.
             </p>
             <div className="team-grid">
               {teamMembers.map((member, index) => (
@@ -346,7 +274,11 @@ export const AboutUs = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.1 }}
                 >
-                  <img src={member.image} alt={member.name} className="team-image" />
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="team-image"
+                  />
                   <div className="team-content">
                     <h3 className="team-name">{member.name}</h3>
                     <p className="team-role">{member.role}</p>
@@ -358,27 +290,35 @@ export const AboutUs = () => {
           </div>
         </section>
 
-
         {/* Milestones Section */}
         <section className="journey-section">
           <div className="journey-container">
             <h2 className="journey-heading">Our Journey</h2>
             <p className="journey-description">
-              Key milestones in our history that have shaped E-Garage into what it is today.
+              Key milestones in our history that have shaped My Mechanic into
+              what it is today.
             </p>
 
             <div className="timeline">
               {milestones.map((milestone, index) => (
                 <motion.div
                   key={index}
-                  className={`timeline-item ${index % 2 === 0 ? "justify-start" : "justify-end"}`}
+                  className={`timeline-item ${
+                    index % 2 === 0 ? "justify-start" : "justify-end"
+                  }`}
                   initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.2 }}
                 >
-                  <div className={`timeline-content ${index % 2 === 0 ? "left" : "right"}`}>
+                  <div
+                    className={`timeline-content ${
+                      index % 2 === 0 ? "left" : "right"
+                    }`}
+                  >
                     <span className="timeline-year">{milestone.year}</span>
-                    <h3 className="text-xl font-bold mb-2">{milestone.title}</h3>
+                    <h3 className="text-xl font-bold mb-2">
+                      {milestone.title}
+                    </h3>
                     <p className="text-gray-600">{milestone.description}</p>
                   </div>
 
@@ -395,7 +335,8 @@ export const AboutUs = () => {
           <div className="cta-container">
             <h2 className="cta-heading">Ready to Experience Our Service?</h2>
             <p className="cta-text">
-              Book an appointment today and see why our customers trust us with their vehicles.
+              Book an appointment today and see why our customers trust us with
+              their vehicles.
             </p>
             <div className="cta-buttons">
               <Link to="/user/services" className="cta-btn-1">
@@ -409,9 +350,7 @@ export const AboutUs = () => {
         </section>
       </div>
 
-
       <Footer></Footer>
     </div>
   );
 };
-

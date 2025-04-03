@@ -38,7 +38,9 @@ import { ForgotPassword } from "./components/common/ForgetPassword";
 import { GetAppointmentByUserId } from "./components/garageowner/GetAppointmentByUserId";
 import { GetUserAppointmentDetail } from "./components/user/GetUserAppointmentDetail";
 import { AddVehicle } from "./components/user/AddVehicle";
-import { ContactUs } from "./components/common/ContactUs";
+import { ContactUs } from "./components/layouts/ContactUs";
+import { About } from "./components/layouts/About";
+import { ComServices } from "./components/layouts/ComServices";
 
 function App() {
   axios.defaults.baseURL = "http://localhost:3000";
@@ -65,8 +67,8 @@ function App() {
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/" element={<LandingPage />}></Route>
         <Route path="/contactus" element={<ContactUs/>}></Route>
-        <Route path="/aboutus" element={<AboutUs/>}></Route>
-        <Route></Route>
+        <Route path="/about" element={<About/>}></Route>
+        <Route path="/services" element={<ComServices/>}></Route>
         <Route path="/resetpassword/:token" element={<ResetPassword />}></Route>
         <Route path="/forgetpassword" element={<ForgotPassword />}></Route>
 

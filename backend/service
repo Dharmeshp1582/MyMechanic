@@ -1,0 +1,17 @@
+const getServiceByServiceId = async (req, res) => {
+  try {
+    const getServiceById = await serviceModel
+      .findById(req.params.id)
+      .populate("userId").populate("name");
+
+    res.status(200).json({
+      message: " service fetched successfully",
+      data: getServiceById
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "failed to fetch service",
+      error: error
+    });
+  }
+};

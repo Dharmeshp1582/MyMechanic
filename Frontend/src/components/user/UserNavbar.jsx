@@ -72,7 +72,7 @@ export const UserNavbar = ({ toggleSidebar }) => {
         transition={Bounce}
       />
 
-      <nav className="app-header navbar navbar-expand bg-body">
+      <nav className="app-header navbar navbar-expand bg-body " >
         <div className="container-fluid">
           <ul className="navbar-nav">
             <li className="nav-item">

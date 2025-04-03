@@ -1,0 +1,194 @@
+.comservices-container{
+    height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
+    /* Prevent horizontal scroll */
+    overflow-y: auto;
+}
+
+.comserv-head-link:hover{
+    background-color: #7597f1 !important;
+  }
+  
+.nav-item:hover .comserv-head-link{
+    background-color: #7597f1 !important;
+  } 
+  
+.nav-item.active .comserv-head-link{
+    background-color: #7597f1 !important;
+  }
+
+
+  /* General Service Section */
+.comserv-container {
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+/* Hero Section */
+.comserv-hero {
+    background-color: #1e3a8a;
+    color: white;
+    text-align: center;
+    padding: 4rem 1rem;
+}
+
+.comserv-hero h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.comserv-hero p {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Service Cards Grid */
+.comserv-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+/* Service Card */
+.comserv-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.comserv-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Icon Section */
+.comserv-icon {
+    background: rgba(30, 58, 138, 0.1);
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: #1e3a8a;
+    margin-bottom: 1rem;
+}
+
+/* Service Title */
+.comserv-card h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+/* Description */
+.comserv-description {
+    color: #555;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Features List */
+.comserv-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.comserv-features li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    color: #444;
+}
+
+.comserv-features svg {
+    width: 18px;
+    height: 18px;
+    color: #16a34a;
+    margin-right: 8px;
+}
+
+/* Price & Button */
+.comserv-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.comserv-price {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #153e8e;
+}
+
+.comserv-btn {
+    background-color: #153e8e;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.3s ease-in-out;
+}
+
+.comserv-btn:hover {
+    background-color: #162d68;
+    color: white;
+
+}
+
+/* Call to Action */
+.comserv-cta {
+    background: #f8f9fa;
+    text-align: center;
+    padding: 3rem 1rem;
+}
+
+.comserv-cta h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.comserv-cta p {
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto 1.5rem;
+}
+
+.comserv-cta-btns {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.comserv-cta-btn {
+    background-color: #15a6fa;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background 0.3s ease-in-out;
+}
+
+.comserv-cta-btn:hover {
+    background-color: #0a527c;
+    color: white;
+
+}

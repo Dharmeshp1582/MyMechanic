@@ -9,9 +9,10 @@ import {
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import sliderImage from "../../assets/landing/images/slider-img.png";
-import "../../assets/css/contactus.css";
+import "../../assets/landing/css/contactus.css";
 // import MapComponent from './MapComponent';
-// import { Footer } from "./Footer";
+import { Footer } from "../layouts/Footer";
+import { SliderSection } from "../layouts/SliderSection";
 
 export const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -81,12 +82,15 @@ export const ContactUs = () => {
   };
 
   return (
-    <div className="hero_area">
-      <header className="header_section">
+    <div className="contactus-container">
+      <header
+        className="header_section"
+        style={{ backgroundColor: "rgb(18 23 105)" }}
+      >
         <div className="container-fluid">
           <nav className="navbar navbar-expand-lg custom_nav-container ">
             <Link className="navbar-brand" to="/">
-              <span className="bg-orange-400">My Mechanic</span>
+              <span className="bg-orange-400">MY Mechanic</span>
             </Link>
             <button
               className="navbar-toggler"
@@ -108,24 +112,27 @@ export const ContactUs = () => {
               <div className="d-flex mx-auto flex-column flex-lg-row align-items-center">
                 <ul className="navbar-nav  ">
                   <li className="nav-item ">
-                    <Link className="nav-link" to="/">
+                    <Link className="nav-link contact-head-link" to="/">
                       Home
                     </Link>
                   </li>
                   <li className="nav-item ">
-                    <Link className="nav-link" to="/aboutus">
+                    <Link className="nav-link contact-head-link" to="/about">
                       {" "}
                       About Us
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" to="/user/services">
+                    <Link className="nav-link contact-head-link" to="/services">
                       {" "}
                       Services{" "}
                     </Link>
                   </li>
                   <li className="nav-item active">
-                    <Link className="nav-link" to="#contactLink">
+                    <Link
+                      className="nav-link contact-head-link"
+                      to="/contactus"
+                    >
                       Contact Us
                     </Link>
                   </li>
@@ -135,11 +142,11 @@ export const ContactUs = () => {
                 className="quote_btn-container "
                 style={{ marginBottom: "7px" }}
               >
-                <div className="btn-box">
-                  <Link to="/login" className="btn-1">
+                <div className="">
+                  <Link to="/login" className="btn-1 ">
                     Login
                   </Link>
-                  <Link to="/signup" className="btn-2">
+                  <Link to="/signup" className="btn-2" style={{color:"black"}}>
                     Signup
                   </Link>
                 </div>
@@ -155,121 +162,7 @@ export const ContactUs = () => {
         </div>
       </header>
 
-      <section className=" slider_section ">
-        <div
-          id="carouselExampleIndicators"
-          className="carousel slide"
-          data-ride="carousel"
-        >
-          <div className="carousel-inner">
-            <div className="carousel-item active carousel-item-left">
-              <div className="container">
-                <div className="row">
-                  <div className="col-md-6 ">
-                    <div className="detail_box">
-                      <h1>Contact Us</h1>
-                      <p>
-                        Get in touch with us for expert automotive services,
-                        reliable repairs, and exceptional customer support at
-                        E-Garage!
-                      </p>
-                      <div className="btn-box">
-                        <a href="" className="btn-1">
-                          Contact Us
-                        </a>
-                        <a href="" className="btn-2">
-                          Get A Quote
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="img-box">
-                      <img src={sliderImage} alt="" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="carousel-item carousel-item-next carousel-item-left">
-              <div className="container">
-                <div className="row">
-                  <div className="col-md-6 ">
-                    <div className="detail_box">
-                      <h1>The best marketing</h1>
-                      <p>
-                        It is a long established fact that a reader will be
-                        distracted by the readable content of a page when
-                        looking
-                      </p>
-                      <div className="btn-box">
-                        <a href="" className="btn-1">
-                          Contact Us
-                        </a>
-                        <a href="" className="btn-2">
-                          Get A Quote
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="img-box">
-                      <img src={sliderImage} alt="" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="carousel-item">
-              <div className="container">
-                <div className="row">
-                  <div className="col-md-6 ">
-                    <div className="detail_box">
-                      <h1>The best marketing</h1>
-                      <p>
-                        It is a long established fact that a reader will be
-                        distracted by the readable content of a page when
-                        looking
-                      </p>
-                      <div className="btn-box">
-                        <Link to="" className="btn-1">
-                          Contact Us
-                        </Link>
-                        <Link to="" className="btn-2">
-                          Get A Quote
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="img-box">
-                      <img src={sliderImage} alt="" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="carousel_btn-container">
-            <Link
-              className="carousel-control-prev"
-              to="#carouselExampleIndicators"
-              role="button"
-              data-slide="prev"
-            >
-              <span className="sr-only"></span>
-            </Link>
-            <Link
-              className="carousel-control-next"
-              to="#carouselExampleIndicators"
-              role="button"
-              data-slide="next"
-            >
-              <span className="sr-only"></span>
-            </Link>
-          </div>
-        </div>
-      </section>
+      <SliderSection />
 
       {/* Hero Section */}
       <section className="contact-hero">
@@ -283,8 +176,18 @@ export const ContactUs = () => {
       </section>
 
       <section className="contact-section">
-        <div className="container">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div
+          className="container"
+          style={{
+            width: "100%",
+            maxWidth: "1200px",
+            margin: "auto"
+          }}
+        >
+          <div
+            className="grid grid-cols-1 md:grid-cols-2 gap-12"
+            style={{ width: "100%" }}
+          >
             {/* Contact Form */}
             <div className="contact-form">
               <h2 className="text-3xl font-bold mb-6">Send Us a Message</h2>
@@ -505,7 +408,7 @@ export const ContactUs = () => {
         </div>
       </section>
 
-      {/* <Footer></Footer> */}
+      <Footer></Footer>
     </div>
   );
 };

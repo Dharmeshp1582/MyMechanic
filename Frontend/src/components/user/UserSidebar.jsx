@@ -5,7 +5,6 @@ import GarageLogo from "../../assets/images/logo.webp";
 import { Footer } from "../common/Footer";
 import { FaTachometerAlt, FaWrench, FaCar, FaBox, FaCircle } from "react-icons/fa";
 
-// import { Footer } from "./Footer";
 
 export const UserSidebar = () => {
   const [hover, setHover] = useState(false);
@@ -130,9 +129,9 @@ export const UserSidebar = () => {
           </nav>
         </div>
       </aside>
-      <main className="app-main" style={{ backgroundColor: "#87aac9" }}>
+      <main className="app-main" style={{ backgroundColor: "#87aac9",bottom:"0" }}>
         <Outlet />
-        <section style={{ marginTop: "70px" }}>
+        <section style={{ marginTop: "70px",flex:"1" }}>
           {" "}
           {/* Space above footer */}
           <Footer />
