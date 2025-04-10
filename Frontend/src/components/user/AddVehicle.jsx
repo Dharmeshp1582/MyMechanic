@@ -3,10 +3,10 @@ import axios from "axios";
 
 export const AddVehicle = () => {
   const [vehicle, setVehicle] = useState({
-    userId: localStorage.getItem("id"), // Assuming user is logged in
+    userId: localStorage.getItem("id"),
     model: "",
     mfgYear: "",
-    licensePlate:"",
+    licensePlate: "",
     vehicleType: "",
   });
 
@@ -25,7 +25,13 @@ export const AddVehicle = () => {
     try {
       const response = await axios.post("/vehicle/addvehicle", vehicle);
       setMessage(response.data.message);
-      setVehicle({ userId: localStorage.getItem("id"), model: "", mfgYear: "", vehicleType: "" });
+      setVehicle({
+        userId: localStorage.getItem("id"),
+        model: "",
+        mfgYear: "",
+        licensePlate: "",
+        vehicleType: "",
+      });
     } catch (error) {
       setMessage("Error adding vehicle. Please try again.");
       console.error("Error:", error.response?.data?.message || error.message);
@@ -35,40 +41,55 @@ export const AddVehicle = () => {
   };
 
   return (
-    <div style={{
-      maxWidth: "400px",
-      margin: "50px auto",
-      padding: "20px",
-      borderRadius: "10px",
-      backgroundColor: "#fff",
-      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    }}>
-      <h2 style={{ marginBottom: "15px", color: "#333", textAlign: "center" }}>
-        Add Your Vehicle Data
-      </h2>
-      {message && <p style={{ color: "green", marginBottom: "10px", textAlign: "center" }}>{message}</p>}
-      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "15px",marginTop:"20px" }}>
-        
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <label style={{ marginBottom: "5px", fontWeight: "bold" }}>Vehicle Model:</label>
+    <div style={{backgroundColor:"rgb(220, 225, 245)"}}>
+    <div
+      style={{
+        maxWidth: "400px",
+        margin: "50px auto",
+        padding: "20px",
+        borderRadius: "10px",
+        backgroundColor: "#0a2647", // Dark Blue
+        color: "#fff", // White Text
+        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+      }}
+    >
+      <h2 style={{ textAlign: "center", marginBottom: "20px" }}>Add Vehicle</h2>
+
+      {message && (
+        <p style={{ color: "lightgreen", textAlign: "center" }}>{message}</p>
+      )}
+
+      <form
+        onSubmit={handleSubmit}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "15px",
+        }}
+      >
+        {/* Vehicle Model */}
+        <div>
+          <label style={{ fontWeight: "bold" }}>Name:</label>
           <input
             type="text"
             name="model"
-            placeholder="Example: i10, WagonR, etc."
+            placeholder="WagonR, i10, etc."
             value={vehicle.model}
             onChange={handleChange}
             required
             style={{
               padding: "10px",
-              border: "1px solid #ccc",
+              border: "1px solid #fff",
               borderRadius: "5px",
               fontSize: "16px",
+              width: "100%",
             }}
           />
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <label style={{ marginBottom: "5px", fontWeight: "bold" }}>MFG Year:</label>
+        {/* Manufacturing Year */}
+        <div>
+          <label style={{ fontWeight: "bold" }}>MFG Year:</label>
           <input
             type="number"
             name="mfgYear"
@@ -78,32 +99,37 @@ export const AddVehicle = () => {
             required
             style={{
               padding: "10px",
-              border: "1px solid #ccc",
+              border: "1px solid #fff",
               borderRadius: "5px",
               fontSize: "16px",
+              width: "100%",
             }}
           />
         </div>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <label style={{ marginBottom: "5px", fontWeight: "bold" }}>Vehicle Numberplate:</label>
+
+        {/* License Plate */}
+        <div>
+          <label style={{ fontWeight: "bold" }}>License Plate:</label>
           <input
             type="text"
             name="licensePlate"
-            placeholder="Example: MH6778 etc."
+            placeholder="MH12AB1234"
             value={vehicle.licensePlate}
             onChange={handleChange}
             required
             style={{
               padding: "10px",
-              border: "1px solid #ccc",
+              border: "1px solid #fff",
               borderRadius: "5px",
               fontSize: "16px",
+              width: "100%",
             }}
           />
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <label style={{ marginBottom: "5px", fontWeight: "bold" }}>Vehicle Type:</label>
+        {/* Vehicle Type */}
+        <div>
+          <label style={{ fontWeight: "bold" }}>Vehicle Type:</label>
           <select
             name="vehicleType"
             value={vehicle.vehicleType}
@@ -111,9 +137,10 @@ export const AddVehicle = () => {
             required
             style={{
               padding: "10px",
-              border: "1px solid #ccc",
+              border: "1px solid #fff",
               borderRadius: "5px",
               fontSize: "16px",
+              width: "100%",
             }}
           >
             <option value="">Select Vehicle Type</option>
@@ -123,11 +150,15 @@ export const AddVehicle = () => {
           </select>
         </div>
 
+        {/* Buttons */}
+
+
+
         <button
           type="submit"
           style={{
             padding: "12px",
-            backgroundColor: "#007bff",
+            backgroundColor: "#6080d8",
             color: "#fff",
             border: "none",
             borderRadius: "5px",
@@ -139,6 +170,7 @@ export const AddVehicle = () => {
           {loading ? "Adding..." : "Add Vehicle"}
         </button>
       </form>
+    </div>
     </div>
   );
 };

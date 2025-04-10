@@ -7,10 +7,7 @@ const appointmentSchema = new Schema({
     ref: "users",
     required: true
   },
-  serviceId: [
-    { type: Schema.Types.ObjectId, 
-      ref: "Services", required: true }
-  ], // Array of service IDs
+  serviceId: [{ type: Schema.Types.ObjectId, ref: "Services", required: true }], // Array of service IDs
   vehicleId: {
     type: Schema.Types.ObjectId,
     ref: "vehicles",
@@ -29,7 +26,10 @@ const appointmentSchema = new Schema({
     enum: ["pending", "confirmed", "completed", "cancelled"],
     default: "pending"
   },
-  reason: { type: String, required: true }
+  reason: { type: String, required: true },
+  wasRejected: { type: Boolean, default: false },
+  isPaid: { type: Boolean, default: false}
+
 });
 
 module.exports = mongoose.model("appointments", appointmentSchema);

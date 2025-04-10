@@ -5,11 +5,17 @@ import { Bounce, toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "../../../src/assets/css/addservice.css";
 
-
 export const AddServices = () => {
   const navigate = useNavigate();
   const [availableServices, setAvailableServices] = useState([]);
+  const [garages, setGarages] = useState([]);
   const [error, setError] = useState("");
+  const userId = localStorage.getItem("id");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm();
 
   useEffect(() => {
     axios
@@ -18,24 +24,32 @@ export const AddServices = () => {
         setAvailableServices(response.data.data);
       })
       .catch((err) => {
-        setError("Failed to fetch available services", err);
+        setError("Failed to fetch available services");
+        console.error(err);
+      });
+
+    // Fetch garages
+    axios
+      .get(`/garage/getgaragebyuserid/${userId}`)
+      .then((res) => {
+        setGarages(res.data.data); // Make sure backend returns { data: [ { _id, name } ] }
+      })
+      .catch((err) => {
+        console.error("Failed to fetch garages", err);
       });
   }, []);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors }
-  } = useForm();
 
   const submitHandler = async (data) => {
     try {
       data.userId = localStorage.getItem("id");
       const formData = new FormData();
-      Object.keys(data).forEach((key) => formData.append(key, data[key]));
-      if (data.image?.[0]) {
-        formData.append("image", data.image[0]);
-      }
+      Object.keys(data).forEach((key) => {
+        if (key === "image" && data.image?.[0]) {
+          formData.append("image", data.image[0]);
+        } else {
+          formData.append(key, data[key]);
+        }
+      });
 
       const res = await axios.post("/service/addservicewithfile", formData);
       if (res.status === 200) {
@@ -70,10 +84,11 @@ export const AddServices = () => {
         justifyContent: "center",
         display: "flex",
         flexDirection: "column",
-        alignItems: "center"
+        alignItems: "center",
+        backgroundColor:"rgb(220, 225, 245)"
       }}
     >
-    <ToastContainer
+      <ToastContainer
         position="top-right"
         autoClose={2000}
         theme="dark"
@@ -94,8 +109,33 @@ export const AddServices = () => {
           boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)"
         }}
       >
+        {/* Garage Dropdown */}
+        <select
+          {...register("garageId", { required: "Garage is required" })}
+          style={{
+            width: "100%",
+            padding: "10px",
+            borderRadius: "5px",
+            border: "1px solid #ccc",
+            fontSize: "16px"
+          }}
+        >
+          <option value="">Select Garage</option>
+          {garages.map((garage) => (
+            <option key={garage._id} value={garage._id}>
+              {garage.name}-{garage.stateId.name}-{garage.cityId.cityName}-
+              {garage.areaId.name}
+            </option>
+          ))}
+        </select>
+        {errors.garageId && (
+          <p style={{ color: "red", fontSize: "14px" }}>
+            {errors.garageId.message}
+          </p>
+        )}
+
         <input
-          {...register("name", { required: "Name is required" })}
+          {...register("name")}
           placeholder="Name"
           style={{
             width: "100%",
@@ -105,11 +145,8 @@ export const AddServices = () => {
             fontSize: "16px"
           }}
         />
-        {errors.name && (
-          <p style={{ color: "red", fontSize: "14px" }}>
-            {errors.name.message}
-          </p>
-        )}
+        {errors.name && <p style={{color: "red",
+  fontSize: "14px"}}>{errors.name.message}</p>}
 
         <input
           {...register("description", { required: "Description is required" })}
@@ -123,9 +160,8 @@ export const AddServices = () => {
           }}
         />
         {errors.description && (
-          <p style={{ color: "red", fontSize: "14px" }}>
-            {errors.description.message}
-          </p>
+          <p style={{color: "red",
+  fontSize: "14px"}}>{errors.description.message}</p>
         )}
 
         <input
@@ -139,11 +175,8 @@ export const AddServices = () => {
             fontSize: "16px"
           }}
         />
-        {errors.category && (
-          <p style={{ color: "red", fontSize: "14px" }}>
-            {errors.category.message}
-          </p>
-        )}
+        {errors.category && <p style={{color: "red",
+  fontSize: "14px"}}>{errors.category.message}</p>}
 
         <input
           type="number"
@@ -157,11 +190,8 @@ export const AddServices = () => {
             fontSize: "16px"
           }}
         />
-        {errors.price && (
-          <p style={{ color: "red", fontSize: "14px" }}>
-            {errors.price.message}
-          </p>
-        )}
+        {errors.price && <p style={{color: "red",
+  fontSize: "14px"}}>{errors.price.message}</p>}
 
         <input
           type="number"
@@ -178,11 +208,8 @@ export const AddServices = () => {
             fontSize: "16px"
           }}
         />
-        {errors.duration && (
-          <p style={{ color: "red", fontSize: "14px" }}>
-            {errors.duration.message}
-          </p>
-        )}
+        {errors.duration && <p style={{color: "red",
+  fontSize: "14px"}}>{errors.duration.message}</p>}
 
         <input
           type="file"
@@ -192,15 +219,11 @@ export const AddServices = () => {
             padding: "10px",
             borderRadius: "5px",
             border: "1px solid #ccc",
-            fontSize: "16px",
-            backgroundColor: "#fff"
+            fontSize: "16px"
           }}
         />
-        {errors.image && (
-          <p style={{ color: "red", fontSize: "14px" }}>
-            {errors.image.message}
-          </p>
-        )}
+        {errors.image && <p style={{color: "red",
+  fontSize: "14px"}}>{errors.image.message}</p>}
 
         <input
           type="number"
@@ -211,21 +234,15 @@ export const AddServices = () => {
             max: 5
           })}
           placeholder="Ratings (0-5)"
-          style={{
-            width: "100%",
+          style={{ width: "100%",
             padding: "10px",
             borderRadius: "5px",
             border: "1px solid #ccc",
-            fontSize: "16px"
-          }}
+            fontSize: "16px"}}
         />
-        {errors.ratings && (
-          <p style={{ color: "red", fontSize: "14px" }}>
-            {errors.ratings.message}
-          </p>
-        )}
+        {errors.ratings && <p style={{  color: "red",
+  fontSize: "14px"}}>{errors.ratings.message}</p>}
 
-        {/* Checkbox for Availability */}
         <div
           style={{
             display: "flex",
@@ -253,7 +270,7 @@ export const AddServices = () => {
           style={{
             width: "100%",
             padding: "12px",
-            backgroundColor: "blue",
+            backgroundColor: "rgb(49, 112, 184)",
             color: "white",
             border: "none",
             borderRadius: "5px",
@@ -262,7 +279,6 @@ export const AddServices = () => {
             cursor: "pointer",
             transition: "background 0.3s"
           }}
-         
         >
           Add Service
         </button>
@@ -270,3 +286,5 @@ export const AddServices = () => {
     </div>
   );
 };
+
+

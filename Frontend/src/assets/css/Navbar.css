@@ -1,0 +1,251 @@
+.user-nav-drop-prof-link{
+  padding: 0 !important;
+}
+
+.user-nav-drop-prof-link:hover{
+  background-color:  #53b6d7  !important;
+  border-radius: 60px;
+  padding: 8px 0px !important;
+  color: white !important;
+
+}
+
+.user-nav-drop-serv-link{
+  padding: 0 !important;
+}
+
+.user-nav-drop-serv-link:hover{
+  background-color: #53b6d7 !important;
+  border-radius: 60px;
+  padding: 8px 0px !important;
+  color: white !important;
+
+}
+
+.user-nav-logout-btn{
+  background-color: rgb(88 161 210) !important;
+  color: white !important;
+  border-radius: 6px !important;
+}
+
+.user-nav-logout-btn:hover{
+  background-color: #2d7cb2 !important;
+}
+
+
+
+.user-nav-header {
+  background-color: rgb(18, 23, 105);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 8px 25px;
+  font-family: "Poppins", sans-serif;
+}
+
+.user-nav-container {
+  max-width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+}
+
+.user-nav-left,
+.user-nav-right {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding: 0;
+  margin: 0;
+}
+
+.user-nav-left{
+  gap: 80px;
+}
+
+.user-nav-toggle {
+  display: none;
+}
+
+.user-nav-logo{
+  margin: 0 16px 0 25px;
+  padding: 5px 0;
+}
+
+.user-nav-logo-link {
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.user-nav-logo-link:hover{
+  color: white ;
+}
+
+
+.user-nav-div-item{
+  display: flex;
+  list-style: none;
+}
+
+.user-nav-item .user-nav-link {
+  color: white;
+  text-decoration: none;
+  /* font-size: 16px; */
+  padding: 7px 15px;
+  margin: 10px 15px;
+  color: #ffffff;
+  text-align: center;
+  border-radius: 20px;
+}
+
+.user-nav-link:hover {
+  text-decoration: none;
+  background-color: #7597f1;
+
+}
+
+/* .nav-link:focus{
+  color: rgb(48 75 196);
+   border-bottom: 2px solid rgb(48 75 196); 
+} */
+
+.user-nav-icon i {
+  color: white;
+  font-size: 20px;
+}
+
+.user-nav-toggle-btn {
+  padding: 8px 10px 4px 10px;
+  border-radius: 5px;
+  background-color: rgb(18 23 105);
+  transition: background-color 0.3s ease-in-out;
+}
+
+.user-nav-toggle-btn:hover {
+  background-color: #173c72;
+}
+
+.user-nav-toggle-icon {
+  font-size: 25px;
+  color: white;
+}
+
+.user-nav-profile {
+  position: relative;
+}
+
+.user-nav-profile-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.user-nav-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.user-nav-username {
+  color: white;
+  display: none;
+}
+
+.user-nav-dropdown-link::after{
+  color: white;
+}
+
+.user-nav-dropdown {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background-color: rgb(13 75 129);
+  color: white;
+  border-radius: 8px;
+  width: 280px;
+  display: none;
+  flex-direction: column;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.user-nav-profile:hover .user-nav-dropdown {
+  display: flex;
+}
+
+.user-nav-dropdown-header {
+  text-align: center;
+  padding: 16px;
+}
+
+.user-nav-dropdown-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 8px;
+}
+
+/* .user-nav-role {
+  color: #80a5ff;
+  font-size: 14px;
+  margin: 4px 0;
+} */
+
+/* .user-nav-member {
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+.user-nav-dropdown-body {
+  background: white;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+}
+
+.user-nav-drop-link {
+  color: rgb(13 75 129);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.user-nav-drop-link:hover {
+  text-decoration: underline;
+} */
+
+.user-nav-dropdown-footer {
+  text-align: center;
+  padding: 5px 0 12px 0;
+}
+
+/* .user-nav-logout-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+} */ 
+
+/* Responsive */
+@media (max-width: 768px) {
+  .user-nav-toggle {
+    display: flex;
+    align-items: center;
+  }
+
+  .user-nav-item,
+  .user-nav-logo {
+    display: none;
+  }
+
+  .user-nav-username {
+    display: inline;
+  }
+}

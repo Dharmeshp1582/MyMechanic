@@ -58,7 +58,7 @@ export const ProfileDetail = () => {
           theme: "dark",
 
           transition: Bounce,
-          onClose: () => navigate("/user")
+          onClose: () => navigate(-1)
         });
         setUser((prev) => ({ ...prev, ...data }));
       }

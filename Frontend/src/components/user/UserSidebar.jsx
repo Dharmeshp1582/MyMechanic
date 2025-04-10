@@ -1,37 +1,73 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { UserNavbar } from "./UserNavbar";
+import GarageLogo from "../../../src/assets/images/logo.webp";
 import { Link, Outlet } from "react-router-dom";
-import GarageLogo from "../../assets/images/logo.webp";
 import { Footer } from "../common/Footer";
-import { IoCaretDownCircleOutline } from "react-icons/io5";
-import {
-  FaTachometerAlt,
-  FaWrench,
-  FaCar,
-  FaBox,
-} from "react-icons/fa";
+import { FaRegSquareCaretDown } from "react-icons/fa6";
+import { FaBox, FaCar, FaTachometerAlt, FaWrench } from "react-icons/fa";
+import { PiGarage } from "react-icons/pi";
 
 export const UserSidebar = () => {
   const [hover, setHover] = useState(false);
   const [isSidebarOpen, setSidebarOpen] = useState(true);
+  const sidebarRef = useRef();
 
   const toggleSidebar = () => {
-    console.log("toggleSidebar");
-    setSidebarOpen(!isSidebarOpen);
+    if (window.innerWidth <= 1000) {
+      setSidebarOpen((prev) => !prev); // Toggle on small screens
+    } else {
+      setSidebarOpen((prev) => !prev); // Toggle on large too
+    }
   };
+
+  // Close sidebar on window resize if width <= 1000
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 1000) {
+        setSidebarOpen(false);
+      } else {
+        setSidebarOpen(true);
+      }
+    };
+
+    handleResize(); // run on mount
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Close sidebar when clicking outside on small screen
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        isSidebarOpen &&
+        window.innerWidth <= 1000 &&
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target)
+      ) {
+        setSidebarOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isSidebarOpen]);
+
   return (
     <>
       <UserNavbar toggleSidebar={toggleSidebar} />
+
       <aside
+        ref={sidebarRef}
         className={`app-sidebar shadow ${isSidebarOpen ? "open" : "d-none"}`}
         data-bs-theme="dark"
         style={{ backgroundColor: "black" }}
       >
-        <div
-          className="sidebar-brand"
-          style={{ fontFamily: "'Electrolize', sans-serif" }}
-        >
-          <Link to="" className="brand-link">
+        <div className="sidebar-brand">
+          <Link
+            to=""
+            className="brand-link"
+            style={{ fontFamily: "'Great Vibes', sans-serif" }}
+          >
             <img
               src={GarageLogo}
               className="brand-image opacity-75 shadow"
@@ -43,7 +79,6 @@ export const UserSidebar = () => {
               onMouseEnter={() => setHover(true)}
               onMouseLeave={() => setHover(false)}
             />
-
             <span className="brand-text fw-light">My Mechanic</span>
           </Link>
         </div>
@@ -63,7 +98,7 @@ export const UserSidebar = () => {
             padding: 8
           }}
         >
-          <nav className="mt-2">
+            <nav className="mt-2">
             <ul
               className="nav sidebar-menu flex-column"
               data-lte-toggle="treeview"
@@ -110,8 +145,23 @@ export const UserSidebar = () => {
                   style={{ color: "white" }}
                 >
                   <i className="bi bi-tools"></i>
-                  <IoCaretDownCircleOutline size={20} style={{ marginRight: "10px" }} />
+                  <FaRegSquareCaretDown size={20} style={{ marginRight: "10px" }} />
                   <p>My Vehicle</p>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  to="garages"
+                  className="nav-link"
+                  style={{ color: "white" }}
+                >
+                  <i className="bi bi-tools"></i>
+                  
+                  <PiGarage
+                    size={20}
+                    style={{ marginRight: "10px" }}
+                  />
+                  <p>Garages</p>
                 </Link>
               </li>
               <li className="nav-item">
@@ -145,13 +195,16 @@ export const UserSidebar = () => {
           </nav>
         </div>
       </aside>
+
       <main
         className="app-main"
-        style={{ backgroundColor: "#87aac9", paddingBottom: "0" }}
+        style={{ paddingBottom: "0"}}
       >
-        <Outlet /> {/* Space above footer */}
+        <Outlet />
         <Footer />
       </main>
     </>
   );
 };
+
+

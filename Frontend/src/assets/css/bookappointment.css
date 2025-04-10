@@ -1,0 +1,123 @@
+.book-app-container {
+  width: 500px;
+  margin: 80px auto;
+  padding: 20px 30px;
+  border-radius: 10px;
+  background-color: #1b1b62;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: white;
+}
+
+.book-app-heading {
+  text-align: center;
+  color: #fff;
+  margin-bottom: 15px;
+}
+
+.book-app-label {
+  font-weight: bold;
+  font-size: 14px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+
+.book-app-multiselect-dropdown {
+  position: relative;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.book-app-dropdown-button {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #3398e4;
+  border-radius: 5px;
+  background-color: #fff;
+  cursor: pointer;
+  text-align: left;
+  color: black;
+}
+
+.book-app-dropdown-list {
+  position: absolute;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+  margin-top: 4px;
+  color: black;
+}
+
+.book-app-dropdown-item {
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.book-app-dropdown-item:hover {
+  /* background-color: rgb(131, 150, 243); */
+  background-color: rgb(11 139 237);
+}
+
+
+.book-app-dropdown-list::-webkit-scrollbar {
+  width: 8px; 
+}
+
+.book-app-dropdown-list::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 5px;
+}
+
+.book-app-dropdown-list::-webkit-scrollbar-thumb {
+  background: #1ea7fd; 
+  border-radius: 5px;
+}
+
+.book-app-dropdown-list::-webkit-scrollbar-thumb:hover {
+  background: #0056b3; 
+}
+
+
+.book-app-select,
+.book-app-input {
+  width: 100%;
+  padding: 6px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.book-app-price-box {
+  margin-bottom: 15px;
+  padding: 10px;
+  background: #f1f1f1;
+  border-radius: 5px;
+}
+
+.book-app-price-box p {
+  color: #1b1b62;
+}
+
+.book-app-submit-button {
+  width: 50%;
+  margin-left: 6.25rem;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: rgb(36 78 158);
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.book-app-submit-button:hover {
+  background-color: #124780;
+}

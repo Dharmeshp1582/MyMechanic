@@ -62,8 +62,8 @@ export const SliderSection = () => {
                           <Link to="/contactus" className="btn btn-primary">
                             Contact Us
                           </Link>
-                          <Link to="/quote" className="btn btn-secondary">
-                            Get A Quote
+                          <Link to="/login" className="btn btn-secondary">
+                            Go To Dashboard
                           </Link>
                         </div>
                       </div>

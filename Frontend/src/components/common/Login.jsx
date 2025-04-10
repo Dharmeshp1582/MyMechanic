@@ -1,7 +1,8 @@
 import { useForm } from "react-hook-form";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Bounce, ToastContainer, toast } from "react-toastify";
+
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -51,16 +52,93 @@ export const Login = () => {
   };
 
   return (
+    <div style={{height: "100vh",
+        width: "100vw",
+       backgroundColor:"#cce5ff",
+       overflow:"hidden"
+       }}>
+        <header className="header_section" style={{ backgroundColor: "rgb(18 23 105)" ,padding:"0"}}>
+        <div className="container-fluid">
+          <nav className="navbar navbar-expand-lg custom_nav-container ">
+            <Link className="navbar-brand" to="/">
+              <span className="bg-orange-400">
+                My Mechanic
+              </span>
+            </Link>
+            <button
+              className="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span className="s-1"> </span>
+              <span className="s-2"> </span>
+              <span className="s-3"> </span>
+            </button>
+            <div
+              className="collapse navbar-collapse"
+              id="navbarSupportedContent"
+            >
+              <div className="d-flex mx-auto flex-column flex-lg-row align-items-center">
+                <ul className="navbar-nav  ">
+                  <li className="nav-item active">
+                    <Link className="nav-link landing-head-link" to="/">
+                      Home
+                    </Link>
+                  </li>
+                  <li className="nav-item ">
+                    <Link className="nav-link landing-head-link" to="/about">
+                      {" "}
+                      About Us
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link landing-head-link" to="/services">
+                      {" "}
+                      Services{" "}
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link landing-head-link" to="/contactus">
+                      Contact Us
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+              <div className="quote_btn-container " style={{ marginBottom: "7px" }}>
+                <div className="">
+                  <Link to="/login" className="btn-1 ">
+                    Login
+                  </Link>
+                  <Link to="/signup" className="btn-2" style={{color:"black"}}>
+                    Signup
+                  </Link>
+                </div>
+                <form className="form-inline">
+                  <button
+                    className="btn  my-2 my-sm-0 nav_search-btn"
+                    type="submit"
+                  />
+                </form>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </header>
+    
     <div
       style={{
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "100vh",
-        width: "100vw",
-       backgroundColor:"#cce5ff"
+      marginTop:"75px"
       }}
     >
+
+    
       <div
         style={{
           background: "#eff5f5",
@@ -151,6 +229,9 @@ export const Login = () => {
               textDecoration: "none"}}>Forget password?</NavLink>
       </div>
       <ToastContainer />
+    </div>
+    
+    
     </div>
   );
 };

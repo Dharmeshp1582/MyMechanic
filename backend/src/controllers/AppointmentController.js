@@ -1,292 +1,274 @@
-const appointmentModel = require("../models/AppointmentModel");
-const ServiceModel = require("../models/ServiceModel");
-const Appointment = require("../models/AppointmentModel");
-const GarageModel = require("../models/GarageModel");
+const appointmentModel = require("../models/AppointmentModel")
+const GarageModel = require("../models/GarageModel")
+const userModel = require("../models/UserModel"); 
+const { sendingMail } = require("../utils/MailUtil");   
 
 const getAllAppointments = async (req, res) => {
-  try {
-    const appointments = await appointmentModel
-      .find()
-      .populate("userId serviceId vehicleId garageownerId");
-    res.status(200).json({
-      message: "appointments get successfully..",
-      data: appointments
-    });
-  } catch (err) {
-    res.status(500).json({
-      message: err.message
-    });
-  }
-};
+    try {
+        const appointments = await appointmentModel.find().populate("userId serviceId vehicleId garageownerId", "name fullName model userId licensePlate")
+        res.status(200).json({
+            message: "appointments get successfully..",
+            data: appointments
+        })
 
-// modified
-const addAppointments = async (req, res) => {
-  try {
-    const {
-      userId,
-      serviceId,
-      vehicleId,
-      garageownerId,
-      appointmentDate,
-      basePrice,
-      finalPrice,
-      status,
-      reason
-    } = req.body;
-
-    // Validate required fields
-    if (
-      !userId ||
-      !serviceId?.length ||
-      !vehicleId ||
-      !garageownerId ||
-      !appointmentDate ||
-      !reason
-    ) {
-      return res
-        .status(400)
-        .json({ message: "All required fields must be filled" });
+    } catch (err) {
+        res.status(500).json({
+            message: err.message
+        })
     }
+}
 
-    // Fetch selected services and calculate total base price
-    let calculatedBasePrice = 0;
-    for (const id of serviceId) {
-      const service = await ServiceModel.findById(id);
-      if (!service) {
-        return res
-          .status(404)
-          .json({ message: `Service not found for ID: ${id}` });
-      }
-      calculatedBasePrice += service.price;
-    }
 
-    // Ensure basePrice matches calculated price
-    if (calculatedBasePrice !== basePrice) {
-      return res.status(400).json({ message: "Base price mismatch" });
-    }
-
-    // Fetch garage owner details
-    const garageOwner = await GarageModel.findById(garageownerId).populate(
-      "userId",
-      "name email phone"
-    );
-    if (!garageOwner) {
-      return res.status(404).json({ message: "Garage owner not found" });
-    }
-
-    // Create new appointment
-    const newAppointment = new Appointment({
-      userId,
-      serviceId,
-      vehicleId,
-      garageownerId, // Keeping the garage owner ID
-      appointmentDate,
-      basePrice: calculatedBasePrice,
-      finalPrice: finalPrice ?? calculatedBasePrice, // Defaulting final price
-      status,
-      reason,
-      garageOwnerDetails: {
-        userId: garageOwner.userId._id, // Storing user ID separately
-        name: garageOwner.userId.name,
-        email: garageOwner.userId.email,
-        phone: garageOwner.userId.phone
-      }
-    });
-
-    // Save appointment to DB
-    await newAppointment.save();
-
-    res
-      .status(201)
-      .json({
-        message: "Appointment booked successfully",
-        data: newAppointment
-      });
-  } catch (error) {
-    console.error("Error booking appointment:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
-
-const deleteAppointmentById = async (req, res) => {
-  try {
-    const deletedappointment = await appointmentModel.findByIdAndDelete(
-      req.params.id
-    );
-    res.status(200).json({
-      message: "Appointment deleted..",
-      data: deletedappointment
-    });
-  } catch (err) {
-    res.status(500).json({
-      message: err.message
-    });
-  }
-};
-
-//get appointment by id
-const getAppointmentsById = async (req, res) => {
-  try {
-    const appointment = await appointmentModel.findById(req.params.id);
-    res.status(200).json({
-      message: "Appointment founded..",
-      data: appointment
-    });
-  } catch (err) {
-    res.status(500).json({
-      message: err.message
-    });
-  }
-};
-
-//get all appointment by user id
-const getAllAppointmentByUserId = async (req, res) => {
-  try {
-    const { userId } = req.params;
-
-    if (!userId) {
-      return res
-        .status(400)
-        .json({ success: false, message: "User ID is required." });
-    }
-
-    const appointments = await appointmentModel
-      .find({ userId })
-      .populate({
-        path: "serviceId", // Correct way to populate an array of ObjectIds
-        select: "name -_id"
-      })
-      .populate("garageownerId", "name _id")
-      .populate("vehicleId", "model -_id");
-
-    if (!appointments.length) {
-      return res.status(404).json({
-        success: false,
-        message: "No appointments found for this user."
-      });
-    }
-
-    res.status(200).json({ success: true, data: appointments });
-  } catch (error) {
-    console.error("Error fetching appointments:", error.message);
-    res.status(500).json({
-      success: false,
-      message: "Server error. Please try again later."
-    });
-  }
-};
-
-const getAppointmentByGarageownerId = async (req, res) => {
-  try {
-    const { userId } = req.params; // Extract userId from request parameters
-
-    // Find all appointments where garageownerId.userId._id matches the provided userId
-    const appointments = await appointmentModel
-      .find({
-        "garageownerId.userId._id": userId
-      })
-      .populate("userId", "fullName email") // Populate user details
-      .populate("serviceId", "name") // Populate service details
-      .populate("vehicleId", "model") // Populate vehicle details
-      .populate("garageownerId.userId", "email"); // Populate garage owner's user details
-
-    if (!appointments.length) {
-      return res
-        .status(404)
-        .json({
-          success: false,
-          message: "No appointments found for this garage owner user."
-        });
-    }
-
-    return res.status(200).json({ success: true, data: appointments });
-  } catch (error) {
-    console.error("Error fetching appointments:", error);
-    return res
-      .status(500)
-      .json({
-        success: false,
-        message: "Server error, please try again later."
-      });
-  }
-};
-
-const UpdateStatus = async (req, res) => {
-  try {
-    const { appointmentId } = req.params.id;
-    const { status } = req.body;
-
-    const updatedAppointment = await appointmentModel.findByIdAndUpdate(
-      appointmentId,
-      { status },
-      { new: true }
-    );
-
-    if (!updatedAppointment) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Appointment not found" });
-    }
-
-    res.status(200).json({ success: true, data: updatedAppointment });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
-
-// //get appointment by user id
-// const getappointmentByUserId = async (req, res) => {
-//   try {
-//     const { userId } = req.params;
-
-//     // Fetch Appointments
-//     const appointments = await appointmentModel.find({ userId });
-
-//     if (!appointments.length) {
-//       return res.status(404).json({ success: false, message: "No appointments found" });
+// const addAppointments = async (req, res) => {
+//     try {
+//         const savedappointments = await appointmentModel.create(req.body)
+//         res.status(201).json({
+//             message: "Appointment saved sucessfully",
+//             data: savedappointments
+//         })
+//     } catch (err) {
+//         res.status(500).json({
+//             message: err.message
+//         })
 //     }
+// }
 
-//     // Fetch Service, Vehicle, and Garage details
-//     const updatedAppointments = await Promise.all(
-//       appointments.map(async (appointment) => {
-//         // Fetch Service Names
-//         const serviceNames = await Promise.all(
-//           appointment.serviceId.map(async (serviceId) => {
-//             const service = await ServiceModel.findById(serviceId);
-//             return service ? service.name : "N/A";
-//           })
+const addAppointments = async (req, res) => {
+    try {
+      const savedAppointment = await appointmentModel.create(req.body);
+  
+      // Fetch the user's email based on userId from request
+      const user = await userModel.findById(req.body.userId);
+  
+      if (user && user.email) {
+        // Send confirmation email
+        await sendingMail(
+          user.email,
+          "Appointment Confirmation - MY Mechanic",
+          `Hello ${user.fullName || "Customer"},\n\nYour appointment has been booked successfully!\n\nWe'll notify you again once your service is completed.\n\nThank you for choosing MY Mechanic 🚗🔧
+        `);
+      }
+  
+      res.status(201).json({
+        message: "Appointment saved successfully and confirmation email sent.",
+        data: savedAppointment,
+      });
+    } catch (err) {
+      console.error("Error in booking appointment:", err.message);
+      res.status(500).json({
+        message: err.message,
+      });
+    }
+  };
+
+
+  //delete appointment by id
+const deleteAppointmentById = async (req, res) => {
+    try {
+        const deletedappointment = await appointmentModel.findByIdAndDelete(req.params.id)
+        res.status(200).json({
+            message: "Appointment deleted..",
+            data: deletedappointment
+        })
+    } catch (err) {
+        res.status(500).json({
+            message: err.message
+        })
+    }
+}
+
+
+const getAppointmentsById = async (req, res) => {
+    try {
+        const appointment = await appointmentModel.findById(req.params.id)
+        res.status(200).json({
+            message: "Appointment founded..",
+            data: appointment
+        })
+    } catch (err) {
+        res.status(500).json({
+            message: err.message
+        })
+    }
+}
+
+const getAllAppointmentByUserId = async (req, res) => {
+    try {
+        const userId = req.params.userId
+        const appointments = await appointmentModel.find({ userId }).populate("serviceId", "name allInclusivePrice")
+            .populate("vehicleId", "model mfgYear licensePlate")
+            .populate({
+
+                path: "garageownerId",
+                select: "name userId", // Get garage name & userId
+                populate: {
+                    path: "userId", // Nested: garage owner
+                    select: "fullName email", // Get owner's name & email
+                },
+            }
+            )
+            .populate("userId", "fullName email");
+
+        res.status(200).json({
+            message: "Appointments fetched by user ID",
+            data: appointments,
+        });
+
+    } catch (err) {
+        res.status(500).json({
+            message: err.message
+        })
+    }
+}
+
+//
+const getAppointmentsByGarageownerUserId = async (req, res) => {
+    try {
+        const garageOwnerUserId = req.params.userId;
+
+        const garages = await GarageModel.find({ userId: garageOwnerUserId }).select("_id name");
+
+        if (garages.length === 0) {
+            return res.status(404).json({
+                message: "No garages found for this user.",
+                data: []
+            });
+        }
+
+        const garageIds = garages.map(garage => garage._id);
+
+        const appointments = await appointmentModel.find({ garageownerId: { $in: garageIds } })
+            .populate("serviceId", "name price")
+            .populate("vehicleId", "model licensePlate")
+            .populate("userId", "fullName email")
+            .populate("garageownerId", "name");
+
+        res.status(200).json({
+            message: "Appointments fetched successfully by garage owner's userId",
+            data: appointments
+        });
+
+
+    } catch (err) {
+        res.status(500).json({
+            message: err.message
+        })
+    }
+}
+
+//UpdateStatus
+// const UpdateStatus = async (req, res) => {
+//     try {
+//         const { status } = req.body;
+//         const appointmentId = req.params.id;
+
+//         let updateFields = { status };
+
+//         if (status === "rejected") {
+//             updateFields.wasRejected = true; // Mark appointment as previously rejected
+//         } else if (status === "pending") {
+//             updateFields.wasRejected = false; // Reset if rescheduled
+//         }
+
+//         const updatedAppointment = await appointmentModel.findByIdAndUpdate(
+//             appointmentId,
+//             updateFields,
+//             { new: true }
 //         );
 
-//         // Fetch Vehicle Name
-//         const vehicle = await VehicleModel.findById(appointment.vehicleId);
-//         const vehicleName = vehicle ? vehicle.name : "N/A";
+//         if (!updatedAppointment) {
+//             return res.status(404).json({ message: "Appointment not found" });
+//         }
 
-//         // Fetch Garage Name
-//         const garage = await GarageModel.findById(appointment.garageownerId);
-//         const garageName = garage ? garage.name : "N/A";
-
-//         return {
-//           ...appointment._doc,
-//           serviceNames: serviceNames.join(", "),
-//           vehicleName,
-//           garageName,
-//         };
-//       })
-//     );
-
-//     res.json({ success: true, data: updatedAppointments });
-//   } catch (error) {
-//     console.error("Error fetching appointments:", error);
-//     res.status(500).json({ success: false, message: "Server Error" });
-//   }
+//         res.status(200).json({
+//             message: "Appointment status updated successfully",
+//             data: updatedAppointment,
+//         });
+//     } catch (err) {
+//         res.status(500).json({ message: err.message });
+//     }
 // };
 
-module.exports = {
-  getAllAppointments,
-  addAppointments,
-  getAppointmentsById,
-  deleteAppointmentById,
-  getAllAppointmentByUserId,
-  getAppointmentByGarageownerId,
-  UpdateStatus
+const UpdateStatus = async (req, res) => {
+    try {
+        const { status } = req.body;
+        const appointmentId = req.params.id;
+
+        let updateFields = { status };
+
+        if (status === "rejected") {
+            updateFields.wasRejected = true;
+        } else if (status === "pending") {
+            updateFields.wasRejected = false;
+        }
+
+        const updatedAppointment = await appointmentModel.findByIdAndUpdate(
+            appointmentId,
+            updateFields,
+            { new: true }
+        )
+        .populate("userId")
+        .populate("garageownerId")
+        .populate("serviceId")
+        .populate("vehicleId");
+
+        if (!updatedAppointment) {
+            return res.status(404).json({ message: "Appointment not found" });
+        }
+
+        // 📧 Send bill email if completed
+        if (status === "completed") {
+            const to = updatedAppointment.userId.email;
+            const services = updatedAppointment.serviceId.map(s => s.name).join(", ");
+            const subject = "Your Vehicle Service is Completed!";
+        
+            const payUrl = `http://localhost:5173/user/appointment`; // Replace with your actual URL
+        
+            const html = `
+                <div style="font-family: Arial, sans-serif; line-height: 1.5;">
+                    <h2>Hello ${updatedAppointment.userId.fullName},</h2>
+                    <p>Your service appointment is now <strong>completed</strong>.</p>
+        
+                    <h3>Vehicle Details:</h3>
+                    <ul>
+                        
+                        <li><strong>Model:</strong> ${updatedAppointment.vehicleId.model}</li>
+                        <li><strong>License Plate:</strong> ${updatedAppointment.vehicleId.licensePlate}</li>
+                    </ul>
+        
+                    <h3>Service Details:</h3>
+                    <p>${services}</p>
+        
+                    <p><strong>Total Price:</strong> ₹${updatedAppointment.finalPrice}</p>
+                    
+                    <a href="${payUrl}" style="
+                        display: inline-block;
+                        margin-top: 15px;
+                        background-color: #28a745;
+                        color: white;
+                        padding: 10px 20px;
+                        text-decoration: none;
+                        border-radius: 5px;
+                        font-weight: bold;
+                    ">Pay Your Bill</a>
+        
+                    <p style="margin-top: 30px;">Thank you for using our platform!<br/>— My Mechanic Team</p>
+                </div>
+            `;
+        
+            await sendingMail(to, subject,"", html);
+        }
+        
+
+        res.status(200).json({
+            message: "Appointment status updated successfully",
+            data: updatedAppointment,
+        });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 };
+
+module.exports = {
+    getAllAppointments, addAppointments, deleteAppointmentById, getAppointmentsById, getAllAppointmentByUserId,getAppointmentsByGarageownerUserId,UpdateStatus
+}

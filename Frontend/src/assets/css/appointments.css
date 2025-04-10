@@ -1,0 +1,227 @@
+.own-appoint-container {
+  width: 100%;
+  padding: 20px; 
+  background: rgb(220, 225, 245);
+  min-height: 90vh
+}
+
+.own-appoint-title {
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.own-appoint-table-container {
+  overflow-x: auto;
+}
+
+.own-appoint-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.own-appoint-table th, 
+.own-appoint-table td {
+  padding: 10px;
+  border: 1px solid #dddddd;
+  text-align: left;
+}
+
+.own-appoint-table th {
+  background: #003a79;
+  color: white;
+}
+
+.own-appoint-status-pending {
+  color: orange;
+}
+
+.own-appoint-status-booked {
+  color: green;
+}
+
+.own-appoint-status-cancelled,
+.own-appoint-status-rejected {
+  color: red;
+}
+
+.own-appoint-status-inprogress {
+  color: blue;
+}
+
+.own-appoint-status-completed {
+  color: green;
+}
+
+.own-appoint-status-rescheduled {
+  color: purple;
+}
+
+.own-appoint-table tbody tr:nth-child(even) {
+  background: #f2f2f2;
+}
+
+
+.own-appoint-status-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  color: white;
+  background-color: #007bff;
+  transition: background 0.3s ease;
+}
+
+.own-appoint-status-btn:hover {
+  background-color: #0056b3;
+}
+
+.own-appoint-status-pending { color: orange; }
+.own-appoint-status-booked { color: green; }
+.own-appoint-status-inprogress { color: blue; }
+.own-appoint-status-completed { color: darkgreen; }
+
+
+.own-appoint-delete-btn {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  color: white;
+  background-color: #dc3545;
+  margin-right: 5px;
+  transition: background 0.3s ease;
+}
+.own-appoint-delete-btn:hover { background-color: #c82333; }
+
+.own-appoint-reject-btn {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  color: white;
+  background-color: #ff9800;
+  margin-right: 5px;
+  transition: background 0.3s ease;
+}
+.own-appoint-reject-btn:hover { background-color: #e68900; }
+
+.own-appoint-reschedule-btn {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  color: white;
+  background-color: #28a745;
+  margin-right: 5px;
+  transition: background 0.3s ease;
+}
+.own-appoint-reschedule-btn:hover { background-color: #218838; }
+
+/* get user appointment detail  */
+
+/* Container styling */
+.my-appoint-container {
+  padding: 2rem;
+  max-width: 100%;
+  /* overflow-x: auto; */
+ min-height: 90vh;
+  background-color: rgb(220, 225, 245);
+}
+
+/* Heading */
+.my-appoint-heading {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #333;
+  text-align: center;
+}
+
+/* No appointments message */
+.my-noappoint-para {
+  font-size: 1.1rem;
+  text-align: center;
+  color: #777;
+  padding: 1rem 0;
+}
+
+/* Appointment table */
+.my-appoint-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.my-appoint-table th,
+.my-appoint-table td {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.my-appoint-table th {
+  background-color: #333;
+  color: #fff;
+  font-weight: 600;
+}
+
+.my-appoint-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Appointment status styling */
+.my-appoint-status-pending {
+  color: #e67e22;
+  font-weight: bold;
+}
+
+.my-appoint-status-approved {
+  color: #3498db;
+  font-weight: bold;
+}
+
+.my-appoint-status-completed {
+  color: #2ecc71;
+  font-weight: bold;
+}
+
+.my-appoint-status-rejected {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .my-appoint-heading {
+    font-size: 1.5rem;
+  }
+
+  .my-appoint-table th,
+  .my-appoint-table td {
+    font-size: 0.85rem;
+    padding: 0.5rem;
+  }
+}
+
+
+.my-appoint-table-wrapper {
+  overflow-x: auto;
+  width: 100%;
+}
+
+/* Optional: Limit height and add scroll if screen height is small */
+@media (max-height: 700px) {
+  .my-appoint-table-wrapper {
+    max-height: 60vh;
+    overflow: auto;
+  }
+}

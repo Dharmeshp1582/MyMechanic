@@ -1,0 +1,116 @@
+.admin-dash-container {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.admin-dash-header {
+  /* padding: 20px; */
+  background-color: #f8f9ff;
+}
+
+.admin-dash-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.admin-dash-col-left,
+.admin-dash-col-right {
+  flex: 1;
+}
+
+.admin-dash-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.admin-dash-breadcrumb {
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0;
+  margin: 0;
+  gap: 8px;
+}
+
+.admin-dash-breadcrumb-item {
+  color: #333;
+}
+
+.admin-dash-breadcrumb-item.active {
+  font-weight: bold;
+}
+
+.admin-dash-stats-row {
+  margin-top: 20px;
+}
+
+.admin-dash-box {
+  flex: 1 1 22%;
+  min-width: 200px;
+}
+
+.admin-dash-box-inner {
+  color: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.admin-dash-box-inner:hover {
+  transform: translateY(-5px);
+}
+
+.admin-dash-box-content h3 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.admin-dash-box-content p {
+  margin: 5px 0 0;
+}
+
+.admin-dash-icon-wrapper {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: rgba(255, 255, 255, 0.15);
+  padding: 10px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-dash-icon-wrapper svg {
+  width: 24px;
+  height: 24px;
+}
+
+.admin-dash-footer {
+  display: block;
+  margin-top: 15px;
+  color: #fff;
+  /* text-decoration: underline; */
+  font-weight: 500;
+}
+
+/* Blue shades */
+.admin-dash-blue-1 {
+  background-color: rgb(18, 23, 105);
+}
+.admin-dash-blue-2 {
+  background-color: rgb(28, 35, 128);
+}
+.admin-dash-blue-3 {
+  background-color: rgb(38, 47, 150);
+}
+.admin-dash-blue-4 {
+  background-color: rgb(48, 59, 173);
+}

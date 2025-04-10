@@ -19,3 +19,20 @@
   /* Slightly darker background on hover */
   transform: translateX(5px); 
 }
+
+.serv-book-btn{
+  padding: 8px 24px;
+  border: none;
+  border-radius: 8px;
+  color:#fff;
+  background:linear-gradient(135deg, #4facfe, #00f2fe);
+
+}
+
+.serv-book-btn:hover{
+  /* background:linear-gradient(135deg, #4facfe, #00f2fe); */
+  background: linear-gradient(173deg, #3773a8, #00f2fe);;
+  opacity: 0.8;
+  color: #000;
+}
+

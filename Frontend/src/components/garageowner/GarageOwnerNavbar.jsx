@@ -12,6 +12,16 @@ export const GarageOwnerNavbar = ({ toggleSidebar }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [user, setUser] = useState(null);
   const [role, setRole] = useState(localStorage.getItem("role")); // Get role from localStorage initially
+  const [focusedLink, setFocusedLink] = useState(null);
+
+  const getLinkStyle = (linkName) => ({
+    fontSize: "19px",
+    fontWeight: "700",
+    ...(focusedLink === linkName && {
+      color: "rgb(48 75 196)",
+      borderRadius: "30px"
+    })
+  });
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -24,61 +34,107 @@ export const GarageOwnerNavbar = ({ toggleSidebar }) => {
   const fetchUserData = async () => {
     const userId = localStorage.getItem("id");
     if (!userId) return;
-  
+
     try {
       const response = await axios.get(`/getuserbyid/${userId}`);
       if (response.data && response.data.data) {
         setUser(response.data.data);
-        setRole(response.data.data.roleId?.name || localStorage.getItem("role")); // Use API role if available, otherwise fallback to localStorage
+        setRole(
+          response.data.data.roleId?.name || localStorage.getItem("role")
+        ); // Use API role if available, otherwise fallback to localStorage
       }
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
   };
-  
 
   useEffect(() => {
     fetchUserData(); // Initial fetch
-  
+
     const interval = setInterval(() => {
       fetchUserData(); // Fetch data every 3 seconds
     }, 3000);
-  
+
     return () => clearInterval(interval); // Cleanup to prevent memory leaks
   }, []);
-  
 
   const handleLogout = () => {
-      localStorage.clear();
-      toast.success("Logged out successfully!", { position: "top-right", autoClose: 2000, theme: "dark" });
-  
-      // Delay navigation to show toast before redirecting
-      setTimeout(() => {
-        navigate("/login");
-      }, 2000);
-    };
-  
+    localStorage.clear();
+    toast.success("Logged out successfully!", {
+      position: "top-right",
+      autoClose: 2000,
+      theme: "dark"
+    });
+
+    // Delay navigation to show toast before redirecting
+    setTimeout(() => {
+      navigate("/login");
+    }, 2000);
+  };
 
   return (
-    <nav className="app-header navbar navbar-expand bg-body" >
-    <ToastContainer position="top-right" autoClose={2000} theme="dark" transition={Bounce} />
+    <nav className="app-header navbar navbar-expand bg-body">
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        theme="dark"
+        transition={Bounce}
+      />
       <div className="container-fluid">
         <ul className="navbar-nav">
           <li className="nav-item">
             <button className="nav-link btn btn-light" onClick={toggleSidebar}>
-              <img src={hamburgermenu} alt="Menu" style={{ height: "25px", width: "25px" }} />
+              <img
+                src={hamburgermenu}
+                alt="Menu"
+                style={{ height: "25px", width: "25px" }}
+              />
             </button>
           </li>
           <li className="nav-item d-none d-md-block">
-            <Link to="" className="nav-link">Home</Link>
+            <Link
+              to=""
+              className="nav-link"
+              style={getLinkStyle("home")}
+              onFocus={() => setFocusedLink("home")}
+              onBlur={() => setFocusedLink(null)}
+            >
+              Home
+            </Link>
           </li>
           <li className="nav-item d-none d-md-block">
-            <Link to="contact" className="nav-link">Contact</Link>
+            <Link
+              to="contact"
+              className="nav-link"
+              style={getLinkStyle("contact")}
+              onFocus={() => setFocusedLink("contact")}
+              onBlur={() => setFocusedLink(null)}
+            >
+              Contact
+            </Link>
           </li>
-          <li className="nav-item d-none d-md-block"> 
-          <Link to="availableservice" className="nav-link">Available Services</Link></li>
-          <li className="nav-item d-none d-md-block"> 
-          <Link to="getappointmentsbygarageownerid/:garageownerId" className="nav-link">Booking requests</Link></li>
+          <li className="nav-item d-none d-md-block">
+            <Link
+              to="availableservice"
+              className="nav-link"
+              style={getLinkStyle("services")}
+              onFocus={() => setFocusedLink("services")}
+              onBlur={() => setFocusedLink(null)}
+            >
+              Available Services
+            </Link>
+          </li>
+          <li className="nav-item d-none d-md-block">
+            <Link
+              to="servicerequest"
+              className="nav-link"
+              style={getLinkStyle("request")}
+              onFocus={() => setFocusedLink("request")}
+              onBlur={() => setFocusedLink(null)}
+            >
+              Booking requests
+            </Link>
+          </li>
         </ul>
 
         <ul
@@ -126,10 +182,13 @@ export const GarageOwnerNavbar = ({ toggleSidebar }) => {
               {/* User Name */}
               <Typography
                 style={{
-                  fontSize: "18px",
-                  fontWeight: "bold",
-                  marginBottom: "5px",
-                  color: "#333"
+                    display: "inline-block",
+                    maxWidth: "25ch",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                    fontWeight: "bold",
+                    textTransform: "uppercase"
                 }}
               >
                 {user?.fullName}

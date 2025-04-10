@@ -1,0 +1,27 @@
+.app-sidebar {
+  width: 250px;
+  position: fixed;
+  top: 66px;
+  left: 0;
+  height: calc(100vh - 66px);
+  background-color: rgb(97 103 146);
+  z-index: 1050;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(-100%); 
+  overflow-y: auto;
+}
+
+.sidebar-open {
+  transform: translateX(0); /* ⬅ slide into view */
+}
+
+.sidebar-collapsed {
+  transform: translateX(-100%); /* ⬅ hide to left */
+}
+
+/* Optional: hide sidebar completely on large screens unless toggled */
+@media (min-width: 768px) {
+  .app-sidebar {
+    display: none;
+  }
+}

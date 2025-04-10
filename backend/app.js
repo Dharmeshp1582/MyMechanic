@@ -82,9 +82,17 @@ app.use("/mechanic", mechanicRoutes);
 const appointmentRoutes = require("./src/routes/AppointmentRoute");
 app.use("/appointment", appointmentRoutes);
 
-// import Payment routes
-const paymentRoutes = require("./src/routes/PaymentRoute");
-app.use("/payment", paymentRoutes);
+//status mail 
+const mailRoutes = require("./src/routes/Mail"); // make sure the path is correct
+app.use("/mail",mailRoutes);
+
+//landing page mail
+const contactRoutes = require("./src/routes/LandingMail");
+app.use("/landingcontact", contactRoutes);
+
+//payment route
+const paymentRoutes = require("./src/routes/PaymentRoute")
+app.use("/payment", paymentRoutes)
 
 //contact form validation with controller
 app.post("/contact", async (req, res) => {

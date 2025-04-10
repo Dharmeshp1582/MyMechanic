@@ -1,157 +1,102 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import "../../assets/css/appointments.css";
+import Payment from "../payment/Payment";
 
 export const GetUserAppointmentDetail = () => {
   const [appointments, setAppointments] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [role, setRole] = useState("");
+  const userId = localStorage.getItem("id");
+
+  const fetchAppointments = () => {
+    if (userId) {
+      axios
+        .get(`/appointment/getappointmentbyid/${userId}`)
+        .then((res) => setAppointments(res.data.data))
+        .catch((err) => console.error("Error fetching appointments:", err));
+    }
+  };
 
   useEffect(() => {
-    const userId = localStorage.getItem("id");
-    const userRole = localStorage.getItem("role");
-
-    if (!userId) {
-      setLoading(false);
-      return;
-    }
-
-    if (!userRole || userRole !== "User") {
-      setLoading(false);
-      return;
-    }
-
-    setRole(userRole);
-
-    axios
-      .get(`/appointment/getappointmentbyuserid/${userId}`)
-      .then((res) => {
-        if (res.data.success) {
-          setAppointments(res.data.data);
-        }
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error(
-          "Error fetching appointments:",
-          err.response?.data?.message || err.message
-        );
-        setLoading(false);
-      });
+    fetchAppointments();
   }, []);
 
+  const handlePaymentSuccess = () => {
+    fetchAppointments();
+  };
+
   return (
-    <>
-      {role === "User" && (
-        <div
-          style={{
-            maxWidth: "1200px",
-            margin: "30px auto",
-            padding: "20px",
-            borderRadius: "10px",
-            backgroundColor: "#fff",
-            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)"
-          }}
-        >
-          <h2
-            style={{ textAlign: "center", color: "#333", marginBottom: "15px" }}
-          >
-            My Appointments
-          </h2>
+    <div className="my-appoint-container">
+      <h2 className="my-appoint-heading">My Appointments</h2>
+      {appointments.length === 0 ? (
+        <p className="my-noappoint-para">No appointments found.</p>
+      ) : (
+        <div className="my-appoint-table-wrapper">
+          <table className="my-appoint-table">
+            <thead>
+              <tr>
+                <th>Services</th>
+                <th>Garage</th>
+                <th>Garage Owner</th>
+                <th>Vehicle</th>
+                <th>License Plate</th>
+                <th>Final Price</th>
+                <th>Appointment Date</th>
+                <th>Status</th>
+                <th>Paid</th>
+                <th>Reason</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {appointments.map((appt) => (
+                <tr key={appt._id}>
+                  <td>
+                    {appt.serviceId.map((service) => (
+                      <div key={service._id}>{service.name}</div>
+                    ))}
+                  </td>
+                  <td>{appt.garageownerId?.name || "N/A"}</td>
+                  <td>{appt.garageownerId?.userId?.fullName || "N/A"}</td>
+                  <td>
+                    {appt.vehicleId?.model || "N/A"} -{" "}
+                    {appt.vehicleId?.mfgYear || "N/A"}
+                  </td>
+                  <td>{appt.vehicleId?.licensePlate || "N/A"}</td>
+                  <td>₹{appt.finalPrice}</td>
+                  <td>
+                    {new Date(appt.appointmentDate).toLocaleDateString(
+                      "en-US",
+                      {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric"
+                      }
+                    )}
+                  </td>
 
-          {loading ? (
-            <p style={{ textAlign: "center" }}>Loading appointments...</p>
-          ) : appointments.length === 0 ? (
-            <p style={{ textAlign: "center", color: "red" }}>
-              No appointments found.
-            </p>
-          ) : (
-            <table style={{ width: "100%", borderCollapse: "collapse" }}>
-              <thead>
-                <tr
-                  style={{
-                    backgroundColor: "#007bff",
-                    color: "#fff",
-                    textAlign: "left"
-                  }}
-                >
-                  <th style={{ padding: "10px", border: "1px solid #ddd" }}>
-                    Service
-                  </th>
-                  <th style={{ padding: "10px", border: "1px solid #ddd" }}>
-                    Vehicle
-                  </th>
-                  <th style={{ padding: "10px", border: "1px solid #ddd" }}>
-                    Garage
-                  </th>
-                  <th style={{ padding: "10px", border: "1px solid #ddd" }}>
-                    Date
-                  </th>
-                  <th style={{ padding: "10px", border: "1px solid #ddd" }}>
-                    Base Price
-                  </th>
-                  <th style={{ padding: "10px", border: "1px solid #ddd" }}>
-                    Final Price
-                  </th>
-                  <th style={{ padding: "10px", border: "1px solid #ddd" }}>
-                    Status
-                  </th>
-                  <th style={{ padding: "10px", border: "1px solid #ddd" }}>
-                    Reason
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {appointments.map((appointment) => (
-                  <tr
-                    key={appointment._id}
-                    style={{ borderBottom: "1px solid #ddd" }}
+                  <td
+                    className={`my-appoint-status-${appt.status.toLowerCase()}`}
                   >
-                    <td style={{ padding: "10px", border: "1px solid #ddd" }}>
-                      {appointment.serviceId
-                        ?.map((service) => service.name)
-                        .join(", ") || "N/A"}
-                    </td>
-
-                    <td style={{ padding: "10px", border: "1px solid #ddd" }}>
-                      {appointment.vehicleId?.model || "N/A"}
-                    </td>
-                    <td style={{ padding: "10px", border: "1px solid #ddd" }}>
-                      {appointment.garageownerId?.name || "N/A"}
-                    </td>
-
-                    <td style={{ padding: "10px", border: "1px solid #ddd" }}>
-                      {appointment.appointmentDate
-                        ? new Date(
-                            appointment.appointmentDate
-                          ).toLocaleDateString()
-                        : "N/A"}
-                    </td>
-                    <td style={{ padding: "10px", border: "1px solid #ddd" }}>
-                      ₹{appointment.basePrice || 0}
-                    </td>
-                    <td style={{ padding: "10px", border: "1px solid #ddd" }}>
-                      ₹{appointment.finalPrice || 0}
-                    </td>
-                    <td
-                      style={{
-                        padding: "10px",
-                        border: "1px solid #ddd",
-                        color:
-                          appointment.status === "pending" ? "orange" : "green"
-                      }}
-                    >
-                      {appointment.status}
-                    </td>
-                    <td style={{ padding: "10px", border: "1px solid #ddd" }}>
-                      {appointment.reason || "N/A"}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
+                    {appt.status}
+                  </td>
+                  <td>{appt.isPaid ? "✅ Yes" : "❌ No"}</td>
+                  <td>{appt.reason || "-"}</td>
+                  <td>
+                    {appt.status === "completed" && !appt.isPaid && (
+                      <Payment
+                        appointmentId={appt._id}
+                        userId={userId}
+                        amount={appt.finalPrice * 100}
+                        onSuccess={handlePaymentSuccess}
+                      />
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
-    </>
+    </div>
   );
 };

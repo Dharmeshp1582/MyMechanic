@@ -8,9 +8,11 @@ export const GetAppointmentByUserId = () => {
 
   useEffect(() => {
     const userRole = localStorage.getItem("role");
-    const garageOwnerId = localStorage.getItem("id");
+    const UserId = localStorage.getItem("id"); // Ensure correct ID is stored
 
-    if (userRole !== "Garage owner" || !garageOwnerId) {
+    console.log("Garage Owner ID:", UserId); // Debugging Log
+
+    if (userRole !== "Garage owner" || !UserId) {
       setLoading(false);
       return;
     }
@@ -18,7 +20,7 @@ export const GetAppointmentByUserId = () => {
     setRole(userRole);
 
     axios
-      .get(`/appointment/getappointmentbygarageownerid/${garageOwnerId}`)
+      .get(`/appointment/getappointmentsbygarageowneruserid/${UserId}`)
       .then((res) => {
         if (res.data.success) {
           setAppointments(res.data.data);
@@ -66,7 +68,7 @@ export const GetAppointmentByUserId = () => {
             padding: "20px",
             borderRadius: "10px",
             backgroundColor: "#fff",
-            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)"
           }}
         >
           <h2
@@ -86,9 +88,8 @@ export const GetAppointmentByUserId = () => {
               <thead>
                 <tr
                   style={{
-                    backgroundColor: "#007bff",
                     color: "#fff",
-                    textAlign: "left",
+                    textAlign: "left"
                   }}
                 >
                   <th style={{ padding: "10px", border: "1px solid #ddd" }}>
@@ -162,7 +163,7 @@ export const GetAppointmentByUserId = () => {
                           color: "#fff",
                           border: "none",
                           borderRadius: "5px",
-                          cursor: "pointer",
+                          cursor: "pointer"
                         }}
                       >
                         {appointment.status}
@@ -181,6 +182,3 @@ export const GetAppointmentByUserId = () => {
     </>
   );
 };
-
-
-

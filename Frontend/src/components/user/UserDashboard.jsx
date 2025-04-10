@@ -3,8 +3,9 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import ServicesGrid from "./ServiceGrid";
 import { Faqs } from "./Faqs";
+import { motion } from "framer-motion";
 import { HowMyWork } from "./HowMyWork";
-import "../../assets/css/UserDashboard.css"
+import "../../assets/css/UserDashboard.css";
 
 export const UserDashboard = () => {
   const [services, setServices] = useState([]);
@@ -59,161 +60,180 @@ export const UserDashboard = () => {
 
       {/* Services Section */}
       <div
-  style={{
-    textAlign: "center",
-    padding: "20px",
-    backgroundColor: "#dce1f5",
-    minHeight: "100vh",
-  }}
->
-  <h2
-    style={{
-      marginBottom: "20px",
-      fontSize: "2.3rem",
-      padding: "12px",
-      width: "100%",
-      margin: "auto",
-      color: "black",
-    }}
-  >
-    Our Services
-  </h2>
-
-  {loading ? (
-    <div
-      style={{ fontSize: "1.2rem", fontWeight: "bold", color: "#007BFF" }}
-    >
-      Loading...
-    </div>
-  ) : services.length === 0 ? (
-    <p style={{ fontSize: "1.2rem", color: "#666" }}>
-      No services available.
-    </p>
-  ) : (
-    <>
-      {services.slice(0, 3).map((service, index) => (
-        <div
-          key={service._id}
+        style={{
+          textAlign: "center",
+          padding: "20px",
+          backgroundColor: "#dce1f5",
+          minHeight: "100vh"
+        }}
+      >
+        <h2
           style={{
-            overflow: "hidden",
-            textAlign: "center",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-evenly",
-            padding: "20px",
-            flexDirection: index % 2 === 0 ? "row" : "row-reverse",
-            border: "1px solid #ddd",
-            boxShadow: "0 6px 12px rgba(0, 0, 0, 0.1)",
-            borderRadius: "12px",
             marginBottom: "20px",
+            fontSize: "2.3rem",
+            padding: "12px",
+            width: "100%",
+            margin: "auto",
+            color: "black"
           }}
-          onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.03)")}
-          onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
         >
-          {/* Service Image */}
-          <div className="service-img-container">
-            <img
-              src={service.imageURL || "/default-service.jpg"}
-              alt={service.name}
-              className="ser-img"
-              style={{
-                position:"relative",
-                zIndex:"2",
-                width: "350px",
-                height: "280px",
-                objectFit: "cover",
-                borderRadius: "12px",
-                border: "2px solid black",
-                content: "",
-                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-              }}
-            />
-          </div>
+          Our Services
+        </h2>
 
-          {/* Service Details */}
-          <div style={{ textAlign: "left", padding: "15px" }}>
-            <h3 className="serv-h3" style={{ fontSize: "24px", color: "#333" }}>
-              {service.name}
-            </h3>
-            <p
-              style={{
-                fontSize: "1rem",
-                color: "#666",
-                width: "18.6rem",
-                margin: "auto",
-              }}
-            >
-              {service.description}
-            </p>
-            <p style={{ marginTop:"5px",fontWeight: "bold", color: "#444" }}>
-              <strong>Category:</strong> {service.category || "N/A"}
-            </p>
-            <p style={{ fontWeight: "bold", color: "#444" }}>
-              <strong>Price:</strong> ₹{service.price || "N/A"}
-            </p>
-            <p style={{ fontWeight: "bold", color: "#444" }}>
-              <strong>Duration:</strong> {service.duration || "N/A"} mins
-            </p>
-            <p style={{ fontWeight: "bold" }}>
-              <strong>Availability:</strong>
-              <span
+        {loading ? (
+          <div
+            style={{ fontSize: "1.2rem", fontWeight: "bold", color: "#007BFF" }}
+          >
+            Loading...
+          </div>
+        ) : services.length === 0 ? (
+          <p style={{ fontSize: "1.2rem", color: "#666" }}>
+            No services available.
+          </p>
+        ) : (
+          <>
+            {services.slice(0, 5).map((service, index) => (
+              <div
+                key={service._id}
                 style={{
-                  color: service.availability ? "green" : "red",
-                  fontWeight: "bold",
+                  overflow: "hidden",
+                  textAlign: "center",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-evenly",
+                  padding: "20px",
+                  flexDirection: index % 2 === 0 ? "row" : "row-reverse",
+
+                  border: "1px solid rgb(96 84 84)",
+                  boxShadow: "0 6px 12px rgba(0, 0, 0, 0.1)",
+                  borderRadius: "12px",
+                  marginBottom: "20px"
                 }}
               >
-                {service.availability ? "Available" : "Not Available"}
-              </span>
-            </p>
-            <p style={{ fontWeight: "bold", color: "#444" }}>
-              <strong>Ratings:</strong> ⭐ {service.ratings || "N/A"}/5
-            </p>
-            <button
-              onClick={() => navigate(`/user/service/${service._id}`)}
-              className="serv-btn serv-book-btn"
-            >
-              View Detail
-            </button>
-          </div>
-        </div>
-      ))}
+                {/* Service Image */}
+                <div className="service-img-container">
+                  <motion.div
+                    initial={{ opacity: 0, x: -50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <img
+                      src={service.imageURL || "/default-service.jpg"}
+                      alt={service.name}
+                      className="ser-img"
+                      style={{
+                        position: "relative",
+                        zIndex: "2",
+                        width: "350px",
+                        height: "280px",
+                        objectFit: "cover",
+                        borderRadius: "12px",
+                        border: "2px solid black",
+                        content: "",
+                        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)"
+                      }}
+                    />
+                  </motion.div>
+                </div>
 
-      {services.length > 3 && (
-        <button
-  onMouseOver={(e) => {
-    e.currentTarget.style.background =
-      "linear-gradient(135deg, #0056b3, #004494)";
-    e.currentTarget.style.transform = "scale(1.05)";
-    e.currentTarget.style.color = "white";
-  }}
-  onMouseOut={(e) => {
-    e.currentTarget.style.background = "#007BFF"; // Default background
-    e.currentTarget.style.transform = "scale(1)";
-    e.currentTarget.style.color = "white";
-  }}
-  onClick={() => navigate("/user/services")}
-  style={{
-    padding: "10px 20px",
-    fontSize: "1.2rem",
-    background: "#007BFF", // Default background
-    color: "white",
-    border: "none",
-    borderRadius: "8px",
-    cursor: "pointer",
-    marginTop: "20px",
-    fontWeight: "bold",
-    transition: "transform 0.2s ease-in-out, background 0.2s ease-in-out",
-  }}
->
-  Explore More
-</button>
+                {/* Service Details */}
+                <div style={{ textAlign: "left", padding: "15px" }}>
+                  <motion.div
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                  >
+                    <h3
+                      className="serv-h3"
+                      style={{ fontSize: "24px", color: "#333" }}
+                    >
+                      {service.name}
+                    </h3>
+                    <p
+                      style={{
+                        fontSize: "1rem",
+                        color: "#666",
+                        width: "18.6rem",
+                        margin: "auto"
+                      }}
+                    >
+                      {service.description}
+                    </p>
+                    <p
+                      style={{
+                        marginTop: "5px",
+                        fontWeight: "bold",
+                        color: "#444"
+                      }}
+                    >
+                      <strong>Category:</strong> {service.category || "N/A"}
+                    </p>
+                    <p style={{ fontWeight: "bold", color: "#444" }}>
+                      <strong>Price:</strong> ₹{service.price || "N/A"}
+                    </p>
+                    <p style={{ fontWeight: "bold", color: "#444" }}>
+                      <strong>Duration:</strong> {service.duration || "N/A"}{" "}
+                      mins
+                    </p>
+                    <p style={{ fontWeight: "bold" }}>
+                      <strong>Availability:</strong>
+                      <span
+                        style={{
+                          color: service.availability ? "green" : "red",
+                          fontWeight: "bold"
+                        }}
+                      >
+                        {service.availability ? "Available" : "Not Available"}
+                      </span>
+                    </p>
+                    <p style={{ fontWeight: "bold", color: "#444" }}>
+                      <strong>Ratings:</strong> ⭐ {service.ratings || "N/A"}/5
+                    </p>
+                    <button
+                      onClick={() => navigate(`/user/service/${service._id}`)}
+                      className="serv-btn serv-book-btn"
+                    >
+                      View Detail
+                    </button>
+                  </motion.div>
+                </div>
+              </div>
+            ))}
 
-      )}
-    </>
-  )}
-</div>
-
-      
+            {services.length > 3 && (
+              <button
+                onMouseOver={(e) => {
+                  e.currentTarget.style.background =
+                    "linear-gradient(135deg, #0056b3, #004494)";
+                  e.currentTarget.style.transform = "scale(1.05)";
+                  e.currentTarget.style.color = "white";
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.background = "#007BFF"; // Default background
+                  e.currentTarget.style.transform = "scale(1)";
+                  e.currentTarget.style.color = "white";
+                }}
+                onClick={() => navigate("/user/services")}
+                style={{
+                  padding: "10px 20px",
+                  fontSize: "1.2rem",
+                  background: "rgb(67 136 210)", // Default background
+                  color: "white",
+                  border: "none",
+                  borderRadius: "8px",
+                  cursor: "pointer",
+                  marginTop: "20px",
+                  fontWeight: "bold",
+                  transition:
+                    "transform 0.2s ease-in-out, background 0.2s ease-in-out"
+                }}
+              >
+                Explore More
+              </button>
+            )}
+          </>
+        )}
+      </div>
 
       {/* Regular Services */}
       <section

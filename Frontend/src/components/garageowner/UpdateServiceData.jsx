@@ -34,7 +34,7 @@ export const UpdateServiceData = () => {
         }
         setLoading(false);
       } catch (err) {
-        setError("Failed to load service data.",err);
+        setError("Failed to load service data.", err);
         setLoading(false);
       }
     };
@@ -90,7 +90,7 @@ export const UpdateServiceData = () => {
   };
 
   return (
-    <>
+    <div style={{ backgroundColor: "rgb(250, 251, 254)" }}>
       <ToastContainer />
       <div
         style={{
@@ -102,6 +102,14 @@ export const UpdateServiceData = () => {
           alignItems: "center"
         }}
       >
+        <div>
+          <button
+            onClick={() => navigate(-1)}
+            className="book-app-go-back-button"
+          >
+            ← Go Back
+          </button>
+        </div>
         <h1
           style={{
             margin: "0px 0px 20px 0px",
@@ -125,7 +133,7 @@ export const UpdateServiceData = () => {
               maxWidth: "600px",
               padding: "20px",
               borderRadius: "10px",
-              backgroundColor: "rgb(232 232 232)",
+              backgroundColor: "rgb(169, 164, 164)",
               boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)"
             }}
           >
@@ -140,8 +148,11 @@ export const UpdateServiceData = () => {
                 fontSize: "16px"
               }}
             />
-            {errors.name && <p style={{  color: "red",
-  fontSize: "14px"}}>{errors.name.message}</p>}
+            {errors.name && (
+              <p style={{ color: "red", fontSize: "14px" }}>
+                {errors.name.message}
+              </p>
+            )}
 
             <input
               {...register("description", {
@@ -157,8 +168,9 @@ export const UpdateServiceData = () => {
               }}
             />
             {errors.description && (
-              <p style={{  color: "red",
-  fontSize: "14px"}}>{errors.description.message}</p>
+              <p style={{ color: "red", fontSize: "14px" }}>
+                {errors.description.message}
+              </p>
             )}
 
             <input
@@ -173,8 +185,9 @@ export const UpdateServiceData = () => {
               }}
             />
             {errors.category && (
-              <p style={{  color: "red",
-  fontSize: "14px"}}>{errors.category.message}</p>
+              <p style={{ color: "red", fontSize: "14px" }}>
+                {errors.category.message}
+              </p>
             )}
 
             <input
@@ -189,8 +202,11 @@ export const UpdateServiceData = () => {
                 fontSize: "16px"
               }}
             />
-            {errors.price && <p style={{  color: "red",
-  fontSize: "14px"}}>{errors.price.message}</p>}
+            {errors.price && (
+              <p style={{ color: "red", fontSize: "14px" }}>
+                {errors.price.message}
+              </p>
+            )}
 
             <input
               type="number"
@@ -208,8 +224,9 @@ export const UpdateServiceData = () => {
               }}
             />
             {errors.duration && (
-              <p style={{  color: "red",
-  fontSize: "14px"}}>{errors.duration.message}</p>
+              <p style={{ color: "red", fontSize: "14px" }}>
+                {errors.duration.message}
+              </p>
             )}
 
             <input
@@ -230,8 +247,9 @@ export const UpdateServiceData = () => {
               }}
             />
             {errors.ratings && (
-              <p style={{  color: "red",
-  fontSize: "14px"}}>{errors.ratings.message}</p>
+              <p style={{ color: "red", fontSize: "14px" }}>
+                {errors.ratings.message}
+              </p>
             )}
 
             {/* Image Upload Field */}
@@ -273,9 +291,7 @@ export const UpdateServiceData = () => {
               <input
                 type="checkbox"
                 {...register("availability")}
-                style={{ width: "20px",
-  height: "20px",
-  cursor: "pointer"}}
+                style={{ width: "20px", height: "20px", cursor: "pointer" }}
               />
               <label style={{ fontSize: "16px", fontWeight: "bold" }}>
                 Available
@@ -284,25 +300,27 @@ export const UpdateServiceData = () => {
 
             <button
               type="submit"
-              style={{ width: "30%",
-  padding: "12px",
-  backgroundColor: "#9f8b8b",
-  color: "white",
-  border: "none",
-  borderRadius: "5px",
-  fontSize: "18px",
-  fontWeight: "bold",
-  cursor: "pointer",
-  transition: "background 0.3s",
-  margin: "0px auto"}}
-              onMouseOver={(e) => (e.target.style.backgroundColor = "#785c5c")}
-              onMouseOut={(e) => (e.target.style.backgroundColor = "#9f8b8b")}
+              style={{
+                width: "30%",
+                padding: "12px",
+                backgroundColor: " rgb(30, 32, 35)",
+                color: "white",
+                border: "none",
+                borderRadius: "5px",
+                fontSize: "18px",
+                fontWeight: "bold",
+                cursor: "pointer",
+                transition: "background 0.3s",
+                margin: "0px auto"
+              }}
+              onMouseOver={(e) => (e.target.style.backgroundColor = " rgb(112, 117, 133)")}
+              onMouseOut={(e) => (e.target.style.backgroundColor = " rgb(31, 32, 35)")}
             >
               Update Service
             </button>
           </form>
         )}
       </div>
-    </>
+    </div>
   );
 };

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { AdminNavbar } from "./AdminNavbar";
 import GarageLogo from "../../assets/images/logo.webp";
@@ -15,16 +15,54 @@ import { IoMdApps } from "react-icons/io"; // Widgets Icon
 export const AdminSidebar = () => {
   const [hover, setHover] = useState(false);
   const [isSidebarOpen, setSidebarOpen] = useState(true);
+  const sidebarRef = useRef();
 
   const toggleSidebar = () => {
-    console.log("toggleSidebar");
-    setSidebarOpen(!isSidebarOpen);
+    if (window.innerWidth <= 1000) {
+      setSidebarOpen((prev) => !prev); // Toggle on small screens
+    } else {
+      setSidebarOpen((prev) => !prev); // Toggle on large too
+    }
   };
+
+  // Close sidebar on window resize if width <= 1000
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 1000) {
+        setSidebarOpen(false);
+      } else {
+        setSidebarOpen(true);
+      }
+    };
+
+    handleResize(); // run on mount
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Close sidebar when clicking outside on small screen
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        isSidebarOpen &&
+        window.innerWidth <= 1000 &&
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target)
+      ) {
+        setSidebarOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isSidebarOpen]);
 
   return (
     <>
       <AdminNavbar toggleSidebar={toggleSidebar} />
+
       <aside
+        ref={sidebarRef}
         className={`app-sidebar shadow ${isSidebarOpen ? "open" : "d-none"}`}
         data-bs-theme="dark"
         style={{ backgroundColor: "black" }}
@@ -33,7 +71,7 @@ export const AdminSidebar = () => {
           <Link
             to=""
             className="brand-link"
-            style={{ fontFamily: "'Electrolize', sans-serif" }}
+            style={{ fontFamily: "'Great Vibes', sans-serif" }}
           >
             <img
               src={GarageLogo}
@@ -51,6 +89,7 @@ export const AdminSidebar = () => {
         </div>
 
         <div
+          className=""
           data-overlayscrollbars-viewport="scrollbarHidden overflowXHidden overflowYScroll"
           tabIndex={-1}
           style={{
@@ -119,7 +158,7 @@ export const AdminSidebar = () => {
 
               <li className="nav-item">
                 <Link
-                  to="index3.html"
+                  to="appointment"
                   className="nav-link"
                   style={{
                     color: "white",
@@ -131,13 +170,13 @@ export const AdminSidebar = () => {
                     size={20}
                     style={{ marginRight: "10px" }}
                   />
-                  <p>Dashboard v3</p>
+                  <p>Appointments Data</p>
                 </Link>
               </li>
 
               <li className="nav-item">
                 <Link
-                  to="generate/theme.html"
+                  to="addstate"
                   className="nav-link"
                   style={{
                     color: "white",
@@ -146,7 +185,7 @@ export const AdminSidebar = () => {
                   }}
                 >
                   <FiEdit size={20} style={{ marginRight: "10px" }} />
-                  <p>Theme Generate</p>
+                  <p>Add Location</p>
                 </Link>
               </li>
 
@@ -173,7 +212,7 @@ export const AdminSidebar = () => {
         className="app-main"
         style={{ backgroundColor: "#87aac9", paddingBottom: "0" }}
       >
-        <Outlet /> {/* Space above footer */}
+        <Outlet />
         <Footer />
       </main>
     </>

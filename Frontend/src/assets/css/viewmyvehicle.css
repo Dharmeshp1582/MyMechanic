@@ -66,6 +66,7 @@
 .my-veh-m-cont{
     padding: 20px;
     min-height: 90vh;
+    background-color: rgb(220, 225, 245);
 }
 .my-veh-container {
     height: auto;
@@ -76,6 +77,7 @@
     align-items: center;
     padding: 20px;
     margin: 50px auto;
+    
   }
   
  
@@ -136,5 +138,76 @@
   
   .my-veh-btn:hover {
     opacity: 0.8;
+  }
+  
+
+  .my-veh-cta-section {
+    width: 100%;
+    padding: 60px 20px;
+    /* background: linear-gradient(135deg, #e0f7fa, #e3f2fd); */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+  }
+  
+  .my-veh-cta-container {
+   background-color: rgb(237, 237, 245);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 20px;
+    max-width: 800px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .my-veh-cta-heading {
+    font-size: 32px;
+    color: #1a237e;
+    margin-bottom: 15px;
+    font-weight: 700;
+  }
+  
+  .my-veh-cta-text {
+    font-size: 18px;
+    color: #424242;
+    margin-bottom: 30px;
+  }
+  
+  .my-veh-cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .my-veh-cta-btn-1,
+  .my-veh-cta-btn-2 {
+    padding: 12px 25px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .my-veh-cta-btn-1 {
+    background-color: #1e88e5;
+    color: #ffffff;
+  }
+  
+  .my-veh-cta-btn-2 {
+    background-color: #ffffff;
+    color: #1e88e5;
+    border: 2px solid #1e88e5;
+  }
+  
+  .my-veh-cta-btn-1:hover,
+  .my-veh-cta-btn-2:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
   }
   

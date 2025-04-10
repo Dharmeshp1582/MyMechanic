@@ -1,6 +1,7 @@
-import axios from "axios";
+import axios from "axios"; 
 import { useEffect, useState } from "react";
-import {  useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import "../../assets/css/ViewService.css";
 
 export const ViewServiceDetail = () => {
   const { id } = useParams();
@@ -18,9 +19,7 @@ export const ViewServiceDetail = () => {
       .then((response) => {
         if (response?.data?.success && response?.data?.data) {
           const responseData = response.data.data;
-          setServices(
-            Array.isArray(responseData) ? responseData : [responseData]
-          );
+          setServices(Array.isArray(responseData) ? responseData : [responseData]);
         } else {
           setError(response?.data?.message || "Service not found");
         }
@@ -42,25 +41,38 @@ export const ViewServiceDetail = () => {
     <div
       style={{
         width: "100%",
-        padding: "20px",
+        minHeight: "100vh",
+        padding: "40px 20px",
+        backgroundColor: "rgb(220, 225, 245)", 
         display: "flex",
-        justifyContent: "center",
-        marginTop: "80px"
+        flexDirection: "column",
+        alignItems: "center"
       }}
     >
+      <div style={{ width: "100%", maxWidth: "850px" }}>
+        <button
+          onClick={() => navigate(-1)}
+          className="book-app-go-back-button"
+        >
+          ← Go Back
+        </button>
+      </div>
+
       {services.map((service, index) => (
         <div
           key={index}
           style={{
-            width: "600px",
-            backgroundColor: "#fff",
+            width: "100%",
+            maxWidth: "850px",
+            height: "auto",
+            backgroundColor: "rgb(241, 241, 244)",
             borderRadius: "10px",
             boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
             padding: "20px",
+            marginTop: "100px",
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
-            textAlign: "left",
             border: "2px solid black"
           }}
         >
@@ -69,10 +81,6 @@ export const ViewServiceDetail = () => {
               <h2 style={{ marginBottom: "10px", color: "#333" }}>
                 {service?.name || "N/A"}
               </h2>
-              <br/>
-              {/* <p style={{ color: "#555" }}>
-                {service?.description || "No description available"}
-              </p> */}
               <p style={{ fontWeight: "bold", color: "#222" }}>
                 Price: ₹{service?.price || "N/A"}
               </p>
@@ -80,12 +88,10 @@ export const ViewServiceDetail = () => {
                 Category: {service?.category || "Unknown"}
               </p>
               <p style={{ fontWeight: "bold", color: "#222" }}>
-                Duration:{" "}
-                {service?.duration ? `${service.duration} mins` : "N/A"}
+                Duration: {service?.duration ? `${service.duration} mins` : "N/A"}
               </p>
               <p style={{ fontWeight: "bold", color: "#222" }}>
-                Ratings: ⭐{" "}
-                {service?.ratings ? `${service.ratings}/5` : "No ratings yet"}
+                Ratings: ⭐ {service?.ratings ? `${service.ratings}/5` : "No ratings yet"}
               </p>
               {service?.features?.length > 0 && (
                 <div style={{ marginTop: "15px" }}>
@@ -110,21 +116,6 @@ export const ViewServiceDetail = () => {
               }}
             />
           </div>
-          <button
-            onClick={() => navigate("/user/booking")}
-            style={{
-              marginTop: "20px",
-              padding: "10px 20px",
-              backgroundColor: "#007bff",
-              color: "#fff",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer",
-              alignSelf: "center"
-            }}
-          >
-            Book Appointment Now
-          </button>
         </div>
       ))}
     </div>

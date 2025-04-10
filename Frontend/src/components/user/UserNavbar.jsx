@@ -13,6 +13,16 @@ export const UserNavbar = ({ toggleSidebar }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [user, setUser] = useState(null);
   const [role, setRole] = useState(localStorage.getItem("role"));
+  const [focusedLink, setFocusedLink] = useState(null);
+
+  const getLinkStyle = (linkName) => ({
+    fontSize: "19px",
+    fontWeight: "700",
+    ...(focusedLink === linkName && {
+      color: "rgb(48 75 196)",
+      borderRadius: "30px"
+    })
+  });
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -72,7 +82,7 @@ export const UserNavbar = ({ toggleSidebar }) => {
         transition={Bounce}
       />
 
-      <nav className="app-header navbar navbar-expand bg-body " >
+      <nav className="app-header navbar navbar-expand bg-body ">
         <div className="container-fluid">
           <ul className="navbar-nav">
             <li className="nav-item">
@@ -83,26 +93,47 @@ export const UserNavbar = ({ toggleSidebar }) => {
                 <img
                   src={hamburgermenu}
                   alt="Menu"
-                  style={{ height: "25px", width: "25px" }}
+                  style={{
+                    height: "25px",
+                    width: "25px",
+                    marginBottom: "11px"
+                  }}
                 />
               </button>
             </li>
             <li className="nav-item d-none d-md-block">
-              <Link to="" className="nav-link">
+              <Link
+                to=""
+                className="nav-link"
+                style={getLinkStyle("home")}
+                onFocus={() => setFocusedLink("home")}
+                onBlur={() => setFocusedLink(null)}
+              >
                 Home
               </Link>
             </li>
             <li className="nav-item d-none d-md-block">
-              <Link to="contact" className="nav-link">
+              <Link
+                to="contact"
+                className="nav-link"
+                style={getLinkStyle("contact")}
+                onFocus={() => setFocusedLink("contact")}
+                onBlur={() => setFocusedLink(null)}
+              >
                 Contact
               </Link>
             </li>
             <li className="nav-item d-none d-md-block">
-              <Link to="appointment" className="nav-link">
+              <Link
+                to="appointment"
+                className="nav-link"
+                style={getLinkStyle("appointment")}
+                onFocus={() => setFocusedLink("appointment")}
+                onBlur={() => setFocusedLink(null)}
+              >
                 Booking Requests
               </Link>
             </li>
-            
           </ul>
 
           <ul
@@ -146,10 +177,13 @@ export const UserNavbar = ({ toggleSidebar }) => {
 
                 <Typography
                   style={{
-                    fontSize: "18px",
+                    display: "inline-block",
+                    maxWidth: "25ch",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
                     fontWeight: "bold",
-                    marginBottom: "5px",
-                    color: "#333"
+                    textTransform: "uppercase"
                   }}
                 >
                   {user?.fullName}

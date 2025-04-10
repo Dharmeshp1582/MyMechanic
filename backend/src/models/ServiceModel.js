@@ -3,63 +3,64 @@ const Schema = mongoose.Schema;
 
 const serviceSchema = new Schema(
   {
+    garageId: {
+      type: Schema.Types.ObjectId,
+      ref: "garages",
+      required: true // Uncommented as it's typically needed for reference
+    },
     name: {
       type: String,
-      required: true,
-      // unique:true,
-      trim: true//name of the service("oil change","Brake Repair",etc)
+      required: true
     },
     description: {
       type: String,
       required: true
+      // trim: true // Added for clean data storage
     },
     category: {
       type: String,
-      required: true
+      required: true,
+      trim: true
     },
     price: {
       type: Number,
-      required: true
+      required: true,
+      min: 0 // Added validation to prevent negative prices
     },
     duration: {
-      type: Number, // Duration in minutes
-      required: true
+      type: Number,
+      required: true,
+      min: 1 // Minimum 1 minute duration
     },
-    // mechanic: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: "Mechanic",
-    //   required: true,
-    //},
     availability: {
-      type: Boolean,
-      enum:["Yes","No"],
-      default: true
-    }
-    ,
-    userId:{
-        type:Schema.Types.ObjectId,
-        ref:"users"
+      type: String, // Changed from Boolean to String to match your enum
+      enum: ["true", "false"],
+      default: "true" // Changed to match enum type
     },
-    imageURL: 
-      {
-        type: String // URL of service images
-      },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+      required: true // Typically needed to track who created the service
+    },
+    imageURL: {
+      type: String,
+      trim: true
+    },
     ratings: {
       type: Number,
       min: 0,
       max: 5,
       default: 0
     }
-    // ,
-    // reviews: [
-    //   {
-    //     user: { type: Schema.Types.ObjectId, ref: "users" },
-    //     rating: { type: Number, min: 1, max: 5 },
-    //     comment: String
-    //   }
-    // ]
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    // Explicitly disable automatic index on name to prevent uniqueness
+    autoIndex: false
+  }
 );
+
+// If you want to allow same names in different garages but prevent duplicates in same garage:
+// serviceSchema.index({ garageId: 1, name: 1 }, { unique: false });
 
 module.exports = mongoose.model("Services", serviceSchema);

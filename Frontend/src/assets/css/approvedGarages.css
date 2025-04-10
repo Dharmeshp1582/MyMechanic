@@ -1,0 +1,147 @@
+/* Responsive container adjustments */
+.user-gara-container {
+  padding: 30px;
+  margin: auto;
+  background-color: rgb(220, 225, 245);
+}
+
+/* Title styling */
+.user-gara-title {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: 700;
+  color: #333;
+}
+
+/* Layout for the cards */
+.user-gara-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+/* Garage card layout */
+.user-gara-card {
+  flex: 0 1 calc(33.33% - 20px);
+  background-color: #e9f0f7;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s;
+  padding: 16px;
+}
+
+.user-gara-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Image inside the card */
+.user-gara-image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid #444;
+}
+
+/* Info section */
+.user-gara-info {
+  margin-top: 16px;
+  color: #222;
+}
+
+/* Text details */
+.user-gara-name {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.user-gara-owner,
+.user-gara-contact {
+  font-size: 15px;
+  margin: 4px 0;
+}
+
+/* Button styling */
+.user-gara-detail-btn {
+  padding: 10px 16px;
+  background-color: #4c83be;
+  color: white;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  transition: background 0.3s;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.user-gara-detail-btn:hover {
+  background-color: #3a6ea5;
+}
+
+/* Button wrapper: aligns buttons in opposite directions */
+.user-gara-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 1024px) {
+  .user-gara-card {
+    flex: 0 1 calc(50% - 20px); /* 2 cards per row */
+  }
+}
+
+@media (max-width: 768px) {
+  .user-gara-card {
+    flex: 0 1 100%; /* 1 card per row */
+  }
+
+  .user-gara-title {
+    font-size: 2rem;
+  }
+
+  .user-gara-buttons {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+
+  .user-gara-detail-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.user-gara-button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.user-gara-button-group .user-gara-detail-btn {
+  flex: 1 1 auto;
+  max-width: 48%;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .user-gara-button-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .user-gara-button-group .user-gara-detail-btn {
+    max-width: 100%;
+  }
+}

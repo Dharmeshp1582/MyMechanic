@@ -1,143 +1,267 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import ServicesGrid from "../user/ServiceGrid";
-import { Faqs } from "../user/Faqs";
-import { HowMyWork } from "../user/HowMyWork";
+import { Bounce, toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate, useLocation } from "react-router-dom";
+import "../../assets/css/bookappointment.css";
 
-export const UserDashboard = () => {
+export const Booking = () => {
   const [services, setServices] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+  const [vehicles, setVehicles] = useState([]);
+  const [garages, setGarages] = useState([]);
+  const [selectedServiceIds, setSelectedServiceIds] = useState([]);
+  const [formData, setFormData] = useState({
+    userId: localStorage.getItem("id"),
+    serviceId: [],
+    vehicleId: "",
+    garageownerId: "",
+    appointmentDate: "",
+    basePrice: 0,
+    finalPrice: 0,
+    status: "pending",
+    reason: "",
+  });
 
-  const getServices = async () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { selectedVehicle, selectedServices } = location.state || {};
+
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const userId = localStorage.getItem("id");
+
+    axios.get("/service/services").then((res) => {
+      setServices(res.data.data);
+    });
+
+    if (userId) {
+      axios.get(`/user/getvehiclebyuserid/${userId}`).then((res) => {
+        setVehicles(res.data.data);
+      });
+    }
+
+    axios.get("/garage/getallgarages").then((res) => {
+      setGarages(res.data.data);
+    });
+  }, []);
+
+  // Pre-fill selected services and vehicle
+  useEffect(() => {
+    if (selectedVehicle) {
+      setFormData((prev) => ({
+        ...prev,
+        vehicleId: selectedVehicle._id,
+      }));
+    }
+
+    if (selectedServices && selectedServices.length > 0) {
+      const serviceIds = selectedServices.map((service) => service._id);
+      const totalPrice = selectedServices.reduce(
+        (sum, service) => sum + service.allInclusivePrice,
+        0
+      );
+
+      setSelectedServiceIds(serviceIds);
+
+      setFormData((prev) => ({
+        ...prev,
+        serviceId: serviceIds,
+        basePrice: totalPrice,
+        finalPrice: totalPrice,
+      }));
+    }
+  }, [selectedVehicle, selectedServices]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleServiceChange = (service) => {
+    setSelectedServiceIds((prev) => {
+      let updatedServices = prev.includes(service._id)
+        ? prev.filter((id) => id !== service._id)
+        : [...prev, service._id];
+
+      const totalBasePrice = updatedServices.reduce((sum, id) => {
+        const selectedService = services.find((s) => s._id === id);
+        return sum + (selectedService ? selectedService.allInclusivePrice : 0);
+      }, 0);
+
+      setFormData((prevData) => ({
+        ...prevData,
+        serviceId: updatedServices,
+        basePrice: totalBasePrice,
+        finalPrice: totalBasePrice,
+      }));
+      return updatedServices;
+    });
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (formData.serviceId.length === 0) {
+      toast.error("Please select at least one service before booking an appointment.");
+      return;
+    }
+
+    const selectedDate = new Date(formData.appointmentDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (selectedDate < today) {
+      toast.error("Please select a valid appointment date. Past dates are not allowed.");
+      return;
+    }
+
     try {
-      const serviceRes = await axios.get("/service/services");
-      setServices(serviceRes.data.data);
+      await axios.post("/appointment/addappointment", formData);
+      toast.success("Appointment booked successfully!", {
+        position: "top-right",
+        autoClose: 2000,
+        theme: "dark",
+        transition: Bounce,
+        onClose: () => navigate("/user/myappointments"),
+      });
+
+      setFormData({
+        userId: localStorage.getItem("id"),
+        serviceId: [],
+        vehicleId: "",
+        garageownerId: "",
+        appointmentDate: "",
+        basePrice: 0,
+        finalPrice: 0,
+        status: "pending",
+        reason: "",
+      });
+
+      setSelectedServiceIds([]);
     } catch (error) {
-      console.error("Error fetching services:", error);
-    } finally {
-      setLoading(false);
+      console.error("Booking failed", error);
+      toast.error("Booking failed. Please try again.");
     }
   };
 
-  useEffect(() => {
-    getServices();
-  }, []);
-
   return (
-    <div style={{ width: "100%", minHeight: "100vh", backgroundColor: "#f9fafb" }}>
-      <section
-        style={{
-          background: "linear-gradient(90deg, #1e3a8a, #3b82f6)",
-          color: "white",
-          padding: "80px 20px",
-          textAlign: "center",
-          width: "100%"
-        }}
-      >
-        <h1 style={{ fontSize: "3rem", fontWeight: "bold", marginBottom: "10px" }}>
-          Welcome to MyMechanic
-        </h1>
-        <p
-          style={{ fontSize: "1.2rem", maxWidth: "700px", margin: "0 auto", opacity: "0.9" }}
-        >
-          Your one-stop solution for all vehicle maintenance and repair needs.
-        </p>
-      </section>
+    <>
+      <ToastContainer />
+      <button onClick={() => navigate(-1)} className="book-app-go-back-button">
+        ← Go Back
+      </button>
+      <div className="book-app-container">
+        <h2 className="book-app-heading">Book an Appointment</h2>
 
-      <div style={{ maxWidth: "100%", padding: "20px" }}>
-        <h2
-          style={{
-            textAlign: "center",
-            fontSize: "28px",
-            fontWeight: "bold",
-            marginBottom: "30px",
-            color: "#222",
-            textTransform: "uppercase",
-            letterSpacing: "1px"
-          }}
-        >
-          Our Services
-        </h2>
-
-        {loading ? (
-          <div style={{ textAlign: "center", fontSize: "20px", fontWeight: "bold", color: "#007BFF" }}>
-            Loading...
-          </div>
-        ) : services.length === 0 ? (
-          <p style={{ textAlign: "center", fontSize: "18px", color: "#777" }}>
-            No services available at the moment.
-          </p>
-        ) : (
-          services.map((service) => (
+        <form onSubmit={handleSubmit}>
+          <label className="book-app-label">Select Services</label>
+          <div className="book-app-multiselect-dropdown" ref={dropdownRef}>
             <div
-              key={service._id}
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                alignItems: "center",
-                justifyContent: "space-between",
-                border: "1px solid #ddd",
-                padding: "25px",
-                margin: "20px 0",
-                borderRadius: "12px",
-                boxShadow: "0 6px 12px rgba(0, 0, 0, 0.1)",
-                transition: "0.3s ease-in-out",
-                background: "#fff",
-                width: "100%"
-              }}
+              className="book-app-dropdown-button"
+              onClick={() => setDropdownOpen(!dropdownOpen)}
             >
-              <div style={{ flex: 1, paddingRight: "25px" }}>
-                <h3 style={{ fontSize: "24px", fontWeight: "bold", color: "#333", marginBottom: "10px" }}>
-                  {service.name}
-                </h3>
-                <p style={{ fontSize: "16px", color: "#555", marginBottom: "15px", lineHeight: "1.6" }}>
-                  {service.description}
-                </p>
-                <div style={{ fontSize: "16px", fontWeight: "bold", marginBottom: "8px" }}>
-                  <span>Price: </span>
-                  <span style={{ color: "#007BFF", fontWeight: "bold" }}>₹{service.price || "N/A"}</span>
-                </div>
-                <div style={{ textAlign: "center", marginTop: "20px" }}>
-                  <button
-                    onClick={() => navigate(`/service/${service._id}`)}
-                    style={{
-                      padding: "14px 28px",
-                      fontSize: "16px",
-                      backgroundColor: "#007BFF",
-                      color: "#fff",
-                      border: "none",
-                      borderRadius: "6px",
-                      cursor: "pointer",
-                      transition: "0.3s ease-in-out",
-                      fontWeight: "bold"
-                    }}
-                  >
-                    View Details
-                  </button>
-                </div>
-              </div>
-              <div>
-                <img
-                  src={service.imageURL || "/default-service.jpg"}
-                  alt={service.name}
-                  style={{
-                    width: "100%",
-                    maxWidth: "350px",
-                    height: "280px",
-                    objectFit: "cover",
-                    border: "2px solid black",
-                    borderRadius: "12px",
-                    marginLeft: "20px",
-                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)"
-                  }}
-                />
-              </div>
+              {selectedServiceIds.length > 0
+                ? `${selectedServiceIds.length} service(s) selected`
+                : "Select Services"}
             </div>
-          ))
-        )}
+
+            {dropdownOpen && (
+              <div className="book-app-dropdown-list">
+                {services.map((service) => (
+                  <div
+                    key={service._id}
+                    className="book-app-dropdown-item"
+                    onClick={() => handleServiceChange(service)}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={selectedServiceIds.includes(service._id)}
+                      readOnly
+                    />
+                    <label>
+                      {service.name} - ₹{service.allInclusivePrice}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <label className="book-app-label">Select Vehicle</label>
+          <select
+            name="vehicleId"
+            value={formData.vehicleId}
+            onChange={handleChange}
+            required
+            className="book-app-select"
+          >
+            <option value="">-- Choose a Vehicle --</option>
+            {vehicles.map((vehicle) => (
+              <option key={vehicle._id} value={vehicle._id}>
+                {vehicle.model}
+              </option>
+            ))}
+          </select>
+
+          <label className="book-app-label">Select Garage</label>
+          <select
+            name="garageownerId"
+            value={formData.garageownerId}
+            onChange={handleChange}
+            required
+            className="book-app-select"
+          >
+            <option value="">-- Choose a Garage --</option>
+            {garages.map((garage) => (
+              <option key={garage._id} value={garage._id}>
+                {garage.name}
+              </option>
+            ))}
+          </select>
+
+          <label className="book-app-label">Appointment Date</label>
+          <input
+            type="date"
+            name="appointmentDate"
+            value={formData.appointmentDate}
+            onChange={handleChange}
+            required
+            className="book-app-input"
+          />
+
+          <label className="book-app-label">Reason</label>
+          <input
+            type="text"
+            name="reason"
+            value={formData.reason}
+            onChange={handleChange}
+            className="book-app-input"
+          />
+
+          <div className="book-app-price-box">
+            <p>
+              <strong>Base Price:</strong> ₹{formData.basePrice}
+            </p>
+          </div>
+
+          <button type="submit" className="book-app-submit-button">
+            Confirm Booking
+          </button>
+        </form>
       </div>
-    </div>
+    </>
   );
 };

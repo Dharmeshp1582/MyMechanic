@@ -22,7 +22,7 @@ const upload = multer({
 //service Creation
 const addService = async (req, res) => {
   try {
-    const savedService = await serviceModel.create(req.body);
+    const savedService = await serviceModel.create(req.body).populate("garageId","name -_id");
     console.log(req.body);
 
     res.status(200).json({
@@ -212,6 +212,33 @@ const getservicebyId = async (req, res) => {
   }
 };
 
+// GET services by garage ID
+const getServicesByGarageId = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const services = await serviceModel.find({ garageId: id }).populate("name","-_id");
+
+    if (!services || services.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No services found for this garage",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: services,
+    });
+  } catch (error) {
+    console.error("Error fetching services by garage ID:", error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong while fetching services",
+    });
+  }
+};
+
 module.exports = {
   addService,
   getAllServices,
@@ -220,5 +247,6 @@ module.exports = {
   updateServiceWithFile,
   getAllServicesByUserId,
   // getServiceByServiceId,
-  getservicebyId
+  getservicebyId,
+  getServicesByGarageId
 };

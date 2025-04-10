@@ -3,7 +3,7 @@ const mailer = require("nodemailer");
 
 //function 
 
-const sendingMail = async (to,subject,text) =>{
+const sendingMail = async (to,subject,text,html = null) =>{
 
     const transporter = mailer.createTransport({
         service:"gmail",
@@ -18,6 +18,8 @@ const sendingMail = async (to,subject,text) =>{
         to:to,
         subject:subject,
         text:text ,
+        ...(html && { html })
+
         // html: "<h1>"+text+"</h1>",
     }
     

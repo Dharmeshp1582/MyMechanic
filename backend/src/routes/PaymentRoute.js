@@ -1,9 +1,8 @@
-const routes = require("express").Router();
+const router = require("express").Router();
+
 const paymentController = require("../controllers/PaymentController");
 
-routes.post("/addpayment",paymentController.addPayment);
-routes.get("/getpaymentbyid/:id",paymentController.getPaymentById);
-routes.get("/getallpayments",paymentController.getAllPayments);
+router.post("/create_order", paymentController.create_order);
+router.post("/verify_order", paymentController.verify_order);
 
-
-module.exports = routes;
+module.exports = router;

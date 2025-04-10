@@ -5,7 +5,7 @@ const garageSchema = new Schema({
     name:{
         type:String,
         required:true,
-        unique:true
+        // unique:true
     },
     owner:{
         type:String,
@@ -13,7 +13,7 @@ const garageSchema = new Schema({
     },
     avaliability_status:{
         type:Boolean,
-        default:true,
+        default:false,
     },
     stateId:{
         type:Schema.Types.ObjectId,
@@ -41,7 +41,6 @@ const garageSchema = new Schema({
     email:{
         type:String,
         required:true,
-        // unique:true
     },
     userId:{
         type:Schema.Types.ObjectId,

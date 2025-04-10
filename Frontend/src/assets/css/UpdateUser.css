@@ -3,11 +3,11 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(135deg, #74b9ff, #a29bfe);
+  background-color: rgb(220, 225, 245);
 }
 
 .profile-card {
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(243, 244, 245, 0.95);
   padding: 2rem;
   border-radius: 10px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
@@ -51,7 +51,7 @@
 
 .update-btn {
   width: 100%;
-  background: #0984e3;
+  background: #67a2cc;
   color: white;
   padding: 12px;
   border: none;
@@ -62,7 +62,7 @@
 }
 
 .update-btn:hover {
-  background: #74b9ff;
+  background: #3b3b39;
 }
 
 .error-text {

@@ -12,6 +12,16 @@ export const AdminNavbar = ({ toggleSidebar }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [user, setUser] = useState(null);
   const [role, setRole] = useState(localStorage.getItem("role")); // Get role from localStorage initially
+  const [focusedLink, setFocusedLink] = useState(null);
+  
+    const getLinkStyle = (linkName) => ({
+      fontSize: '19px',
+      fontWeight: '700',
+      ...(focusedLink === linkName && {
+        color: 'rgb(48 75 196)',
+        borderRadius: "30px",
+      }),
+    });
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -82,13 +92,17 @@ export const AdminNavbar = ({ toggleSidebar }) => {
             </button>
           </li>
           <li className="nav-item d-none d-md-block">
-            <Link to="" className="nav-link">
+            <Link to="" className="nav-link" style={getLinkStyle('home')}
+          onFocus={() => setFocusedLink('home')}
+          onBlur={() => setFocusedLink(null)}>
               Home
             </Link>
           </li>
           <li className="nav-item d-none d-md-block">
-            <Link to="contact" className="nav-link">
-              Contact
+            <Link to="service" className="nav-link" style={getLinkStyle('service')}
+          onFocus={() => setFocusedLink('service')}
+          onBlur={() => setFocusedLink(null)}>
+              Manage Services
             </Link>
           </li>
         </ul>
@@ -137,11 +151,14 @@ export const AdminNavbar = ({ toggleSidebar }) => {
 
               {/* User Name */}
               <Typography
-                style={{
-                  fontSize: "18px",
-                  fontWeight: "bold",
-                  marginBottom: "5px",
-                  color: "#333"
+                  style={{
+                    display: "inline-block",
+                    maxWidth: "25ch",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                    fontWeight: "bold",
+                    textTransform: "uppercase"
                 }}
               >
                 {user?.fullName}

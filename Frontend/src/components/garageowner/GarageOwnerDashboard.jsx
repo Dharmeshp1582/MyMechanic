@@ -1,91 +1,210 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import "../../assets/css/appointments.css";
+import { Typography } from "@mui/material";
+import { PieChart } from "@mui/x-charts/PieChart";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  PointElement,
+  LineElement,
+  Filler
+} from "chart.js";
+import { Bar, Line } from "react-chartjs-2";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  PointElement,
+  LineElement,
+  Filler
+);
 
 export const GarageOwnerDashboard = () => {
-  const [stats, setStats] = useState({});
-  const [service, setServices] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [appointments, setAppointments] = useState([]);
+  const userId = localStorage.getItem("id");
 
   useEffect(() => {
-    const fetchDashboardData = async () => {
+    const fetchAppointments = async () => {
       try {
-        const res = await axios.get(
-          "/garage/getgaragebyuserid/" + localStorage.getItem("id")
+        const response = await axios.get(
+          `/appointment/getappointmentsbygarageowneruserid/${userId}`
         );
-        setStats(res.data.data);
 
-        const servicesResponse = await axios.get(
-          "/service/getservicesbyuserid/" + localStorage.getItem("id")
-        );
-        setServices(servicesResponse.data.data);
+        // Sort by status priority and latest appointment date
+        const priority = { pending: 1, booked: 2, inProgress: 3, completed: 4, rejected: 5 };
+
+        const sortedAppointments = response.data.data.sort((a, b) => {
+          const statusA = priority[a.status] || 99;
+          const statusB = priority[b.status] || 99;
+
+          if (statusA !== statusB) return statusA - statusB;
+          return new Date(b.appointmentDate) - new Date(a.appointmentDate);
+        });
+
+        setAppointments(sortedAppointments);
       } catch (error) {
-        console.error("Error fetching data", error);
-      } finally {
-        setLoading(false);
+        console.error("Error fetching appointments:", error);
       }
     };
-    fetchDashboardData();
+
+    fetchAppointments();
   }, []);
 
-  if (loading)
-    return <h3 style={{ textAlign: "center", marginTop: "50px" }}>Loading...</h3>;
+  const statusCount = appointments.reduce((acc, appt) => {
+    acc[appt.status] = (acc[appt.status] || 0) + 1;
+    return acc;
+  }, {});
+
+  const statusColors = {
+    pending: "#FFA500",
+    booked: "#4CAF50",
+    inProgress: "#2196F3",
+    completed: "#9C27B0",
+    rejected: "#F44336"
+  };
+
+  const pieData = Object.entries(statusCount).map(([status, count], index) => ({
+    id: index,
+    value: count,
+    label: status,
+    color: statusColors[status] || undefined
+  }));
+
+  const monthLabels = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  ];
+
+  const monthlyAppointments = new Array(12).fill(0);
+  const completedAppointments = new Array(12).fill(0);
+
+  appointments.forEach((appt) => {
+    const date = new Date(appt.appointmentDate);
+    const month = date.getMonth();
+    monthlyAppointments[month]++;
+    if (appt.status === "completed") {
+      completedAppointments[month]++;
+    }
+  });
+
+  const barData = {
+    labels: monthLabels,
+    datasets: [
+      {
+        label: "Total Appointments",
+        data: monthlyAppointments,
+        backgroundColor: "#2196F3",
+        borderRadius: 5
+      }
+    ]
+  };
+
+  const lineData = {
+    labels: monthLabels,
+    datasets: [
+      {
+        label: "Completed Appointments",
+        data: completedAppointments,
+        borderColor: "#4CAF50",
+        backgroundColor: "rgba(76, 175, 80, 0.2)",
+        fill: true,
+        tension: 0.4
+      }
+    ]
+  };
 
   return (
-    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
-      <h2 style={{ marginBottom: "20px" }}>Garage Owner Dashboard</h2>
+    <div className="own-appoint-container">
+      <h2 className="own-appoint-title">Garage Owner's Dashboard</h2>
 
-      {/* Stats Cards */}
-      <div style={{ display: "flex", gap: "20px", flexWrap: "wrap", marginBottom: "30px" }}>
-        {[
-          { title: "Total Services", value: service.length },
-          {
-            title: "Total Service Revenue",
-            value: `$${service.reduce((acc, ser) => acc + ser.price, 0)}`
-          },
-          {
-            title: "Pending Requests",
-            value: service.filter((ser) => ser.availability === "false").length
-          }
-        ].map((item, index) => (
-          <div
-            key={index}
-            style={{
-              flex: "1",
-              minWidth: "250px",
-              backgroundColor: "#f4f4f4",
-              padding: "15px",
-              borderRadius: "10px",
-              boxShadow: "2px 2px 10px rgba(0,0,0,0.1)",
-              textAlign: "center"
-            }}
-          >
-            <h4 style={{ margin: "0", color: "#444" }}>{item.title}</h4>
-            <h2 style={{ margin: "10px 0", color: "#333" }}>{item.value}</h2>
+      {appointments.length > 0 && (
+        <div style={{ marginBottom: "30px", display: "flex", justifyContent: "center" }}>
+          <div>
+            <Typography variant="h6" gutterBottom align="center">
+              Appointment Status Distribution
+            </Typography>
+            <PieChart
+              series={[
+                {
+                  data: pieData,
+                  highlightScope: { faded: "global", highlighted: "item" },
+                  faded: { additionalRadius: -10, color: "gray" }
+                }
+              ]}
+              width={500}
+              height={300}
+            />
           </div>
-        ))}
+        </div>
+      )}
+
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "20px", justifyContent: "center" }}>
+        <div style={{ width: "450px", height: "300px" }}>
+          <Typography variant="h6" gutterBottom align="center">
+            Monthly Appointments
+          </Typography>
+          <Bar data={barData} options={{ responsive: true, maintainAspectRatio: false }} />
+        </div>
+
+        <div style={{ width: "450px", height: "300px" }}>
+          <Typography variant="h6" gutterBottom align="center">
+            Completed Appointments Trend
+          </Typography>
+          <Line data={lineData} options={{ responsive: true, maintainAspectRatio: false }} />
+        </div>
       </div>
 
-      {/* Services Table */}
-      <div style={{ backgroundColor: "white", padding: "20px", borderRadius: "10px", boxShadow: "2px 2px 10px rgba(0,0,0,0.1)" }}>
-        <h3 style={{ marginBottom: "15px" }}>My Services</h3>
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+      <div className="own-appoint-table-container" style={{ marginTop: "50px" }}>
+        <table className="own-appoint-table">
           <thead>
-            <tr style={{ backgroundColor: "#ddd" }}>
-              <th style={{ padding: "10px", textAlign: "left", borderBottom: "2px solid #aaa" }}>ID</th>
-              <th style={{ padding: "10px", textAlign: "left", borderBottom: "2px solid #aaa" }}>Name</th>
-              <th style={{ padding: "10px", textAlign: "left", borderBottom: "2px solid #aaa" }}>Description</th>
-              <th style={{ padding: "10px", textAlign: "left", borderBottom: "2px solid #aaa" }}>Price</th>
+            <tr>
+              <th>User Name</th>
+              <th>Service</th>
+              <th>Vehicle</th>
+              <th>LicensePlate</th>
+              <th>Appointment Date</th>
+              <th>Status</th>
+              <th>Reason</th>
             </tr>
           </thead>
           <tbody>
-            {service.map((ser) => (
-              <tr key={ser._id}>
-                <td style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>{ser._id}</td>
-                <td style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>{ser.name}</td>
-                <td style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>{ser.description}</td>
-                <td style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>${ser.price}</td>
+            {appointments.length > 0 ? (
+              appointments.map((appointment, index) => (
+                <tr key={appointment._id || index}>
+                  <td>{appointment.userId?.fullName || "N/A"}</td>
+                  <td>
+                    {Array.isArray(appointment.serviceId)
+                      ? appointment.serviceId.map((service) => service?.name).join(", ")
+                      : "N/A"}
+                  </td>
+                  <td>{appointment.vehicleId?.model || "N/A"}</td>
+                  <td>{appointment.vehicleId?.licensePlate || "N/A"}</td>
+                  <td>
+                    {appointment.appointmentDate
+                      ? new Date(appointment.appointmentDate).toLocaleDateString()
+                      : "N/A"}
+                  </td>
+                  <td className={`own-appoint-status-${appointment.status.toLowerCase()}`}>
+                    {appointment.status}
+                  </td>
+                  <td>{appointment.reason || "N/A"}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="7">No appointments found</td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>

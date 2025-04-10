@@ -20,7 +20,7 @@ import LandingPage from "./components/common/LandingPage";
 import { ViewMyGarages } from "./components/garageowner/ViewMyGarages";
 import { AddGarage2 } from "./components/garageowner/AddGarage2";
 import { UpdateMyGarage } from "./components/garageowner/UpdateMyGarage";
-import { GarageList } from "./components/admin/GarageList";
+
 import { AboutUs } from "./components/user/AboutUs";
 import { Contact } from "./components/user/Contact";
 import { ManageUsers } from "./components/admin/ManageUsers";
@@ -35,13 +35,24 @@ import { Booking } from "./components/user/Booking";
 import { ViewServiceDetail } from "./components/shared/ViewServiceDetail";
 import { ForgotPassword } from "./components/common/ForgetPassword";
 
-import { GetAppointmentByUserId } from "./components/garageowner/GetAppointmentByUserId";
 import { GetUserAppointmentDetail } from "./components/user/GetUserAppointmentDetail";
 import { AddVehicle } from "./components/user/AddVehicle";
 import { ContactUs } from "./components/layouts/ContactUs";
 import { About } from "./components/layouts/About";
 import { ComServices } from "./components/layouts/ComServices";
 import { ViewMyVehicle } from "./components/user/ViewMyVehicle";
+import { Appointments } from "./components/garageowner/Appointments";
+import ScrollToTop from "./components/common/ScrollToTop";
+import { Garages } from "./components/user/Garages";
+import { ViewGarageDetail } from "./components/shared/ViewGarageDetail";
+import { AppointmentReport } from "./components/admin/AppointmentReport";
+import { AllServices } from "./components/admin/AllServices";
+import { UpdateService } from "./components/admin/UpdateService";
+import { GarageList } from "./components/admin/GarageList";
+import { GarageService } from "./components/garageowner/GarageService";
+import ProtectedRoute from "./components/hooks/ProtectedRoutes";
+import { Unauthorized } from "./components/common/Unauthorized";
+import { AddArea } from "./components/admin/AddArea";
 
 function App() {
   axios.defaults.baseURL = "http://localhost:3000";
@@ -63,61 +74,85 @@ function App() {
           : "app-wrapper"
       }
     >
+      <ScrollToTop />
       <Routes>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/" element={<LandingPage />}></Route>
-        <Route path="/contactus" element={<ContactUs/>}></Route>
-        <Route path="/about" element={<About/>}></Route>
-        <Route path="/services" element={<ComServices/>}></Route>
+        <Route path="/contactus" element={<ContactUs />}></Route>
+        <Route path="/about" element={<About />}></Route>
+        <Route path="/services" element={<ComServices />}></Route>
         <Route path="/resetpassword/:token" element={<ResetPassword />}></Route>
         <Route path="/forgetpassword" element={<ForgotPassword />}></Route>
 
         <Route path="" element={<PrivateRoutes />}>
-          <Route path="/admin" element={<AdminSidebar />}>
-            <Route path="manage" element={<ManageUsers />}></Route>
-            <Route path="" element={<AdminDashboard />}></Route>
-            <Route path="garagelist" element={<GarageList />}></Route>
-            <Route path="updateuser/:id" element={<ProfileDetail />}></Route>
+          {/* ADMIN ROUTES */}
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute allowedRoles={["Admin"]}>
+                <AdminSidebar />
+              </ProtectedRoute>
+            }
+          >
+            <Route path="manage" element={<ManageUsers />} />
+            <Route path="" element={<AdminDashboard />} />
+            <Route path="garagelist" element={<GarageList />} />
+            <Route path="updateuser/:id" element={<ProfileDetail />} />
+            <Route path="service" element={<AllServices />} />
+            <Route path="appointment" element={<AppointmentReport />} />
+            <Route path="updateservices/:id" element={<UpdateService />} />
+            <Route path="addstate" element={<AddArea/>}></Route>
           </Route>
-          <Route path="/garageowner" element={<GarageOwnerSidebar />}>
-            <Route path="" element={<GarageOwnerDashboard />}></Route>
-            <Route path="addgarage" element={<AddGarage />}></Route>
-            <Route path="addgarage2" element={<AddGarage2 />}></Route>
-            <Route path="mygarages" element={<ViewMyGarages />}></Route>
-            <Route path="updategarage/:id" element={<UpdateMyGarage />}></Route>
-            <Route path="updateuser/:id" element={<ProfileDetail />}></Route>
-            <Route
-              path="getappointmentsbygarageownerid/:garageownerId"
-              element={<GetAppointmentByUserId />}
-            ></Route>
-            <Route path="addservice" element={<AddServices />}></Route>
-            <Route
-              path="availableservice"
-              element={<AvailableServices />}
-            ></Route>
-            <Route
-              path="updateservice/:id"
-              element={<UpdateServiceData />}
-            ></Route>
-            <Route path="contact" element={<Contact />}></Route>
+
+          {/* GARAGE OWNER ROUTES */}
+          <Route
+            path="/garageowner"
+            element={
+              <ProtectedRoute allowedRoles={["Garage owner"]}>
+                <GarageOwnerSidebar />
+              </ProtectedRoute>
+            }
+          >
+            <Route path="" element={<GarageOwnerDashboard />} />
+            <Route path="addgarage" element={<AddGarage />} />
+            <Route path="addgarage2" element={<AddGarage2 />} />
+            <Route path="mygarages" element={<ViewMyGarages />} />
+            <Route path="updategarage/:id" element={<UpdateMyGarage />} />
+            <Route path="garageservices" element={<GarageService />} />
+            <Route path="updateuser/:id" element={<ProfileDetail />} />
+            <Route path="servicerequest" element={<Appointments />} />
+            <Route path="addservice" element={<AddServices />} />
+            <Route path="availableservice" element={<AvailableServices />} />
+            <Route path="updateservice/:id" element={<UpdateServiceData />} />
+            <Route path="contact" element={<Contact />} />
           </Route>
-          <Route path="/user" element={<UserSidebar />}>
-            <Route path="services" element={<Services />}></Route>
-            <Route path="service/:id" element={<ViewServiceDetail />}></Route>
-            <Route path="" element={<UserDashboard />}></Route>
-            <Route path="contact" element={<Contact />}></Route>
-            <Route path="updateuser/:id" element={<ProfileDetail />}></Route>
-            <Route path="aboutus" element={<AboutUs />}></Route>
-            <Route path="addvehicle" element={<AddVehicle />}></Route>
-            <Route path="booking" element={<Booking />}></Route>
-            <Route path="getvehiclebyuserid" element={<ViewMyVehicle/>}></Route>
-            <Route
-              path="appointment"
-              element={<GetUserAppointmentDetail />}
-            ></Route>
+
+          {/* USER ROUTES */}
+          <Route
+            path="/user"
+            element={
+              <ProtectedRoute allowedRoles={["User"]}>
+                <UserSidebar />
+              </ProtectedRoute>
+            }
+          >
+            <Route path="services" element={<Services />} />
+            <Route path="service/:id" element={<ViewServiceDetail />} />
+            <Route path="garages" element={<Garages />} />
+            <Route path="" element={<UserDashboard />} />
+            <Route path="contact" element={<Contact />} />
+            <Route path="updateuser/:id" element={<ProfileDetail />} />
+            <Route path="aboutus" element={<AboutUs />} />
+            <Route path="addvehicle" element={<AddVehicle />} />
+            <Route path="booking" element={<Booking />} />
+            <Route path="getvehiclebyuserid" element={<ViewMyVehicle />} />
+            <Route path="viewgarage/:id" element={<ViewGarageDetail />} />
+            <Route path="appointment" element={<GetUserAppointmentDetail />} />
           </Route>
         </Route>
+        <Route path="/unauthorized" element={<Unauthorized />} />
+
         <Route path="*" element={<PageNotFound />}></Route>
       </Routes>
     </div>

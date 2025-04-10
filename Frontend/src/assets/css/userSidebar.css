@@ -1,0 +1,93 @@
+/* .user-side-sidebar {
+  width: 250px;
+  background-color: #000;
+  color: white;
+  position: fixed;
+  height: 100vh;
+  transition: transform 0.3s ease-in-out;
+  z-index: 1000;
+}
+
+.user-side-open {
+  transform: translateX(0);
+}
+
+.user-side-closed {
+  transform: translateX(-100%);
+}
+
+.user-side-brand {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.user-side-brand-link {
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+}
+
+.user-side-brand-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 60px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.user-side-hovered {
+  transform: scale(1.2);
+}
+
+.user-side-brand-text {
+  margin-top: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'Great Vibes', cursive;
+}
+
+.user-side-nav {
+  padding: 20px;
+}
+
+.user-side-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.user-side-item {
+  margin-bottom: 15px;
+}
+
+.user-side-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  transition: background 0.3s ease;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.user-side-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.user-side-icon {
+  margin-right: 10px;
+}
+
+.user-side-main {
+  margin-left: 250px;
+  padding: 20px;
+  background-color: #87aac9;
+  min-height: 100vh;
+}
+
+@media (max-width: 1000px) {
+  .user-side-main {
+    margin-left: 0;
+  }
+} */

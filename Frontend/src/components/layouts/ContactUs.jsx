@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   FaPhone,
@@ -10,9 +10,10 @@ import {
 import { Link } from "react-router-dom";
 import sliderImage from "../../assets/landing/images/slider-img.png";
 import "../../assets/landing/css/contactus.css";
-// import MapComponent from './MapComponent';
+import MapComponent from "./MapComponent";
 import { Footer } from "../layouts/Footer";
 import { SliderSection } from "../layouts/SliderSection";
+import axios from "axios";
 
 export const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -22,34 +23,24 @@ export const ContactUs = () => {
     subject: "",
     message: ""
   });
-
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // In a real application, you would send this data to your backend
-    console.log("Form submitted:", formData);
-    setIsSubmitted(true);
-
-    // Reset form after submission (in a real app, you might do this after successful API response)
-    setTimeout(() => {
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        subject: "",
-        message: ""
-      });
-      setIsSubmitted(false);
-    }, 5000);
+    try {
+      const res = await axios.post("/landingcontact/send-contact", formData);
+      if (res.data.success) {
+        setIsSubmitted(true);
+      }
+    } catch (error) {
+      console.error("Error sending contact message:", error);
+      alert("Failed to send message. Please try again.");
+    }
   };
 
   const faqs = [
@@ -82,15 +73,15 @@ export const ContactUs = () => {
   };
 
   return (
-    <div className="contactus-container">
+    <div className="contactus-container custom-scrollbar">
       <header
         className="header_section"
-        style={{ backgroundColor: "rgb(18 23 105)" }}
+        style={{ backgroundColor: "rgb(18 23 105)", padding: "0" }}
       >
         <div className="container-fluid">
           <nav className="navbar navbar-expand-lg custom_nav-container ">
             <Link className="navbar-brand" to="/">
-              <span className="bg-orange-400">MY Mechanic</span>
+              <span className="bg-orange-400">My Mechanic</span>
             </Link>
             <button
               className="navbar-toggler"
@@ -110,22 +101,20 @@ export const ContactUs = () => {
               id="navbarSupportedContent"
             >
               <div className="d-flex mx-auto flex-column flex-lg-row align-items-center">
-                <ul className="navbar-nav  ">
-                  <li className="nav-item ">
+                <ul className="navbar-nav">
+                  <li className="nav-item">
                     <Link className="nav-link contact-head-link" to="/">
                       Home
                     </Link>
                   </li>
-                  <li className="nav-item ">
-                    <Link className="nav-link contact-head-link" to="/about">
-                      {" "}
+                  <li className="nav-item">
+                    <Link className="nav-link contact-head-link" to="/aboutus">
                       About Us
                     </Link>
                   </li>
                   <li className="nav-item">
                     <Link className="nav-link contact-head-link" to="/services">
-                      {" "}
-                      Services{" "}
+                      Services
                     </Link>
                   </li>
                   <li className="nav-item active">
@@ -139,11 +128,11 @@ export const ContactUs = () => {
                 </ul>
               </div>
               <div
-                className="quote_btn-container "
+                className="quote_btn-container"
                 style={{ marginBottom: "7px" }}
               >
-                <div className="">
-                  <Link to="/login" className="btn-1 ">
+                <div>
+                  <Link to="/login" className="btn-1">
                     Login
                   </Link>
                   <Link to="/signup" className="btn-2" style={{color:"black"}}>
@@ -152,7 +141,7 @@ export const ContactUs = () => {
                 </div>
                 <form className="form-inline">
                   <button
-                    className="btn  my-2 my-sm-0 nav_search-btn"
+                    className="btn my-2 my-sm-0 nav_search-btn"
                     type="submit"
                   />
                 </form>
@@ -164,12 +153,11 @@ export const ContactUs = () => {
 
       <SliderSection />
 
-      {/* Hero Section */}
       <section className="contact-hero">
         <div className="contact-hero-container">
           <h1 className="contact-hero-title">Contact Us</h1>
           <p className="contact-hero-description">
-            Have questions or need assistance? We're here to help. Reach out to
+            Have questions or need assistance? We&apos;re here to help. Reach out to
             us using any of the methods below.
           </p>
         </div>
@@ -178,17 +166,12 @@ export const ContactUs = () => {
       <section className="contact-section">
         <div
           className="container"
-          style={{
-            width: "100%",
-            maxWidth: "1200px",
-            margin: "auto"
-          }}
+          style={{ width: "100%", maxWidth: "1200px", margin: "auto" }}
         >
           <div
             className="grid grid-cols-1 md:grid-cols-2 gap-12"
             style={{ width: "100%" }}
           >
-            {/* Contact Form */}
             <div className="contact-form">
               <h2 className="text-3xl font-bold mb-6">Send Us a Message</h2>
               {isSubmitted ? (
@@ -214,7 +197,7 @@ export const ContactUs = () => {
                     Message Sent Successfully!
                   </h3>
                   <p className="success-text">
-                    Thank you for contacting us. We'll get back to you as soon
+                    Thank you for contacting us. We&apos;ll get back to you as soon
                     as possible.
                   </p>
                   <button
@@ -294,7 +277,6 @@ export const ContactUs = () => {
               )}
             </div>
 
-            {/* Contact Information */}
             <div className="contact-info-card-container">
               <h2 className="text-3xl font-bold mb-6">Contact Information</h2>
 
@@ -315,8 +297,8 @@ export const ContactUs = () => {
                 </div>
                 <div className="contact-text">
                   <h3>Email</h3>
-                  <p>info@egarage.com</p>
-                  <p>service@egarage.com</p>
+                  <p>info@mymechanic.com</p>
+                  <p>service@mymechanic.com</p>
                 </div>
               </div>
 
@@ -343,7 +325,6 @@ export const ContactUs = () => {
                 </div>
               </div>
 
-              {/* Emergency Service */}
               <div className="emergency-box">
                 <h3>Emergency Service</h3>
                 <p>
@@ -357,7 +338,6 @@ export const ContactUs = () => {
         </div>
       </section>
 
-      {/* Map Section */}
       <section className="map-section">
         <div className="map-container-1">
           <div className="map-text-center">
@@ -367,14 +347,12 @@ export const ContactUs = () => {
               a visit!
             </p>
           </div>
-
-          {/* <div className="map-container-2">
+          <div className="map-container-2">
             <MapComponent />
-          </div> */}
+          </div>
         </div>
       </section>
 
-      {/* FAQ Section */}
       <section className="faq-section">
         <div className="faq-container">
           <h2 className="faq-heading">Frequently Asked Questions</h2>
@@ -408,7 +386,7 @@ export const ContactUs = () => {
         </div>
       </section>
 
-      <Footer></Footer>
+      <Footer />
     </div>
   );
 };

@@ -1,42 +1,45 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
 
-const paymentSchema = new Schema(
-  {
-    paymentId: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    appointmentId: {
-      type: Schema.Types.ObjectId,
-      ref: "Appointment",
-      required: true,
-    },
-    amountPaid: {
-      type: Number,
-      required: true,
-    },
-    paymentDate: {
-      type: Date,
-      default: Date.now,
-    },
-    paymentMethod: {
-      type: String,
-      enum: ["Credit Card", "Debit Card", "Net Banking", "UPI", "Cash", "Other"],
-      required: true,
-    },
-    paymentStatus: {
-      type: String,
-      enum: ["paid", "pending", "failed"],
-      default: "pending",
-    },
-    transactionId: {
-      type: String,
-      unique: true
-    },
+const paymentSchema = new mongoose.Schema({
+  appointmentId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Appointment",
+    required: true,
   },
-  { timestamps: true }
-);
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users",
+    required: true,
+  },
+  razorpay_order_id: {
+    type: String,
+    required: true,
+  },
+  razorpay_payment_id: {
+    type: String,
+    required: true,
+  },
+  razorpay_signature: {
+    type: String,
+    required: true,
+  },
+  amount: {
+    type: Number, // In paise
+    required: true,
+  },
+  currency: {
+    type: String,
+    default: "INR",
+  },
+  status: {
+    type: String,
+    enum: ["success", "failure"],
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
-module.exports = mongoose.model("Payment", paymentSchema);
+module.exports = mongoose.model("payments", paymentSchema);

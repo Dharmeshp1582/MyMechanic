@@ -100,6 +100,11 @@ export const UpdateMyGarage = () => {
       <div className="addgarage-container">
         <div className="addgarage-wrapper">
           <div className="addgarage-card">
+          <div>
+    <button onClick={() => navigate(-1)} className="book-app-go-back-button">
+        ← Go Back
+      </button>
+      </div>
             <div className="addgarage-header">Update Garage</div>
             <form
               className="addgarage-form"

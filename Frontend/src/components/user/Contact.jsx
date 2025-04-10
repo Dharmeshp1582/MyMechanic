@@ -54,97 +54,120 @@ export const Contact = () => {
   };
 
   return (
-    <div
-      style={{
-        margin: "auto",
-        padding: "20px",
-        borderRadius: "10px",
-        boxShadow: "0px 4px 10px rgba(0,0,0,0.1)",
-        backgroundColor: "#fff",
-        marginTop:"50px",
-        
-      }}
-    >
-      <h2 style={{ textAlign: "center", marginBottom: "20px" }}>Contact Us</h2>
-      <ToastContainer />
-      <form onSubmit={handleSubmit} style={{width:"600px"}}>
-        <div style={{ marginBottom: "15px" }}>
-          <label style={{ fontWeight: "bold" }}>Name:</label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            style={{
-              width: "100%",
-              padding: "10px",
-              marginTop: "5px",
-              borderRadius: "5px",
-              border: "1px solid #ccc"
-            }}
-          />
-          {errors.name && (
-            <p style={{ color: "red", marginTop: "5px" }}>{errors.name}</p>
-          )}
-        </div>
-
-        <div style={{ marginBottom: "15px" }}>
-          <label style={{ fontWeight: "bold" }}>Email:</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            style={{
-              width: "100%",
-              padding: "10px",
-              marginTop: "5px",
-              borderRadius: "5px",
-              border: "1px solid #ccc"
-            }}
-          />
-          {errors.email && (
-            <p style={{ color: "red", marginTop: "5px" }}>{errors.email}</p>
-          )}
-        </div>
-
-        <div style={{ marginBottom: "15px" }}>
-          <label style={{ fontWeight: "bold" }}>Message:</label>
-          <textarea
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
-            style={{
-              width: "100%",
-              padding: "10px",
-              marginTop: "5px",
-              borderRadius: "5px",
-              border: "1px solid #ccc",
-              resize: "none"
-            }}
-            rows="4"
-          />
-          {errors.message && (
-            <p style={{ color: "red", marginTop: "5px" }}>{errors.message}</p>
-          )}
-        </div>
-
-        <button
-          type="submit"
-          style={{
-            width: "100%",
-            padding: "10px",
-            backgroundColor: "#007bff",
-            color: "#fff",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-            fontSize: "16px"
-          }}
+    <div style={{
+      minHeight: "100vh",
+      overflowY: "auto",
+      padding: "40px",
+      backgroundColor: "rgb(220, 225, 245)",
+    }}>
+      <div
+        style={{
+          margin: "auto",
+          padding: "20px",
+          borderRadius: "10px",
+          boxShadow: "0px 4px 10px rgba(0,0,0,0.2)",
+          backgroundColor: "#0a2647",
+          color: "#fff",
+          width: "60%",
+          maxWidth: "500px",
+        }}
+      >
+        <h2 style={{ textAlign: "center", marginBottom: "20px" }}>Contact Us</h2>
+        <ToastContainer />
+        <form
+          onSubmit={handleSubmit}
+          style={{ display: "flex", flexDirection: "column", gap: "15px" }}
         >
-          Send
-        </button>
-      </form>
+          <div>
+            <label style={{ fontWeight: "bold" }}>Name:</label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              style={{
+                width: "100%",
+                padding: "10px",
+                marginTop: "5px",
+                borderRadius: "5px",
+                border: "1px solid #fff",
+                backgroundColor: "#fff",
+                color: "#000",
+                fontSize: "16px"
+              }}
+            />
+            {errors.name && (
+              <p style={{ color: "red", marginTop: "5px" }}>{errors.name}</p>
+            )}
+          </div>
+
+          <div>
+            <label style={{ fontWeight: "bold" }}>Email:</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              style={{
+                width: "100%",
+                padding: "10px",
+                marginTop: "5px",
+                borderRadius: "5px",
+                border: "1px solid #fff",
+                backgroundColor: "#fff",
+                color: "#000",
+                fontSize: "16px"
+              }}
+            />
+            {errors.email && (
+              <p style={{ color: "red", marginTop: "5px" }}>{errors.email}</p>
+            )}
+          </div>
+
+          <div>
+            <label style={{ fontWeight: "bold" }}>Message:</label>
+            <textarea
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              rows="4"
+              style={{
+                width: "100%",
+                padding: "10px",
+                marginTop: "5px",
+                borderRadius: "5px",
+                border: "1px solid #fff",
+                backgroundColor: "#fff",
+                color: "#000",
+                fontSize: "16px",
+                resize: "none"
+              }}
+            />
+            {errors.message && (
+              <p style={{ color: "red", marginTop: "5px" }}>{errors.message}</p>
+            )}
+          </div>
+
+          <div style={{ display: "flex", justifyContent: "center", marginTop: "15px" }}>
+            <button
+              type="submit"
+              style={{
+                padding: "12px",
+                backgroundColor: "rgb(55 99 148)",
+                color: "#fff",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer",
+                fontSize: "16px",
+                width: "50%"
+              }}
+            >
+              Send
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
+

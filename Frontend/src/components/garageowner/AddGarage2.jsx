@@ -177,172 +177,179 @@ export const AddGarage2 = () => {
   };
 
   return (
-    <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        theme="dark"
-        transition={Bounce}
-      />
-      <Card sx={{ boxShadow: 5, borderRadius: 2, p: 3 }}>
-        <CardContent>
-          <Typography
-            variant="h5"
-            gutterBottom
-            sx={{ fontWeight: "bold", textAlign: "center", mb: 2 }}
-          >
-            Add Garage
-          </Typography>
-          <form onSubmit={handleSubmit(submitHandler)}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  label="Garage Name"
-                  fullWidth
-                  sx={{ mb: 2 }}
-                  {...register("name", {
-                    required: "Name is required",
-                    minLength: {
-                      value: 3,
-                      message: "Minimum three char required"
-                    }
-                  })}
-                  error={!!errors.name}
-                  helperText={errors.name?.message}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  label="Owner Name"
-                  fullWidth
-                  sx={{ mb: 2 }}
-                  {...register("owner", { required: "Owner name is required" })}
-                  error={!!errors.owner}
-                  helperText={errors.owner?.message}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  label="Phone No"
-                  fullWidth
-                  sx={{ mb: 2 }}
-                  {...register("phoneno", {
-                    required: "Contact number is required",
-                    pattern: {
-                      value: /[6-9]{1}[0-9]{9}/,
-                      message: "Invalid contact number"
-                    }
-                  })}
-                  error={!!errors.phoneno}
-                  helperText={errors.phoneno?.message}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  label="Email"
-                  fullWidth
-                  sx={{ mb: 2 }}
-                  {...register("email", { required: "Email is required" })}
-                  error={!!errors.email}
-                  helperText={errors.email?.message}
-                />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <TextField
-                  select
-                  label="State"
-                  fullWidth
-                  sx={{ mb: 2 }}
-                  {...register("stateId")}
-                  onChange={(e) => getCityByStateId(e.target.value)}
-                >
-                  <MenuItem value="">Select State</MenuItem>
-                  {states.map((state) => (
-                    <MenuItem key={state._id} value={state._id}>
-                      {state.name}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <TextField
-                  select
-                  label="City"
-                  fullWidth
-                  sx={{ mb: 2 }}
-                  {...register("cityId")}
-                  onChange={(e) => getAreaByCityId(e.target.value)}
-                >
-                  <MenuItem value="">Select City</MenuItem>
-                  {cities.map((city) => (
-                    <MenuItem key={city._id} value={city._id}>
-                      {city.cityName}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <TextField
-                  select
-                  label="Area"
-                  fullWidth
-                  sx={{ mb: 2 }}
-                  {...register("areaId")}
-                >
-                  <MenuItem value="">Select Area</MenuItem>
-                  {areas.map((area) => (
-                    <MenuItem key={area._id} value={area._id}>
-                      {area.name}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  label="Opening Hours"
-                  fullWidth
-                  sx={{ mb: 2 }}
-                  {...register("openingHours")}
-                />
-              </Grid>
-              <Grid item xs={12} sm={3}>
-                <TextField
-                  label="Latitude"
-                  fullWidth
-                  sx={{ mb: 2 }}
-                  {...register("latitude")}
-                />
-              </Grid>
-              <Grid item xs={12} sm={3}>
-                <TextField
-                  label="Longitude"
-                  fullWidth
-                  sx={{ mb: 2 }}
-                  {...register("longitude")}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <input
-                  type="file"
-                  {...register("image")}
-                  className="input-field file-input"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  fullWidth
-                  sx={{ py: 1.5, fontSize: "16px" }}
-                >
-                  Submit
-                </Button>
-              </Grid>
-            </Grid>
-          </form>
-        </CardContent>
-      </Card>
-    </Container>
+    <div style={{backgroundColor:"rgb(220, 225, 245)"}}>
+    <Container maxWidth="md" style={{ marginTop: "32px", marginBottom: "32px" }}>
+  <ToastContainer
+    position="top-right"
+    autoClose={2000}
+    theme="dark"
+    transition={Bounce}
+  />
+  <Card style={{ boxShadow: "0px 4px 20px rgba(0,0,0,0.2)", borderRadius: "16px", padding: "24px" }}>
+    <CardContent>
+      <Typography
+        variant="h5"
+        gutterBottom
+        style={{ fontWeight: "bold", textAlign: "center", marginBottom: "16px" }}
+      >
+        Add Garage
+      </Typography>
+      <form onSubmit={handleSubmit(submitHandler)}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="Garage Name"
+              fullWidth
+              style={{ marginBottom: "16px" }}
+              {...register("name", {
+                required: "Name is required",
+                minLength: {
+                  value: 3,
+                  message: "Minimum three char required"
+                }
+              })}
+              error={!!errors.name}
+              helperText={errors.name?.message}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="Owner Name"
+              fullWidth
+              style={{ marginBottom: "16px" }}
+              {...register("owner", { required: "Owner name is required" })}
+              error={!!errors.owner}
+              helperText={errors.owner?.message}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="Phone No"
+              fullWidth
+              style={{ marginBottom: "16px" }}
+              {...register("phoneno", {
+                required: "Contact number is required",
+                pattern: {
+                  value: /[6-9]{1}[0-9]{9}/,
+                  message: "Invalid contact number"
+                }
+              })}
+              error={!!errors.phoneno}
+              helperText={errors.phoneno?.message}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="Email"
+              fullWidth
+              style={{ marginBottom: "16px" }}
+              {...register("email", { required: "Email is required" })}
+              error={!!errors.email}
+              helperText={errors.email?.message}
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              select
+              label="State"
+              fullWidth
+              style={{ marginBottom: "16px" }}
+              {...register("stateId")}
+              onChange={(e) => getCityByStateId(e.target.value)}
+            >
+              <MenuItem value="">Select State</MenuItem>
+              {states.map((state) => (
+                <MenuItem key={state._id} value={state._id}>
+                  {state.name}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              select
+              label="City"
+              fullWidth
+              style={{ marginBottom: "16px" }}
+              {...register("cityId")}
+              onChange={(e) => getAreaByCityId(e.target.value)}
+            >
+              <MenuItem value="">Select City</MenuItem>
+              {cities.map((city) => (
+                <MenuItem key={city._id} value={city._id}>
+                  {city.cityName}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              select
+              label="Area"
+              fullWidth
+              style={{ marginBottom: "16px" }}
+              {...register("areaId")}
+            >
+              <MenuItem value="">Select Area</MenuItem>
+              {areas.map((area) => (
+                <MenuItem key={area._id} value={area._id}>
+                  {area.name}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="Opening Hours"
+              fullWidth
+              style={{ marginBottom: "16px" }}
+              {...register("openingHours")}
+            />
+          </Grid>
+          <Grid item xs={12} sm={3}>
+            <TextField
+              label="Latitude"
+              fullWidth
+              style={{ marginBottom: "16px" }}
+              {...register("latitude")}
+            />
+          </Grid>
+          <Grid item xs={12} sm={3}>
+            <TextField
+              label="Longitude"
+              fullWidth
+              style={{ marginBottom: "16px" }}
+              {...register("longitude")}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <input
+              type="file"
+              {...register("image")}
+              className="input-field file-input"
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              fullWidth
+              style={{
+                padding: "12px 0",
+                fontSize: "16px",
+                marginTop: "8px",
+                backgroundColor: "rgb(49, 112, 184)"
+              }}
+            >
+              Submit
+            </Button>
+          </Grid>
+        </Grid>
+      </form>
+    </CardContent>
+  </Card>
+</Container>
+</div>
   );
 };

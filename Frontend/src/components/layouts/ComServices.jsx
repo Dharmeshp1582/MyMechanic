@@ -178,7 +178,7 @@ export const ComServices = () => {
     <div className="comservices-container">
       <header
         className="header_section"
-        style={{ backgroundColor: "rgb(18 23 105)" }}
+        style={{ backgroundColor: "rgb(18 23 105)",padding:"0" }}
       >
         <div className="container-fluid">
           <nav className="navbar navbar-expand-lg custom_nav-container ">

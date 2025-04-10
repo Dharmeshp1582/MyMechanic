@@ -185,7 +185,7 @@ const updateGarageWithFile = async (req, res) => {
 //get garage by garage id
 const getGarageByGarageId = async (req, res) => {
   try {
-    const getGarageById = await garageModel.findById(req.params.id);
+    const getGarageById = await garageModel.findById(req.params.id).populate("stateId","name -_id").populate("cityId","cityName -_id").populate("areaId","name -_id");
 
     res.status(200).json({
       message: " Garage fetched successfully",
@@ -215,6 +215,43 @@ const DeletedGarage = async (req, res) => {
   }
 };
 
+
+//approve garage
+const approveGarage = async (req, res) => {
+  try {
+    const updatedGarage = await garageModel.findByIdAndUpdate(
+      req.params.id,
+      { avaliability_status: true },
+      { new: true }
+    );
+
+    res.status(200).json({
+      message: "Garage approved successfully",
+      data: updatedGarage
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: err.message
+    });
+  }
+};
+
+
+const getApprovedGarages = async (req, res) => {
+  try {
+    const garages = await garageModel.find({ avaliability_status: true }).populate("stateId cityId areaId userId");
+    res.status(200).json({
+      message: "Approved garages only",
+      data: garages
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: err.message
+    });
+  }
+};
+
+
 module.exports = {
   addGarage,
   getAllGarages,
@@ -222,5 +259,7 @@ module.exports = {
   getAllGaragesByUserId,
   updateGarageWithFile,
   getGarageByGarageId,
-  DeletedGarage
+  DeletedGarage,
+  approveGarage ,
+  getApprovedGarages 
 };
