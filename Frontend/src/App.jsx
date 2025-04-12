@@ -34,8 +34,6 @@ import { UpdateServiceData } from "./components/garageowner/UpdateServiceData";
 import { Booking } from "./components/user/Booking";
 import { ViewServiceDetail } from "./components/shared/ViewServiceDetail";
 import { ForgotPassword } from "./components/common/ForgetPassword";
-
-import { GetUserAppointmentDetail } from "./components/user/GetUserAppointmentDetail";
 import { AddVehicle } from "./components/user/AddVehicle";
 import { ContactUs } from "./components/layouts/ContactUs";
 import { About } from "./components/layouts/About";
@@ -53,6 +51,14 @@ import { GarageService } from "./components/garageowner/GarageService";
 import ProtectedRoute from "./components/hooks/ProtectedRoutes";
 import { Unauthorized } from "./components/common/Unauthorized";
 import { AddArea } from "./components/admin/AddArea";
+import { MyAppointments } from "./components/user/MyAppointments";
+import { UserPayments } from "./components/payment/UserPayments";
+import { Invoice } from "./components/payment/Invoice";
+import { CompleteAppointments } from "./components/admin/CompleteAppointments";
+import UsersPayments from "./components/admin/UsersPayments";
+import { GarageUserPayments } from "./components/garageowner/GarageUserPayments";
+import { AddReview } from "./components/user/AddReview";
+
 
 function App() {
   axios.defaults.baseURL = "http://localhost:3000";
@@ -102,7 +108,9 @@ function App() {
             <Route path="service" element={<AllServices />} />
             <Route path="appointment" element={<AppointmentReport />} />
             <Route path="updateservices/:id" element={<UpdateService />} />
+            <Route path="completeappointment" element={<CompleteAppointments/>}></Route>
             <Route path="addstate" element={<AddArea/>}></Route>
+            <Route path="payment" element={<UsersPayments/>}></Route>
           </Route>
 
           {/* GARAGE OWNER ROUTES */}
@@ -126,6 +134,7 @@ function App() {
             <Route path="availableservice" element={<AvailableServices />} />
             <Route path="updateservice/:id" element={<UpdateServiceData />} />
             <Route path="contact" element={<Contact />} />
+            <Route path="earning" element={<GarageUserPayments/>}></Route>
           </Route>
 
           {/* USER ROUTES */}
@@ -148,8 +157,12 @@ function App() {
             <Route path="booking" element={<Booking />} />
             <Route path="getvehiclebyuserid" element={<ViewMyVehicle />} />
             <Route path="viewgarage/:id" element={<ViewGarageDetail />} />
-            <Route path="appointment" element={<GetUserAppointmentDetail />} />
+            <Route path="mypayments" element={<UserPayments/>}></Route>
+            <Route path="appointment/paymentdetail/:id" element={<Invoice/>}></Route>
+            <Route path="addreview/:garageId" element={<AddReview />} />
+            <Route path="appointment" element={<MyAppointments/>} />
           </Route>
+         
         </Route>
         <Route path="/unauthorized" element={<Unauthorized />} />
 

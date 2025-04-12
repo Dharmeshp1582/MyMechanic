@@ -1,112 +1,73 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import axios from "axios";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Button,
-  Typography,
-  CircularProgress,
-} from "@mui/material";
+import { toast } from "react-toastify";
+import "../../assets/css/manageuser.css"
 
 export const ManageUsers = () => {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+    const [users, setUsers] = useState([]);
 
-  useEffect(() => {
-    axios
-      .get("/users")
-      .then((response) => {
-        setUsers(response.data.data);
-        setLoading(false);
-      })
-      .catch(() => {
-        setError("Failed to load users");
-        setLoading(false);
-      });
-  }, []);
+    const fetchUsers = async () => {
+        try {
+            const res = await axios.get("/users");
+            setUsers(res.data.data);
+        } catch (error) {
+            toast.error("Failed to fetch users");
+        }
+    };
 
-  const handleDelete = (id) => {
-    axios
-      .delete(`/users/${id}`)
-      .then(() => {alert("User deleted success?")
-        setUsers(users.filter((user) => 
-          user._id !== id));
-      })
-      .catch(() => {
-        setError("Failed to delete user");
-      });
-  };
+    const handleDelete = async (id) => {
+        if (window.confirm("Are you sure you want to delete this user?")) {
+            try {
+                await axios.delete(`/users/${id}`);
+                toast.success("User deleted successfully");
+                fetchUsers();
+            } catch (error) {
+                toast.error("Error deleting user",error);
+            }
+        }
+    };
 
-  if (loading)
+    useEffect(() => {
+        fetchUsers();
+    }, []);
+
     return (
-      <div style={{ display: "flex", justifyContent: "center", marginTop: 50 }}>
-        <CircularProgress />
-      </div>
+        <div className="admin-userlist-container">
+            <h2>Registered Users</h2>
+            <table className="admin-userlist-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Contact No</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Created At</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {users
+                        .map(user => (
+                            <tr key={user._id}>
+                                <td>{user.fullName}</td>
+                                <td>{user.email}</td>
+                                <td>{user.contact}</td>
+                                <td>{user.roleId?.name || "N/A"}</td>
+                                <td>{user.status ? "Active" : "Inactive"}</td>
+                                <td>{new Date(user.createdAt).toLocaleDateString()}</td>
+                                <td>
+                                    {/* <button
+                                        className="admin-userlist-deletebtn"
+                                        onClick={() => handleDelete(user._id)}
+                                    >
+                                        Delete
+                                    </button> */}
+                                </td>
+                            </tr>
+                        ))}
+                </tbody>
+            </table>
+        </div>
     );
-
-  if (error)
-    return (
-      <Typography color="error" sx={{ textAlign: "center", mt: 4 }}>
-        {error}
-      </Typography>
-    );
-
-  return (
-    <TableContainer
-      component={Paper}
-      sx={{
-        marginTop: 4,
-        padding: 2,
-        boxShadow: 3,
-        borderRadius: 2,
-        backgroundColor: "#f8f9fa",
-      }}
-    >
-      <Typography variant="h5" sx={{ textAlign: "center", mb: 2, fontWeight: "bold" }}>
-        Manage Users
-      </Typography>
-      <Table>
-        <TableHead sx={{ backgroundColor: "#1976d2" }}>
-          <TableRow>
-            <TableCell sx={{ color: "white", fontWeight: "bold" }}>Role</TableCell>
-            <TableCell sx={{ color: "white", fontWeight: "bold" }}>Name</TableCell>
-            <TableCell sx={{ color: "white", fontWeight: "bold" }}>Email</TableCell>
-            <TableCell sx={{ color: "white", fontWeight: "bold" }}>Actions</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {users.map((user, index) => (
-            <TableRow
-              key={user._id}
-              sx={{ backgroundColor: index % 2 === 0 ? "#ffffff" : "#f1f1f1" }}
-            >
-              <TableCell>{user.roleId?.name || "N/A"}</TableCell>
-              <TableCell>{user.fullName}</TableCell>
-              <TableCell>{user.email}</TableCell>
-              <TableCell>
-                <Button
-                  variant="contained"
-                  color="error"
-                  onClick={() => handleDelete(user._id)}
-                  sx={{
-                    textTransform: "none",
-                    fontWeight: "bold",
-                    borderRadius: 1,
-                  }}
-                >
-                  Delete
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
 };

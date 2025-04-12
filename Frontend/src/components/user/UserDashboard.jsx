@@ -149,7 +149,7 @@ export const UserDashboard = () => {
                     >
                       {service.name}
                     </h3>
-                    <p
+                    {/* <p
                       style={{
                         fontSize: "1rem",
                         color: "#666",
@@ -158,7 +158,7 @@ export const UserDashboard = () => {
                       }}
                     >
                       {service.description}
-                    </p>
+                    </p> */}
                     <p
                       style={{
                         marginTop: "5px",
@@ -175,7 +175,7 @@ export const UserDashboard = () => {
                       <strong>Duration:</strong> {service.duration || "N/A"}{" "}
                       mins
                     </p>
-                    <p style={{ fontWeight: "bold" }}>
+                    <p style={{ fontWeight: "bold",color: "#444" }}>
                       <strong>Availability:</strong>
                       <span
                         style={{
@@ -209,7 +209,7 @@ export const UserDashboard = () => {
                   e.currentTarget.style.color = "white";
                 }}
                 onMouseOut={(e) => {
-                  e.currentTarget.style.background = "#007BFF"; // Default background
+                  e.currentTarget.style.background = "rgb(10,38,71)"; // Default background
                   e.currentTarget.style.transform = "scale(1)";
                   e.currentTarget.style.color = "white";
                 }}
@@ -288,7 +288,7 @@ export const UserDashboard = () => {
           services.
         </p>
         <Link
-          to="/user/booking"
+          to="/user/getvehiclebyuserid"
           style={{
             display: "inline-block",
             padding: "14px 28px",

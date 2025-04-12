@@ -166,7 +166,7 @@ export const AddServices = () => {
 
         <input
           {...register("category", { required: "Category is required" })}
-          placeholder="Category"
+          placeholder="ex: Four wheeler, Three wheeler"
           style={{
             width: "100%",
             padding: "10px",

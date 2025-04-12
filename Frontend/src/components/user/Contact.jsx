@@ -7,7 +7,7 @@ export const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    message: ""
+    message: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -38,8 +38,8 @@ export const Contact = () => {
     try {
       const response = await axios.post("/contact", formData, {
         headers: {
-          "Content-Type": "application/json"
-        }
+          "Content-Type": "application/json",
+        },
       });
 
       if (response.status === 200) {
@@ -54,32 +54,43 @@ export const Contact = () => {
   };
 
   return (
-    <div style={{
-      minHeight: "100vh",
-      overflowY: "auto",
-      padding: "40px",
-      backgroundColor: "rgb(220, 225, 245)",
-    }}>
+    <div
+      style={{
+        minHeight: "100vh",
+        overflowY: "auto",
+        padding: "40px",
+        backgroundColor:"rgb(220, 225, 245)"
+      }}
+    >
       <div
         style={{
           margin: "auto",
-          padding: "20px",
+          padding: "30px",
           borderRadius: "10px",
-          boxShadow: "0px 4px 10px rgba(0,0,0,0.2)",
-          backgroundColor: "#0a2647",
-          color: "#fff",
-          width: "60%",
-          maxWidth: "500px",
+          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+          backgroundColor: "#ffffff",
+          color: "#000",
+          width: "80%",
+          maxWidth: "900px",
         }}
       >
-        <h2 style={{ textAlign: "center", marginBottom: "20px" }}>Contact Us</h2>
+        <h2
+          style={{
+            textAlign: "left",
+            marginBottom: "30px",
+            fontSize: "30px",
+            fontWeight: "600",
+          }}
+        >
+          Send Us a Message
+        </h2>
         <ToastContainer />
         <form
           onSubmit={handleSubmit}
-          style={{ display: "flex", flexDirection: "column", gap: "15px" }}
+          style={{ display: "flex", flexDirection: "column", gap: "20px" }}
         >
           <div>
-            <label style={{ fontWeight: "bold" }}>Name:</label>
+            <label style={{ fontWeight: "bold" }}>Full Name *</label>
             <input
               type="text"
               name="name"
@@ -87,13 +98,13 @@ export const Contact = () => {
               onChange={handleChange}
               style={{
                 width: "100%",
-                padding: "10px",
+                padding: "12px",
                 marginTop: "5px",
                 borderRadius: "5px",
-                border: "1px solid #fff",
+                border: "1px solid #ccc",
                 backgroundColor: "#fff",
                 color: "#000",
-                fontSize: "16px"
+                fontSize: "16px",
               }}
             />
             {errors.name && (
@@ -102,7 +113,7 @@ export const Contact = () => {
           </div>
 
           <div>
-            <label style={{ fontWeight: "bold" }}>Email:</label>
+            <label style={{ fontWeight: "bold" }}>Email Address *</label>
             <input
               type="email"
               name="email"
@@ -110,13 +121,13 @@ export const Contact = () => {
               onChange={handleChange}
               style={{
                 width: "100%",
-                padding: "10px",
+                padding: "12px",
                 marginTop: "5px",
                 borderRadius: "5px",
-                border: "1px solid #fff",
+                border: "1px solid #ccc",
                 backgroundColor: "#fff",
                 color: "#000",
-                fontSize: "16px"
+                fontSize: "16px",
               }}
             />
             {errors.email && (
@@ -125,44 +136,54 @@ export const Contact = () => {
           </div>
 
           <div>
-            <label style={{ fontWeight: "bold" }}>Message:</label>
+            <label style={{ fontWeight: "bold" }}>Message *</label>
             <textarea
               name="message"
               value={formData.message}
               onChange={handleChange}
-              rows="4"
+              rows="5"
               style={{
                 width: "100%",
-                padding: "10px",
+                padding: "12px",
                 marginTop: "5px",
                 borderRadius: "5px",
-                border: "1px solid #fff",
+                border: "1px solid #ccc",
                 backgroundColor: "#fff",
                 color: "#000",
                 fontSize: "16px",
-                resize: "none"
+                resize: "vertical",
               }}
             />
             {errors.message && (
-              <p style={{ color: "red", marginTop: "5px" }}>{errors.message}</p>
+              <p style={{ color: "red", marginTop: "5px" }}>
+                {errors.message}
+              </p>
             )}
           </div>
 
-          <div style={{ display: "flex", justifyContent: "center", marginTop: "15px" }}>
+          <div style={{ display: "flex", justifyContent: "flex-start" }}>
             <button
               type="submit"
               style={{
                 padding: "12px",
-                backgroundColor: "rgb(55 99 148)",
+                backgroundColor: "#0d3b66",
                 color: "#fff",
                 border: "none",
-                borderRadius: "5px",
+                borderRadius: "6px",
                 cursor: "pointer",
                 fontSize: "16px",
-                width: "50%"
+                fontWeight: "bold",
+                width: "180px",
+                boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
               }}
+              onMouseOver={(e) =>
+                (e.target.style.backgroundColor = "#1d4f91")
+              }
+              onMouseOut={(e) =>
+                (e.target.style.backgroundColor = "#0d3b66")
+              }
             >
-              Send
+              Send Message
             </button>
           </div>
         </form>
@@ -170,4 +191,3 @@ export const Contact = () => {
     </div>
   );
 };
-

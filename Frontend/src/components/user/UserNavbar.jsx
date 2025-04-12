@@ -134,6 +134,17 @@ export const UserNavbar = ({ toggleSidebar }) => {
                 Booking Requests
               </Link>
             </li>
+            <li className="nav-item d-none d-md-block">
+              <Link
+                to="mypayments"
+                className="nav-link"
+                style={getLinkStyle("payment")}
+                onFocus={() => setFocusedLink("payment")}
+                onBlur={() => setFocusedLink(null)}
+              >
+                Payments
+              </Link>
+            </li>
           </ul>
 
           <ul

@@ -78,9 +78,34 @@ const deleteAppointmentById = async (req, res) => {
 }
 
 
+// const getAppointmentsById = async (req, res) => {
+//     try {
+//         const appointment = await appointmentModel.findById(req.params.id)
+//         res.status(200).json({
+//             message: "Appointment founded..",
+//             data: appointment
+//         })
+//     } catch (err) {
+//         res.status(500).json({
+//             message: err.message
+//         })
+//     }
+// }
 const getAppointmentsById = async (req, res) => {
     try {
-        const appointment = await appointmentModel.findById(req.params.id)
+        const appointment = await appointmentModel.findById(req.params.id).populate("serviceId", "name price")
+        .populate("vehicleId", "model licensePlate ")
+        .populate({
+
+            path: "garageownerId",
+            select: "name userId", // Get garage name & userId
+            populate: {
+                path: "userId", // Nested: garage owner
+                select: "fullName email", // Get owner's name & email
+            },
+        }
+        )
+        .populate("userId", "fullName email");
         res.status(200).json({
             message: "Appointment founded..",
             data: appointment
@@ -269,6 +294,65 @@ const UpdateStatus = async (req, res) => {
     }
 };
 
+
+const updateVehicleReturnStatus = async (req, res) => {
+    try {
+      const { vehicleStatus } = req.body;
+      const appointmentId = req.params.id;
+  
+      const updated = await appointmentModel.findByIdAndUpdate(
+        appointmentId,
+        { vehicleStatus },
+        { new: true }
+      )
+        .populate("userId")
+        .populate("vehicleId")
+        .populate("garageownerId");
+  
+      if (!updated) {
+        return res.status(404).json({ message: "Appointment not found" });
+      }
+  
+      // ✅ Send email if status is "returned"
+      if (vehicleStatus === "returned") {
+        const userEmail = updated.userId.email;
+        const userName = updated.userId.firstname || "Customer";
+        const vehicle = updated.vehicleId;
+        const garageName = updated.garageownerId?.name || "Garage";
+        const formattedDate = new Date(updated.appointmentDate).toLocaleDateString("en-GB", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        });
+  
+        const subject = "Your Vehicle Has Been Returned";
+        const html = `
+          <div style="font-family: Arial, sans-serif; padding: 20px;">
+            <h2 style="color: #2E86C1;">Hello ${userName},</h2>
+            <p>Your vehicle has been successfully returned by <strong>${garageName}</strong>.</p>
+            <h4>Appointment Details:</h4>
+            <ul>
+              <li><strong>Vehicle:</strong> ${vehicle.make} ${vehicle.model} (${vehicle.licensePlate})</li>
+              <li><strong>Appointment Date:</strong> ${formattedDate}</li>
+            </ul>
+            <p>Thank you for choosing <strong>E-Garage</strong> for your service needs.</p>
+            <p style="margin-top: 30px;">Warm regards,<br/><strong>E-Garage Team</strong></p>
+          </div>
+        `;
+  
+        await sendingMail(userEmail, subject, "", html);
+      }
+  
+      res.status(200).json({
+        message: "Vehicle status updated successfully",
+        data: updated,
+      });
+    } catch (err) {
+      console.error("Error updating vehicle return status:", err);
+      res.status(500).json({ message: err.message });
+    }
+  };
+
 module.exports = {
-    getAllAppointments, addAppointments, deleteAppointmentById, getAppointmentsById, getAllAppointmentByUserId,getAppointmentsByGarageownerUserId,UpdateStatus
+    getAllAppointments, addAppointments, deleteAppointmentById, getAppointmentsById, getAllAppointmentByUserId,getAppointmentsByGarageownerUserId,UpdateStatus,updateVehicleReturnStatus
 }

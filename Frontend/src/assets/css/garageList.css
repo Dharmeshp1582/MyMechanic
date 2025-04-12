@@ -1,0 +1,136 @@
+/* admin side  */
+
+/* GarageList.css */
+
+.garage-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: rgb(220, 225, 245);
+  min-height: 100vh;
+}
+
+.garage-heading {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.garage-table-wrapper {
+  overflow-x: auto;
+  width: 100%;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
+}
+
+.garage-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1000px;
+}
+
+.garage-table th,
+.garage-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.garage-table th {
+  background-color: #393c3e;
+  color: white;
+}
+
+.garage-image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.garage-status {
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  display: inline-block;
+}
+
+.garage-available {
+  background-color: green;
+}
+
+.garage-unavailable {
+  background-color: red;
+}
+
+.garage-btn {
+  padding: 6px 10px;
+  margin: 2px 0;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  font-size: 13px;
+  width: 100%;
+}
+
+.garage-btn.approve {
+  background-color: #2ecc71;
+}
+
+.garage-btn.disapprove {
+  background-color: #f39c12;
+}
+
+.garage-btn.delete {
+  background-color: #e74c3c;
+}
+
+.garage-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.garage-page-btn {
+  padding: 4px 8px;
+  font-size: 12px; /* smaller text */
+  border: 1px solid #ccc;
+  background-color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  min-width: 28px;
+  transition: all 0.2s ease;
+}
+
+.garage-page-btn:hover {
+  background-color: #eee;
+}
+
+.garage-page-btn.active {
+  background-color: #6f7378;
+  color: white;
+  font-weight: bold;
+  border-color: #007bff;
+}
+
+
+@media screen and (max-width: 768px) {
+  .garage-heading {
+    font-size: 1.4rem;
+  }
+
+  .garage-table {
+    font-size: 12px;
+  }
+
+  .garage-btn {
+    font-size: 12px;
+    padding: 5px 8px;
+  }
+}

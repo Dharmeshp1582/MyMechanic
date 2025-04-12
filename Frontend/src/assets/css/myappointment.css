@@ -1,0 +1,159 @@
+/* Container styling */
+.my-appoint-container {
+  padding: 2rem;
+  max-width: 100%;
+  min-height: 90vh;
+  background-color: rgb(220, 225, 245);
+}
+
+/* Heading */
+.my-appoint-heading {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #333;
+  text-align: center;
+}
+
+/* No appointments message */
+.my-noappoint-para {
+  font-size: 1.1rem;
+  text-align: center;
+  color: #777;
+  padding: 1rem 0;
+}
+
+/* Appointment table wrapper */
+.my-appoint-table-wrapper {
+  overflow-x: auto;
+  width: 100%;
+}
+
+/* Appointment table styling */
+.my-appoint-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.my-appoint-table th,
+.my-appoint-table td {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.my-appoint-table th {
+  background-color: #333;
+  color: #fff;
+  font-weight: 600;
+}
+
+.my-appoint-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Appointment status styling */
+.my-appoint-status-pending {
+  color: #e67e22;
+  font-weight: bold;
+}
+
+.my-appoint-status-approved {
+  color: #3498db;
+  font-weight: bold;
+}
+
+.my-appoint-status-completed {
+  color: #2ecc71;
+  font-weight: bold;
+}
+
+.my-appoint-status-rejected {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+/* Vehicle status styling */
+.vehicle-status {
+  font-weight: bold;
+}
+
+.status-in-garage {
+  color: #ff9900;
+}
+
+.status-returned {
+  color: #2ecc71;
+}
+
+.status-not-received {
+  color: #e74c3c;
+}
+
+/* Pagination styling */
+.my-appoint-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+  gap: 10px;
+}
+
+.my-appoint-pagination button {
+  padding: 6px 12px;
+  background-color: #594cea;
+  color:  black;;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.my-appoint-pagination button:disabled {
+  background-color: #adb0b5;
+  cursor: not-allowed;
+  color: black;
+}
+
+/* Button styling for invoice */
+.my-appoint-invoice-btn {
+  padding: 8px 16px;
+  background-color: #bec2c6;
+  color: rgb(10, 10, 10);
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.my-appoint-invoice-btn:hover {
+  background-color: #135ba1;
+}
+
+.my-appoint-invoice-btn:disabled {
+  background-color: #e3dede;
+  cursor: not-allowed;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .my-appoint-heading {
+    font-size: 1.5rem;
+  }
+
+  .my-appoint-container {
+    padding: 10px;
+  }
+
+  .my-appoint-table {
+    font-size: 12px;
+  }
+
+  .my-appoint-pagination button {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+}

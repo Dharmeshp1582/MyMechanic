@@ -169,7 +169,159 @@ const verify_order = async (req, res) => {
   }
 };
 
+const getPaymentsByUserId = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const payments = await paymentModel.find({ userId })
+  .populate({
+    path: "appointmentId",
+    populate: [
+      { path: "serviceId", model: "Services" },
+      { path: "garageownerId", model: "garages", select: "name" },
+      { path: "vehicleId", model: "vehicles" },
+    ]
+  })
+  .sort({ createdAt: -1 });
+
+
+    res.status(200).json({ success: true, data: payments });
+  } catch (error) {
+    console.error("Error fetching payments by user:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+
+const getPaymentByAppointmentId = async (req, res) => {
+  try {
+    const { appointmentId } = req.params;
+
+    const payment = await paymentModel.findOne({ appointmentId }).populate("userId","fullName email contact");
+    if (!payment) {
+      return res.status(404).json({ message: "No payment found for this appointment" });
+    }
+
+    res.status(200).json({ success: true, data: payment });
+  } catch (error) {
+    console.error("Error fetching payment:", error);
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
+const getAllPayments = async (req, res) => {
+  try {
+    const payments = await paymentModel.find()
+      .populate("userId", "fullName email contact")
+      .populate({
+        path: "appointmentId",
+        populate: [
+          { path: "serviceId", model: "Services" },
+          { path: "garageownerId", model: "garages", select: "name" },
+          { path: "vehicleId", model: "vehicles" }
+        ]
+      })
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({ success: true, data: payments });
+  } catch (error) {
+    console.error("Error fetching all payments:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+const getRevenueChartData = async (req, res) => {
+  try {
+    const revenueData = await paymentModel.aggregate([
+      {
+        $match: {
+          status: "success" // Only include successful payments
+        }
+      },
+      {
+        $group: {
+          _id: {
+            $dateToString: { format: "%Y-%m-%d", date: "$createdAt" }
+          },
+          total: { $sum: "$amount" }
+        }
+      },
+      { $sort: { _id: 1 } },
+      {
+        $project: {
+          _id: 0,
+          date: "$_id",
+          total: 1
+        }
+      }
+    ]);
+
+    res.status(200).json(revenueData);
+  } catch (err) {
+    console.error("Revenue chart error:", err);
+    res.status(500).json({ error: "Failed to fetch revenue chart data" });
+  }
+};
+
+
+
+const getTotalRevenue = async (req, res) => {
+  try {
+    const payments = await paymentModel.find({ status: "success" }); // Make sure your successful payments use this status
+    const totalRevenue = payments.reduce((sum, p) => sum + (p.amount || 0), 0);
+    res.status(200).json({ totalRevenue });
+  } catch (err) {
+    res.status(500).json({ message: "Failed to fetch revenue", error: err.message });
+  }
+};
+
+const getGarageOwnerPayments = async (req, res) => {
+  try {
+    const garageOwnerId = req.params.garageOwnerId;
+
+    const payments = await paymentModel.find()
+      .populate({
+        path: "appointmentId",
+        populate: [
+          { path: "serviceId", select: "name" },
+          { path: "vehicleId", select: "model" },
+          {
+            path: "garageownerId", // this is the garage
+            populate: {
+              path: "userId", // the actual garage owner
+              select: "fullName _id"
+            }
+          }
+        ],
+      })
+      .populate("userId", "fullName contact") // user who booked
+      .sort({ createdAt: -1 });
+
+    // Filter by matching the userId of the garage to the given garageOwnerId
+    const filteredPayments = payments.filter(
+      (p) =>
+        p.appointmentId?.garageownerId?.userId?._id.toString() === garageOwnerId
+    );
+
+const totalRevenue = filteredPayments.reduce(
+  (acc, curr) => acc + (curr.amount || 0),
+  0
+);
+
+    res.status(200).json({ data: filteredPayments, totalRevenue });
+  } catch (error) {
+    console.error("Error fetching garage owner payments:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 module.exports = {
   create_order,
   verify_order,
+  getPaymentsByUserId,
+  getPaymentByAppointmentId,
+  getTotalRevenue,
+  getRevenueChartData,
+  getAllPayments,
+  getGarageOwnerPayments
 };

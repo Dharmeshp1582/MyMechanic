@@ -105,6 +105,13 @@ export const AdminNavbar = ({ toggleSidebar }) => {
               Manage Services
             </Link>
           </li>
+          <li className="nav-item d-none d-md-block">
+            <Link to="payment" className="nav-link" style={getLinkStyle('payment')}
+          onFocus={() => setFocusedLink('payment')}
+          onBlur={() => setFocusedLink(null)}>
+              Payments
+            </Link>
+          </li>
         </ul>
 
         <ul

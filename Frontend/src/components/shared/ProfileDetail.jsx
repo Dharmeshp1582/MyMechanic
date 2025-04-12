@@ -53,9 +53,9 @@ export const ProfileDetail = () => {
 
       if (response.status === 200) {
         toast.success("Profile Updated Successfully!", {
-          position: "top-right",
-          autoClose: 2000,
-          theme: "dark",
+          // position: "top-right",
+          // autoClose: 1000,
+          // theme: "dark",
 
           transition: Bounce,
           onClose: () => navigate(-1)

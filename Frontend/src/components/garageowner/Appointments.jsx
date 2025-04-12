@@ -1,10 +1,17 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import "../../assets/css/appointments.css"; // Import the CSS
+import "../../assets/css/appointments.css";
 
 export const Appointments = () => {
   const [appointments, setAppointments] = useState([]);
-  const userId = localStorage.getItem("id"); // Removed extra semicolon
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+
+  const userId = localStorage.getItem("id");
+
+  useEffect(() => {
+    fetchAppointments();
+  }, []);
 
   const fetchAppointments = async () => {
     try {
@@ -17,10 +24,6 @@ export const Appointments = () => {
     }
   };
 
-  useEffect(() => {
-    fetchAppointments();
-  }, []);
-
   const getNextStatus = (currentStatus) => {
     const statusOrder = ["pending", "booked", "inProgress", "completed"];
     const currentIndex = statusOrder.indexOf(currentStatus);
@@ -29,7 +32,6 @@ export const Appointments = () => {
       : currentStatus;
   };
 
-  // Update Status in Backend
   const updateStatus = async (appointmentId, currentStatus, action) => {
     let newStatus = currentStatus;
 
@@ -44,22 +46,55 @@ export const Appointments = () => {
     try {
       await axios.put(`/appointment/updatestatus/${appointmentId}/status`, {
         status: newStatus
-      }); // Fixed API call
+      });
       fetchAppointments();
     } catch (error) {
       console.error("Error updating status:", error);
     }
   };
 
-  // Delete Appointment
   const deleteAppointment = async (appointmentId) => {
     try {
       await axios.delete(`/appointment/deleteappointment/${appointmentId}`);
-      fetchAppointments(); // Refresh UI
+      fetchAppointments();
     } catch (error) {
       console.error("Error deleting appointment:", error);
     }
   };
+
+  const markAsReceived = async (appointmentId) => {
+    try {
+      await axios.put(
+        `/appointment/updatevehiclereturnstatus/${appointmentId}`,
+        {
+          vehicleStatus: "ingarage"
+        }
+      );
+      fetchAppointments();
+    } catch (error) {
+      console.error("Error marking vehicle as received:", error);
+    }
+  };
+
+  const markAsReturned = async (appointmentId) => {
+    try {
+      await axios.put(
+        `/appointment/updatevehiclereturnstatus/${appointmentId}`,
+        {
+          vehicleStatus: "returned"
+        }
+      );
+      fetchAppointments();
+    } catch (error) {
+      console.error("Error marking vehicle as returned:", error);
+    }
+  };
+
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = appointments.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(appointments.length / itemsPerPage);
 
   return (
     <div className="own-appoint-container">
@@ -71,90 +106,79 @@ export const Appointments = () => {
               <th>User Name</th>
               <th>Service</th>
               <th>Vehicle</th>
-              <th>LicensePlate</th>
+              <th>License Plate</th>
               <th>Appointment Date</th>
               <th>Status</th>
+              <th>Paid</th>
+              <th>Vehicle Status</th>
               <th>Reason</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {appointments.length > 0 ? (
-              appointments.map((appointment, index) => (
-                <tr key={appointment._id || index}>
+            {currentItems.length > 0 ? (
+              currentItems.map((appointment) => (
+                <tr key={appointment._id}>
                   <td>{appointment.userId?.fullName || "N/A"}</td>
                   <td>
-                    {Array.isArray(appointment.serviceId)
-                      ? appointment.serviceId
-                          .map((service) => service?.name)
-                          .join(", ")
-                      : "N/A"}
+                    {appointment.serviceId
+                      ?.map((service) => service.name)
+                      .join(", ") || "N/A"}
                   </td>
-                  <td> {appointment.vehicleId?.model || "N/A"}</td>
-                  <td>{appointment.vehicleId?.licensePlate || "N/A"}</td>
-                  <td>{appointment.appointmentDate ? new Date(appointment.appointmentDate).toLocaleDateString(
-                      "en-US",
+                  <td>
+                    {appointment.vehicleId?.make} {appointment.vehicleId?.model}
+                  </td>
+                  <td>{appointment.vehicleId?.licensePlate}</td>
+                  <td>
+                    {new Date(appointment.appointmentDate).toLocaleDateString(
+                      "en-GB",
                       {
-                        year: "numeric",
+                        day: "numeric",
                         month: "long",
-                        day: "numeric"
+                        year: "numeric"
                       }
-                    ): "N/A"}
+                    )}
                   </td>
-
                   <td
                     className={`own-appoint-status-${appointment.status.toLowerCase()}`}
                   >
                     {appointment.status}
                   </td>
+                  <td>{appointment.isPaid ? "Yes" : "No"}</td>
+                  <td>{appointment.vehicleStatus}</td>
                   <td>{appointment.reason || "N/A"}</td>
                   <td>
-                    {appointment.status === "pending" && (
-                      <>
-                        <button
-                          className="own-appoint-status-btn"
-                          onClick={() =>
-                            updateStatus(
-                              appointment._id,
-                              appointment.status,
-                              "next"
-                            )
-                          } style={{width:"90%"}}
-                        >
-                          Book Now
-                        </button>
-                        <button
-                          className="own-appoint-reject-btn"
-                          onClick={() =>
-                            updateStatus(
-                              appointment._id,
-                              appointment.status,
-                              "reject"
-                            )
-                          } style={{width:"90%",marginTop:"5px"}}
-                        >
-                          Reject
-                        </button>
-                      </>
-                    )}
-
-                    {appointment.status === "rejected" && (
-                      <button
-                        className="own-appoint-reschedule-btn"
-                        onClick={() =>
-                          updateStatus(
-                            appointment._id,
-                            appointment.status,
-                            "reschedule"
-                          )
-                        } style={{width:"90%"}}
-                      >
-                        Reschedule
-                      </button>
-                    )}
+                    {appointment.status === "pending" &&
+                      appointment.vehicleStatus === "ingarage" && (
+                        <div className="own-appoint-both-btn">
+                          <button
+                            className="own-appoint-status-btn"
+                            onClick={() =>
+                              updateStatus(
+                                appointment._id,
+                                appointment.status,
+                                "next"
+                              )
+                            }
+                          >
+                            Approve
+                          </button>
+                          <button
+                            className="own-appoint-reject-btn"
+                            onClick={() =>
+                              updateStatus(
+                                appointment._id,
+                                appointment.status,
+                                "reject"
+                              )
+                            }
+                          >
+                            Reject
+                          </button>
+                        </div>
+                      )}
 
                     {appointment.status !== "pending" &&
-                      appointment.status !== "rejected" &&
                       appointment.status !== "completed" && (
                         <button
                           className="own-appoint-status-btn"
@@ -164,32 +188,104 @@ export const Appointments = () => {
                               appointment.status,
                               "next"
                             )
-                          } style={{width:"90%"}}
+                          }
                         >
-                          Next Step
+                          Next Stage
                         </button>
                       )}
 
-                    {appointment.status === "completed" && (
+                    {appointment.status === "rejected" && (
                       <button
-                        className="own-appoint-delete-btn"
-                        // onClick={() => deleteAppointment(appointment._id)} 
-                        style={{width:"90%"}} disabled
+                        className="own-appoint-status-btn"
+                        onClick={() =>
+                          updateStatus(
+                            appointment._id,
+                            appointment.status,
+                            "reschedule"
+                          )
+                        }
                       >
-                        Delete
+                        Reschedule
                       </button>
                     )}
+
+                    {(() => {
+                      const appointmentDate = new Date(
+                        appointment.appointmentDate
+                      );
+                      appointmentDate.setHours(0, 0, 0, 0);
+                      const today = new Date();
+                      today.setHours(0, 0, 0, 0);
+                      const isTodayOrPast = appointmentDate <= today;
+
+                      if (
+                        appointment.status === "pending" &&
+                        !appointment.isPaid &&
+                        !appointment.vehicleStatus &&
+                        isTodayOrPast
+                      ) {
+                        return (
+                          <button
+                            className="own-appoint-status-btn"
+                            onClick={() => markAsReceived(appointment._id)}
+                          >
+                            Mark as Received
+                          </button>
+                        );
+                      }
+
+                      if (
+                        appointment.isPaid &&
+                        appointment.vehicleStatus === "ingarage"
+                      ) {
+                        return (
+                          <button
+                            className="own-appoint-status-btn"
+                            onClick={() => markAsReturned(appointment._id)}
+                          >
+                            Mark as Returned
+                          </button>
+                        );
+                      }
+
+                      return null;
+                    })()}
+
+                    {/* <button
+                      className="own-appoint-delete-btn"
+                      onClick={() => deleteAppointment(appointment._id)}
+                    >
+                      Delete
+                    </button> */}
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="8">No appointments found</td>
+                <td colSpan="10" style={{ textAlign: "center" }}>
+                  No appointments found.
+                </td>
               </tr>
             )}
           </tbody>
         </table>
       </div>
+
+      {totalPages > 1 && (
+        <div className="own-appoint-pagination">
+          {[...Array(totalPages)].map((_, index) => (
+            <button
+              key={index}
+              className={`own-appoint-page-btn ${
+                currentPage === index + 1 ? "active" : ""
+              }`}
+              onClick={() => setCurrentPage(index + 1)}
+            >
+              {index + 1}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

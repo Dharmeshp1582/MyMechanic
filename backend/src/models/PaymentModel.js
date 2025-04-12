@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const paymentSchema = new mongoose.Schema({
   appointmentId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Appointment",
+    ref: "appointments",
     required: true,
   },
   userId: {
@@ -40,6 +40,6 @@ const paymentSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-});
+},{ timestamps: true });
 
 module.exports = mongoose.model("payments", paymentSchema);

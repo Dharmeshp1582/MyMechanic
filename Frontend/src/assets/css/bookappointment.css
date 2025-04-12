@@ -3,10 +3,17 @@
   margin: 80px auto;
   padding: 20px 30px;
   border-radius: 10px;
-  background-color: #1b1b62;
+  background-color: rgb(49, 78, 93);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   color: white;
 }
+
+.booking-page {
+  background-color: rgb(220, 225, 245); 
+  min-height: 100vh;
+  padding: 20px 0;
+}
+
 
 .book-app-heading {
   text-align: center;
@@ -111,7 +118,7 @@
   padding: 10px;
   border-radius: 5px;
   border: none;
-  background-color: rgb(36 78 158);
+  background-color: rgb(22, 22, 23);
   color: #fff;
   font-weight: bold;
   cursor: pointer;
@@ -119,5 +126,6 @@
 }
 
 .book-app-submit-button:hover {
-  background-color: #124780;
+  background-color: #bcc1c5;
+  color: black;
 }

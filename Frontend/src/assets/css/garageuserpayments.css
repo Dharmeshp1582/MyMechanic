@@ -1,0 +1,105 @@
+/* Container */
+.garageown-paym-container {
+  padding: 20px;
+  background-color: rgb(220, 225, 245);
+  border-radius: 8px;
+  overflow-x: auto;
+  min-height: 90vh;
+}
+
+/* Heading */
+.garageown-paym-heading {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Search */
+.garageown-paym-search {
+  width: 100%;
+  max-width: 400px;
+  display: block;
+  margin: 0 auto 20px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Table */
+.garageown-paym-table-wrapper {
+  overflow-x: auto;
+}
+
+.garageown-paym-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  min-width: 800px;
+}
+
+.garageown-paym-table th,
+.garageown-paym-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.garageown-paym-table th {
+  background-color: #003a79;
+  color: white;
+}
+
+/* Total Revenue */
+.garageown-paym-total {
+  margin-top: 15px;
+  text-align: right;
+  font-size: 16px;
+  color: #333;
+}
+
+/* Pagination */
+.garageown-paym-pagination {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 20px;
+}
+
+.garageown-paym-page-btn {
+  padding: 4px 10px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  background-color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  min-width: 28px;
+  transition: all 0.2s ease;
+}
+
+.garageown-paym-page-btn:hover {
+  background-color: #eee;
+}
+
+.garageown-paym-page-btn.active {
+  background-color: #0a2647;
+  color: white;
+  border-color: #007bff;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .garageown-paym-table {
+    font-size: 12px;
+  }
+
+  .garageown-paym-search {
+    max-width: 100%;
+  }
+
+  .garageown-paym-total {
+    font-size: 14px;
+  }
+}

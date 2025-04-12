@@ -1,0 +1,32 @@
+.admin-userlist-container {
+  padding: 20px;
+}
+
+.admin-userlist-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-userlist-table th,
+.admin-userlist-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.admin-userlist-table th {
+  background-color: #007bff;
+  color: white;
+}
+
+.admin-userlist-deletebtn {
+  background-color: #dc3545;
+  border: none;
+  color: white;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.admin-userlist-deletebtn:hover {
+  background-color: #c82333;
+}

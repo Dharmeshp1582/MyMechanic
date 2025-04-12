@@ -114,3 +114,52 @@
 .admin-dash-blue-4 {
   background-color: rgb(48, 59, 173);
 }
+
+.admin-revenue-container {
+  background-color: rgb(18, 23, 105);
+  padding: 30px 20px;
+  margin: 40px auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  max-width: 1000px;
+  width: 95%;
+  color: white;
+}
+
+.admin-revenue-title {
+  font-size: 28px;
+  color: rgb(6, 5, 5);
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.admin-revenue-subtitle {
+  font-size: 16px;
+  color: #ddd;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.admin-revenue-chart {
+  width: 100%;
+  height: 300px;
+}
+
+.recharts-tooltip-item-list{
+  color: black !important;
+}
+
+/* Optional: Responsive tweaks for small screens */
+@media (max-width: 600px) {
+  .admin-revenue-container {
+    padding: 20px 10px;
+  }
+
+  .admin-revenue-title {
+    font-size: 22px;
+  }
+
+  .admin-revenue-subtitle {
+    font-size: 14px;
+  }
+}

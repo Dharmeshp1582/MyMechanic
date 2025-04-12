@@ -55,12 +55,9 @@ const serviceSchema = new Schema(
   },
   {
     timestamps: true,
-    // Explicitly disable automatic index on name to prevent uniqueness
-    autoIndex: false
   }
 );
 
-// If you want to allow same names in different garages but prevent duplicates in same garage:
-// serviceSchema.index({ garageId: 1, name: 1 }, { unique: false });
+
 
 module.exports = mongoose.model("Services", serviceSchema);

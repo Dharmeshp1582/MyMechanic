@@ -28,7 +28,12 @@ const appointmentSchema = new Schema({
   },
   reason: { type: String, required: true },
   wasRejected: { type: Boolean, default: false },
-  isPaid: { type: Boolean, default: false}
+  isPaid: { type: Boolean, default: false},
+  vehicleStatus: {
+        type: String,
+        enum: ["ingarage", "returned"],
+        default: null
+    },
 
 });
 

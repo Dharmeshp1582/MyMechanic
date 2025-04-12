@@ -1,0 +1,130 @@
+.admin-user-pay-container {
+  padding: 24px;
+  /* background-color: #ffffff; */
+  border-radius: 12px;
+  max-width: 100%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+}
+
+.admin-user-pay-heading {
+  font-size: 24px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.admin-user-pay-search {
+  display: block;
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto 20px auto;
+  padding: 8px 12px;
+  font-size: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  transition: 0.3s ease;
+}
+
+.admin-user-pay-search:focus {
+  border-color: #1e90ff;
+  outline: none;
+}
+
+.admin-user-pay-table-wrapper {
+  overflow-x: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+}
+
+.admin-user-pay-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 760px;
+  font-size: 14px;
+}
+
+.admin-user-pay-table thead {
+  background-color: #373a3c;
+  color: white;
+}
+
+.admin-user-pay-table th{
+  background-color: #5d5f61;
+}
+
+.admin-user-pay-table th,
+.admin-user-pay-table td {
+  padding: 10px 14px;
+  
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.admin-user-pay-table td {
+  color: #333;
+}
+
+.admin-user-pay-table tr:hover {
+  background-color: #f8faff;
+}
+
+.admin-user-pay-table{
+  background-color: #ffff;
+}
+
+.admin-user-pay-total {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 16px;
+  color: #2c3e50;
+}
+
+/* Status colors */
+.admin-user-pay-table td[style*="green"] {
+  color: #27ae60 !important;
+  font-weight: 600;
+}
+
+.admin-user-pay-table td[style*="red"] {
+  color: #e74c3c !important;
+  font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .admin-user-pay-heading {
+    font-size: 20px;
+  }
+
+  .admin-user-pay-search {
+    width: 90%;
+    font-size: 14px;
+  }
+
+  .admin-user-pay-table th,
+  .admin-user-pay-table td {
+    font-size: 13px;
+    padding: 8px 10px;
+  }
+
+  .admin-user-pay-total {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-user-pay-container {
+    padding: 16px 10px;
+  }
+
+  .admin-user-pay-table {
+    min-width: 950px; /* so horizontal scroll kicks in */
+  }
+
+  .admin-user-pay-search {
+    max-width: 100%;
+  }
+}

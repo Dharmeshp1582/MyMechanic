@@ -73,24 +73,27 @@ export const ViewServiceDetail = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
-            border: "2px solid black"
+            border: "0.3px solid black"
           }}
         >
           <div style={{ display: "flex", alignItems: "center", width: "100%" }}>
             <div style={{ flex: 1 }}>
-              <h2 style={{ marginBottom: "10px", color: "#333" }}>
+              <h1 style={{ marginBottom: "10px", color: "#333" }}>
                 {service?.name || "N/A"}
-              </h2>
-              <p style={{ fontWeight: "bold", color: "#222" }}>
+              </h1>
+              <p style={{  color: "#222" }}>
+                Description: {service?.description || "Unknown"}
+              </p>
+              <p style={{  color: "#222" }}>
                 Price: ₹{service?.price || "N/A"}
               </p>
-              <p style={{ fontWeight: "bold", color: "#222" }}>
+              <p style={{  color: "#222" }}>
                 Category: {service?.category || "Unknown"}
               </p>
-              <p style={{ fontWeight: "bold", color: "#222" }}>
+              <p style={{  color: "#222" }}>
                 Duration: {service?.duration ? `${service.duration} mins` : "N/A"}
               </p>
-              <p style={{ fontWeight: "bold", color: "#222" }}>
+              <p style={{  color: "#222" }}>
                 Ratings: ⭐ {service?.ratings ? `${service.ratings}/5` : "No ratings yet"}
               </p>
               {service?.features?.length > 0 && (
@@ -110,6 +113,7 @@ export const ViewServiceDetail = () => {
               style={{
                 width: "250px",
                 height: "250px",
+                border:"0.3px solid black",
                 objectFit: "cover",
                 borderRadius: "10px",
                 marginLeft: "20px"

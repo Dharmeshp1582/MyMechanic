@@ -46,7 +46,7 @@ export const ViewMyGarages = () => {
   };
 
   return (
-    <div style={{ padding: "20px",background:"rgb(220, 225, 245)" }}>
+    <div style={{ padding: "20px",background:"rgb(220, 225, 245)", }}>
       {isLoading && <CustLoder />}
 
       {/* 🔍 Search Input - Stays on Top */}

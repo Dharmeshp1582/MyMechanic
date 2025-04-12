@@ -135,6 +135,17 @@ export const GarageOwnerNavbar = ({ toggleSidebar }) => {
               Booking requests
             </Link>
           </li>
+          <li className="nav-item d-none d-md-block">
+            <Link
+              to="earning"
+              className="nav-link"
+              style={getLinkStyle("earning")}
+              onFocus={() => setFocusedLink("earning")}
+              onBlur={() => setFocusedLink(null)}
+            >
+              Earning
+            </Link>
+          </li>
         </ul>
 
         <ul

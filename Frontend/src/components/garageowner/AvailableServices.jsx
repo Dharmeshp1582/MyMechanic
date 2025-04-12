@@ -32,7 +32,7 @@ export const AvailableServices = () => {
     >
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      <h2 style={{ fontSize: "2rem", color: "black", marginBottom: "20px" }}>
+      <h2 style={{ fontSize: "2rem", color: "black", marginBottom: "20px" ,fontWeight:"bold"}}>
         Available Services
       </h2>
 
@@ -56,7 +56,7 @@ export const AvailableServices = () => {
                 borderRadius: "12px",
                 overflow: "hidden",
                 boxShadow: "0px 6px 15px rgba(0, 0, 0, 0.15)",
-                background: "linear-gradient(to bottom,rgb(247, 242, 242),rgb(143, 153, 174))",
+                background: "rgb(227, 228, 234)",
                 border: "1px solid black",
                 textAlign: "center",
                 transition: "transform 0.2s, box-shadow 0.2s",
@@ -128,21 +128,15 @@ export const AvailableServices = () => {
                     padding: "12px 20px",
                     border: "none",
                     borderRadius: "8px",
-                    backgroundColor: "#007bff",
+                    backgroundColor: "rgb(17, 17, 19)",
                     color: "#fff",
                     fontSize: "1rem",
                     cursor: "pointer",
                     textDecoration: "none",
                     transition: "background 0.3s, transform 0.2s",
                   }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.backgroundColor = "#0056b3";
-                    e.currentTarget.style.transform = "scale(1.05)";
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.backgroundColor = "#007bff";
-                    e.currentTarget.style.transform = "scale(1)";
-                  }}
+                 
+                 
                 >
                   Update
                 </Link>

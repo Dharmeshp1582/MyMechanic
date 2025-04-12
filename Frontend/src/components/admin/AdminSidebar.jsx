@@ -189,7 +189,7 @@ export const AdminSidebar = () => {
                 </Link>
               </li>
 
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <Link
                   to="#"
                   className="nav-link"
@@ -202,7 +202,7 @@ export const AdminSidebar = () => {
                   <IoMdApps size={20} style={{ marginRight: "10px" }} />
                   <p>Widgets</p>
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </nav>
         </div>

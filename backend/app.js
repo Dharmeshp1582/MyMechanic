@@ -90,6 +90,10 @@ app.use("/mail",mailRoutes);
 const contactRoutes = require("./src/routes/LandingMail");
 app.use("/landingcontact", contactRoutes);
 
+//review add
+const reviewRoutes = require("./src/routes/ReviewRoute")
+app.use("/review", reviewRoutes)
+
 //payment route
 const paymentRoutes = require("./src/routes/PaymentRoute")
 app.use("/payment", paymentRoutes)

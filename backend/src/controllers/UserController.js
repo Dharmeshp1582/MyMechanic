@@ -136,7 +136,7 @@ const Signup = async (req, res) => {
     const hashedPassword = bcrypt.hashSync(req.body.password, salt); // access password from req.body
     req.body.password = hashedPassword;
     const createdUser = await userModel.create(req.body);
-
+  console.log(createdUser)
     //send mail to user
 
     // const mailResponse = await mailUtil.sendingMail(createdUser.email,"Welcome to MyMechanic platform","This is Welcome mail");
@@ -162,14 +162,37 @@ const Signup = async (req, res) => {
 };
 
 //get user
-const getUsers = async (req, res) => {
-  const users = await userModel.find().populate("roleId", "name -_id");
+// const getUsers = async (req, res) => {
+//   try {
+//     const users = await userModel.find().populate("roleId", "name -_id");
 
-  res.json({
-    message: "users fetched successful",
-    data: users
-  });
-};
+//     res.json({
+//       message: "users fetched successful",
+//       data: users
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       message:error.message
+//     })
+//   }
+ 
+// };
+const getUsers = async (req, res) => {
+  try {
+
+      const users = await userModel.find().populate("roleId", "name -_id")
+      const filteredUsers = users.filter(user => user.roleId.name !== "Admin"); 
+      res.status(200).json({
+          message: "users fetched Sucessfully",
+          data: filteredUsers
+      })
+  } catch (err) {
+      res.status(500).json({
+          message: err.message
+      })
+  }
+
+}
 
 //add user
 const addUsers = async (req, res) => {
