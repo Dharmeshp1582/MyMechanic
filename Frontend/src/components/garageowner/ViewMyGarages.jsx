@@ -3,14 +3,17 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { CustLoder } from "../common/CustLoder";
 import "../../../src/assets/css/Garage.css";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
 
 export const ViewMyGarages = () => {
   const [garage, setGarage] = useState([]);
   const [filteredGarage, setFilteredGarage] = useState([]);
+  const [garageRatings, setGarageRatings] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedImage, setSelectedImage] = useState(null); // Full-Screen Image State
+  const [selectedImage, setSelectedImage] = useState(null);
 
+  // Fetch garages
   useEffect(() => {
     const getAllMyGarages = async () => {
       setIsLoading(true);
@@ -20,6 +23,7 @@ export const ViewMyGarages = () => {
         );
         setGarage(res.data.data);
         setFilteredGarage(res.data.data);
+        fetchRatings(res.data.data);
       } catch (error) {
         console.error("Error fetching garages:", error);
       } finally {
@@ -30,26 +34,44 @@ export const ViewMyGarages = () => {
     getAllMyGarages();
   }, []);
 
-  // Search Filter Function
+  // Fetch reviews and compute ratings
+  const fetchRatings = async (garages) => {
+    try {
+      const ratings = {};
+      for (let g of garages) {
+        const res = await axios.get(`/review/getreviews/${g._id}`);
+        const reviews = res.data.reviews || [];
+        if (reviews.length > 0) {
+          const total = reviews.reduce((sum, r) => sum + Number(r.rating), 0);
+          const avg = (total / reviews.length).toFixed(1);
+          ratings[g._id] = avg;
+        } else {
+          ratings[g._id] = "No rating";
+        }
+      }
+      setGarageRatings(ratings);
+    } catch (err) {
+      console.error("Failed to fetch ratings:", err);
+    }
+  };
+
   const handleSearch = (e) => {
     const value = e.target.value.toLowerCase();
     setSearchTerm(value);
-
     const filtered = garage.filter(
       (gr) =>
         gr.name.toLowerCase().includes(value) ||
         gr.owner.toLowerCase().includes(value) ||
         gr.phoneno.includes(value)
     );
-
     setFilteredGarage(filtered);
   };
 
   return (
-    <div style={{ padding: "20px",background:"rgb(220, 225, 245)", }}>
+    <div style={{ padding: "20px", background: "rgb(220, 225, 245)" }}>
       {isLoading && <CustLoder />}
 
-      {/* 🔍 Search Input - Stays on Top */}
+      {/* Search */}
       <div style={{ marginBottom: "20px", textAlign: "center" }}>
         <input
           type="text"
@@ -76,8 +98,7 @@ export const ViewMyGarages = () => {
           gap: "20px",
           justifyContent: "center",
           maxWidth: "1100px",
-          margin: "0 auto"
-          
+          margin: "0 auto",
         }}
       >
         {filteredGarage.length > 0 ? (
@@ -85,18 +106,15 @@ export const ViewMyGarages = () => {
             <div
               key={gr._id}
               style={{
-                width: "32%", //  Makes only 2 cards per row
+                width: "32%",
                 background: "#fff",
                 borderRadius: "10px",
                 padding: "20px",
                 backgroundColor: "rgb(248, 249, 250)",
                 boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
                 textAlign: "center",
-                transition: "transform 0.2s",
               }}
-        
             >
-              {/* Image - Click to Open in Full Screen */}
               <img
                 src={gr?.imageURL}
                 alt={gr.name}
@@ -107,9 +125,27 @@ export const ViewMyGarages = () => {
                   objectFit: "cover",
                   borderRadius: "8px",
                   border: "2px solid black",
-                  cursor: "pointer", //  Shows it's clickable
+                  cursor: "pointer",
                 }}
               />
+
+              {/* Reviews Link */}
+              <Link
+                to={`/garageowner/garagereviews/${gr._id}`}
+                state={{ selectedGarage: gr }}
+                style={{
+                  textDecoration: "none",
+                  color: "#1a73e8",
+                  fontWeight: "bold",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "5px",
+                  margin: "10px 0",
+                  cursor: "pointer",
+                }}
+              >
+                <StarBorderIcon style={{ fontSize: "20px" }} /> Reviews
+              </Link>
 
               <h3 style={{ fontSize: "20px", margin: "10px 0", color: "black" }}>
                 {gr.name}
@@ -118,6 +154,11 @@ export const ViewMyGarages = () => {
               <p><strong>Status:</strong> {gr.avaliability_status ? "Open" : "Closed"}</p>
               <p><strong>Hours:</strong> {gr.openingHours}</p>
               <p><strong>Contact:</strong> {gr.phoneno}</p>
+              <p>
+                <strong>Avg. Rating:</strong>{" "}
+                {garageRatings[gr._id] ?? "Loading..."}
+              </p>
+
               <Link
                 to={`/garageowner/updategarage/${gr._id}`}
                 style={{
@@ -130,9 +171,12 @@ export const ViewMyGarages = () => {
                   borderRadius: "5px",
                   transition: "background 0.3s",
                 }}
-                onMouseOver={(e) => (e.currentTarget.style.background = "#0056b3")}
-                onMouseOut={(e) => (e.currentTarget.style.background = "rgb(76, 131, 190)")}
-               
+                onMouseOver={(e) =>
+                  (e.currentTarget.style.background = "#0056b3")
+                }
+                onMouseOut={(e) =>
+                  (e.currentTarget.style.background = "rgb(76, 131, 190)")
+                }
               >
                 Update
               </Link>
@@ -148,7 +192,7 @@ export const ViewMyGarages = () => {
       {/* Full Screen Image Modal */}
       {selectedImage && (
         <div
-          onClick={() => setSelectedImage(null)} // ✅ Click outside to close
+          onClick={() => setSelectedImage(null)}
           style={{
             position: "fixed",
             top: 0,

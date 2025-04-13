@@ -84,7 +84,7 @@ export const AppointmentReport = () => {
     <div className="own-appoint-container">
       <h2 className="own-appoint-title">Total Appointments Overview</h2>
 
-      <div style={{ margin: "2rem 0" }}>
+      <div style={{ margin: "2rem 0" }} className="own-earningdata">
         <h3 style={{ textAlign: "center" }}>Earnings Overview</h3>
         <Bar data={earningsData} />
       </div>

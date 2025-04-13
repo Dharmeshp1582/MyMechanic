@@ -116,7 +116,7 @@
 }
 
 .admin-revenue-container {
-  background-color: rgb(18, 23, 105);
+  background-color: rgb(235, 235, 238);
   padding: 30px 20px;
   margin: 40px auto;
   border-radius: 12px;
@@ -135,7 +135,7 @@
 
 .admin-revenue-subtitle {
   font-size: 16px;
-  color: #ddd;
+  color: #070707;
   margin-bottom: 25px;
   text-align: center;
 }
@@ -162,4 +162,47 @@
   .admin-revenue-subtitle {
     font-size: 14px;
   }
+}
+
+
+.admin-userchart-container {
+  padding: 1rem;
+  width: 100%;
+}
+
+.admin-userchart-content-responsive {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.admin-userchart-chart-wrapper {
+  flex: 1 1 300px;
+  min-width: 250px;
+  max-width: 500px;
+  height: 300px;
+}
+
+.admin-userchart-legend {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5rem;
+  flex: 0 1 150px;
+}
+
+.admin-userchart-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 14px;
+}
+
+.admin-userchart-legend-color {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  display: inline-block;
 }

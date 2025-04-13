@@ -1,32 +1,111 @@
+/* Container */
 .admin-userlist-container {
   padding: 20px;
+  background-color: #87aac9;
+  min-height: 100vh;
 }
 
+/* Heading */
+.admin-userlist-container h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+}
+
+/* Table Wrapper */
+.admin-userlist-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Table */
 .admin-userlist-table {
+  min-width: 1000px; /* Ensures scroll on small screens */
   width: 100%;
   border-collapse: collapse;
 }
 
 .admin-userlist-table th,
 .admin-userlist-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 15px;
+  color: #444;
 }
 
 .admin-userlist-table th {
-  background-color: #007bff;
-  color: white;
+  background-color: #83868b;
+  font-weight: 600;
+  color: #222;
 }
 
+.admin-userlist-table tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* Optional Delete Button */
 .admin-userlist-deletebtn {
-  background-color: #dc3545;
+  background-color: #dc2626;
+  color: #fff;
   border: none;
-  color: white;
-  padding: 6px 10px;
+  padding: 8px 12px;
+  border-radius: 6px;
   cursor: pointer;
-  border-radius: 4px;
+  transition: background 0.2s ease;
 }
 
 .admin-userlist-deletebtn:hover {
-  background-color: #c82333;
+  background-color: #b91c1c;
+}
+
+/* Pagination */
+.admin-userlist-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.pagination-btn {
+  background-color: #e5e7eb;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.pagination-btn:hover {
+  background-color: #d1d5db;
+}
+
+.pagination-btn.active {
+  background-color: #797a7d;
+  color: #fff;
+}
+
+/* Responsive Typography */
+@media screen and (max-width: 768px) {
+  .admin-userlist-container h2 {
+    font-size: 20px;
+  }
+
+  .admin-userlist-table th,
+  .admin-userlist-table td {
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+
+  .pagination-btn {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
 }

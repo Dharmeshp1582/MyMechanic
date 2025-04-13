@@ -13,8 +13,7 @@ import {
   Tooltip,
   ResponsiveContainer,
   Pie,
-  Cell,
-  Legend
+  Cell
 } from "recharts";
 
 import dayjs from "dayjs";
@@ -330,41 +329,46 @@ export const AdminDashboard = () => {
           </div>
         )}
 
-        <div className="admin-userchart-container">
-          <h3 className="admin-userchart-title">Active Users Overview</h3>
-          <div className="admin-userchart-content">
-            <RechartsPieChart width={480} height={350}>
-              <Pie
-                data={data}
-                cx="50%"
-                cy="50%"
-                labelLine={false}
-                label={({ name, percent }) =>
-                  `${name} ${(percent * 100).toFixed(0)}%`
-                }
-                outerRadius={130}
-                dataKey="value"
-              >
-                {data.map((_, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index]} />
-                ))}
-              </Pie>
-              <Tooltip className="admin-userchart-tooltip" />
-            </RechartsPieChart>
+      <div className="admin-userchart-container">
+  <h3 className="admin-userchart-title">Active Users Overview</h3>
+  <div className="admin-userchart-content-responsive">
+    <div className="admin-userchart-chart-wrapper">
+      <ResponsiveContainer width="100%" height={300}>
+        <RechartsPieChart>
+          <Pie
+            data={data}
+            cx="50%"
+            cy="50%"
+            labelLine={false}
+            label={({ name, percent }) =>
+              `${name} ${(percent * 100).toFixed(0)}%`
+            }
+            outerRadius="80%"
+            dataKey="value"
+          >
+            {data.map((_, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index]} />
+            ))}
+          </Pie>
+          <Tooltip />
+        </RechartsPieChart>
+      </ResponsiveContainer>
+    </div>
 
-            <div className="admin-userchart-legend">
-              {data.map((entry, index) => (
-                <div key={index} className="admin-userchart-legend-item">
-                  <span
-                    className="admin-userchart-legend-color"
-                    style={{ backgroundColor: COLORS[index] }}
-                  />
-                  {entry.name}
-                </div>
-              ))}
-            </div>
-          </div>
+    <div className="admin-userchart-legend">
+      {data.map((entry, index) => (
+        <div key={index} className="admin-userchart-legend-item">
+          <span
+            className="admin-userchart-legend-color"
+            style={{ backgroundColor: COLORS[index] }}
+          />
+          {entry.name}
         </div>
+      ))}
+    </div>
+  </div>
+</div>
+
       </div>
 
       <div className="admin-revenue-container">

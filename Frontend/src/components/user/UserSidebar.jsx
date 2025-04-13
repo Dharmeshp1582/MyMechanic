@@ -164,7 +164,7 @@ export const UserSidebar = () => {
                   <p>Garages</p>
                 </Link>
               </li>
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <Link href="" className="nav-link">
                   <i className="nav-icon bi bi-box-seam-fill" />
                   <FaBox size={20} style={{ marginRight: "10px" }} />
@@ -190,7 +190,7 @@ export const UserSidebar = () => {
                     </a>
                   </li>
                 </ul>
-              </li>
+              </li> */}
             </ul>
           </nav>
         </div>

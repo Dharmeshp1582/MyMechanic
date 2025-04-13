@@ -1,3 +1,4 @@
+const mongoose = require("mongoose")
 const ReviewModel = require("../models/ReviewModel");
 
 // Create a new review
@@ -12,10 +13,10 @@ const createReview = async (req, res) => {
     }
 
     // Optional: prevent duplicate reviews from same user
-    const existingReview = await ReviewModel.findOne({ userId, garageId });
-    if (existingReview) {
-      return res.status(400).json({ message: "You have already reviewed this garage." });
-    }
+    // const existingReview = await ReviewModel.findOne({ userId, garageId });
+    // if (existingReview) {
+    //   return res.status(400).json({ message: "You have already reviewed this garage." });
+    // }
 
     const review = await ReviewModel.create({
       userId,
@@ -134,10 +135,36 @@ const deleteReview = async (req, res) => {
 // };
 
 
+const getAverageRating = async (req, res) => {
+  const { garageId } = req.params;
+  try {
+    const result = await ReviewModel.aggregate([
+      { $match: { garageId: new mongoose.Types.ObjectId(garageId) } },
+      {
+        $group: {
+          _id: "$garageId",
+          averageRating: { $avg: "$rating" },
+          count: { $sum: 1 }
+        }
+      }
+    ]);
+
+    if (result.length > 0) {
+      res.json({ average: result[0].averageRating, count: result[0].count });
+    } else {
+      res.json({ average: 0, count: 0 });
+    }
+  } catch (error) {
+    console.error("Error getting average rating:", error);
+    res.status(500).json({ error: "Failed to calculate average rating" });
+  }
+};
+
+
 module.exports = {
   createReview,
   getAllReviews,
   deleteReview,
   getReviewsByGarage,
-  
+  getAverageRating
 };

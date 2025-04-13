@@ -185,7 +185,7 @@ const updateGarageWithFile = async (req, res) => {
 //get garage by garage id
 const getGarageByGarageId = async (req, res) => {
   try {
-    const getGarageById = await garageModel.findById(req.params.id).populate("stateId","name -_id").populate("cityId","cityName -_id").populate("areaId","name -_id");
+    const getGarageById = await garageModel.findById(req.params.id).populate("stateId","name -_id").populate("cityId","cityName -_id").populate("areaId","name -_id").populate("rating");
 
     res.status(200).json({
       message: " Garage fetched successfully",

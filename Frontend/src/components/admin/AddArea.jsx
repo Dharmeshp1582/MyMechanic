@@ -99,7 +99,7 @@ export const AddArea = () => {
         margin: "30px auto",
         boxShadow: "0 0 12px rgba(0,0,0,0.1)",
         borderRadius: "12px",
-        backgroundColor: "rgb(220, 230, 224)",
+        backgroundColor: "#f2f2f2",
         fontFamily: "Arial, sans-serif",
       }}
     >

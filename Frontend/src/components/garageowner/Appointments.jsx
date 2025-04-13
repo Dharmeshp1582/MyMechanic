@@ -97,7 +97,7 @@ export const Appointments = () => {
   const totalPages = Math.ceil(appointments.length / itemsPerPage);
 
   return (
-    <div className="own-appoint-container">
+    <div className="own-appoint-containers">
       <h2 className="own-appoint-title">Garage Owner's Appointments</h2>
       <div className="own-appoint-table-container">
         <table className="own-appoint-table">

@@ -121,7 +121,7 @@ export const GarageOwnerNavbar = ({ toggleSidebar }) => {
               onFocus={() => setFocusedLink("services")}
               onBlur={() => setFocusedLink(null)}
             >
-              Available Services
+              Services
             </Link>
           </li>
           <li className="nav-item d-none d-md-block">
@@ -132,7 +132,7 @@ export const GarageOwnerNavbar = ({ toggleSidebar }) => {
               onFocus={() => setFocusedLink("request")}
               onBlur={() => setFocusedLink(null)}
             >
-              Booking requests
+              requests
             </Link>
           </li>
           <li className="nav-item d-none d-md-block">

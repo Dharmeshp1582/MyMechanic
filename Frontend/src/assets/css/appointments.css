@@ -2,6 +2,13 @@
 .own-appoint-container {
   width: 100%;
   padding: 20px;
+  background: #87aac9;
+  min-height: 90vh;
+}
+
+.own-appoint-containers {
+  width: 100%;
+  padding: 20px;
   background: rgb(220, 225, 245);
   min-height: 90vh;
 }
@@ -40,6 +47,10 @@
 
 .own-appoint-table tbody tr:nth-child(even) {
   background: #f2f2f2;
+}
+
+.own-earningdata{
+  background-color: rgb(223, 222, 220);
 }
 
 /* Status Colors */

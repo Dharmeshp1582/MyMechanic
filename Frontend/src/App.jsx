@@ -58,6 +58,7 @@ import { CompleteAppointments } from "./components/admin/CompleteAppointments";
 import UsersPayments from "./components/admin/UsersPayments";
 import { GarageUserPayments } from "./components/garageowner/GarageUserPayments";
 import { AddReview } from "./components/user/AddReview";
+import { GetUserReviews } from "./components/garageowner/GetUserReviews";
 
 
 function App() {
@@ -135,6 +136,7 @@ function App() {
             <Route path="updateservice/:id" element={<UpdateServiceData />} />
             <Route path="contact" element={<Contact />} />
             <Route path="earning" element={<GarageUserPayments/>}></Route>
+            <Route path="garagereviews/:garageId" element={<GetUserReviews/>}></Route>
           </Route>
 
           {/* USER ROUTES */}
@@ -160,6 +162,7 @@ function App() {
             <Route path="mypayments" element={<UserPayments/>}></Route>
             <Route path="appointment/paymentdetail/:id" element={<Invoice/>}></Route>
             <Route path="addreview/:garageId" element={<AddReview />} />
+           
             <Route path="appointment" element={<MyAppointments/>} />
           </Route>
          
