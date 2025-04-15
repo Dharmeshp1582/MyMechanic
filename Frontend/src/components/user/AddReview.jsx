@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 export const AddReview = () => {
   const location = useLocation();
@@ -9,12 +10,16 @@ export const AddReview = () => {
   const { garageId } = useParams();
   const navigate = useNavigate();
 
+  const userId = localStorage.getItem("id");
+
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const [comment, setComment] = useState("");
   const [reviews, setReviews] = useState([]);
   const [averageRating, setAverageRating] = useState(null);
   const [loadingReviews, setLoadingReviews] = useState(true);
+  const [editingReviewId, setEditingReviewId] = useState(null);
+  const [showAllReviews, setShowAllReviews] = useState(false);
 
   const fetchReviews = async () => {
     try {
@@ -46,28 +51,59 @@ export const AddReview = () => {
       return;
     }
 
-    const userId = localStorage.getItem("id");
     if (!userId) {
-      toast.error("User not logged in. Please log in to submit a review.");
+      toast.error("User not logged in.");
       return;
     }
 
     try {
-      await axios.post(`/review/addreview/${garageId}`, {
-        userId,
-        rating,
-        comment
-      });
+      if (editingReviewId) {
+        await axios.put(`/review/updatereview/${editingReviewId}`, {
+          userId,
+          rating,
+          comment
+        });
+        toast.success("Review updated!");
+        setEditingReviewId(null);
+      } else {
+        await axios.post(`/review/addreview/${garageId}`, {
+          userId,
+          rating,
+          comment
+        });
+        toast.success("Review added!");
+      }
 
-      toast.success("Review added successfully");
       setRating(0);
       setComment("");
       fetchReviews();
     } catch (error) {
-      console.error("Error adding review:", error);
-      toast.error("Failed to add review");
+      console.error("Error submitting review:", error);
+      toast.error("Failed to submit review");
     }
   };
+
+  const handleEdit = (review) => {
+    setRating(Number(review.rating));
+    setComment(review.comment);
+    setEditingReviewId(review._id);
+  };
+
+  const handleDelete = async (reviewId) => {
+    if (!window.confirm("Are you sure you want to delete this review?")) return;
+    try {
+      await axios.delete(`/review/deletereview/${reviewId}?userId=${userId}`);
+      toast.success("Review deleted");
+      fetchReviews();
+    } catch (err) {
+      toast.error("Error deleting review");
+      console.error(err);
+    }
+  };
+
+  const displayedReviews = showAllReviews
+    ? [...reviews].reverse()
+    : [...reviews].slice(-5).reverse();
 
   if (!selectedGarage?._id) {
     return (
@@ -78,110 +114,89 @@ export const AddReview = () => {
   }
 
   return (
-    <div
-      style={{
-        minHeight: "90vh",
-        padding: "2rem",
-        backgroundColor: "rgb(221, 221, 223)"
-      }}
-    >
-     <ToastContainer
-      position="top-right"
-      autoClose={1000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme="dark"
-    />
-      <div>
-        <button
-          onClick={() => navigate(-1)}
-          className="book-app-go-back-button"
-          style={{
-            marginLeft: "20px",
-            backgroundColor: "rgb(241, 241, 244)",
-            color: "black",
-            border: "1px solid #fff"
-          }}
-        >
-          ← Go Back
-        </button>
-      </div>
+    <div style={{ minHeight: "90vh", padding: "2rem", backgroundColor: "rgb(221, 221, 223)" }}>
+      <ToastContainer position="top-right" autoClose={1000} theme="dark" />
+
+      <button
+        onClick={() => navigate(-1)}
+        className="book-app-go-back-button"
+        style={{
+          marginLeft: "20px",
+          backgroundColor: "rgb(241, 241, 244)",
+          color: "black",
+          border: "1px solid #fff"
+        }}
+      >
+        ← Go Back
+      </button>
+
       <h2 style={{ textAlign: "center" }}>
-        Add Review for{" "}
+        {editingReviewId ? "Update Review for" : "Add Review for"}{" "}
         <span style={{ color: "rgb(92, 159, 242)" }}>{selectedGarage.name}</span>
       </h2>
 
-      <div>
-        <form
-          onSubmit={handleSubmit}
+      <form
+        onSubmit={handleSubmit}
+        style={{
+          maxWidth: "600px",
+          margin: "0 auto",
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+          padding: "2rem",
+          boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+          borderRadius: "10px",
+          background: "white"
+        }}
+      >
+        <label>
+          Rating:
+          <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
+            {[1, 2, 3, 4, 5].map((star) => (
+              <span
+                key={star}
+                onClick={() => setRating(star)}
+                onMouseEnter={() => setHover(star)}
+                onMouseLeave={() => setHover(0)}
+                style={{
+                  cursor: "pointer",
+                  fontSize: "2rem",
+                  color: (hover || rating) >= star ? "#FFD700" : "#ccc"
+                }}
+              >
+                ★
+              </span>
+            ))}
+          </div>
+        </label>
+
+        <label>
+          Comment:
+          <textarea
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            rows={5}
+            placeholder="Write your review..."
+            style={{ padding: "0.5rem", width: "100%" }}
+          />
+        </label>
+
+        <button
+          type="submit"
           style={{
-            maxWidth: "600px",
-            margin: "0 auto",
-            display: "flex",
-            flexDirection: "column",
-            gap: "1rem",
-            padding: "2rem",
-            boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-            borderRadius: "10px",
-            background: "white"
+            padding: "0.75rem",
+            backgroundColor: "rgb(69, 70, 73)",
+            color: "#fff",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer"
           }}
         >
-          <label>
-            Rating:
-            <div
-              style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}
-            >
-              {[1, 2, 3, 4, 5].map((star) => (
-                <span
-                  key={star}
-                  onClick={() => setRating(star)}
-                  onMouseEnter={() => setHover(star)}
-                  onMouseLeave={() => setHover(0)}
-                  style={{
-                    cursor: "pointer",
-                    fontSize: "2rem",
-                    color: (hover || rating) >= star ? "#FFD700" : "#ccc"
-                  }}
-                >
-                  ★
-                </span>
-              ))}
-            </div>
-          </label>
+          {editingReviewId ? "Update Review" : "Submit Review"}
+        </button>
+      </form>
 
-          <label>
-            Comment:
-            <textarea
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              rows={5}
-              placeholder="Write your review..."
-              style={{ padding: "0.5rem", width: "100%" }}
-            />
-          </label>
-
-          <button
-            type="submit"
-            style={{
-              padding: "0.75rem",
-              backgroundColor: "rgb(69, 70, 73)",
-              color: "#fff",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer"
-            }}
-          >
-            Submit Review
-          </button>
-        </form>
-      </div>
-
-      {/* Show Reviews */}
+      {/* Reviews Section */}
       <div style={{ maxWidth: "700px", margin: "2rem auto" }}>
         {averageRating && (
           <div style={{ textAlign: "center", marginBottom: "0.5rem" }}>
@@ -192,31 +207,18 @@ export const AddReview = () => {
           </div>
         )}
 
-        <h3
-          style={{
-            fontSize: "1.5rem",
-            marginBottom: "1rem",
-            fontWeight: "bold",
-            marginTop: "1rem"
-          }}
-        >
+        <h3 style={{ fontSize: "1.5rem", margin: "1rem 0", fontWeight: "bold" }}>
           Customer Reviews
         </h3>
 
         {loadingReviews ? (
-          <p style={{ textAlign: "center", color: "gray" }}>
-            Loading reviews...
-          </p>
+          <p style={{ textAlign: "center", color: "gray" }}>Loading reviews...</p>
         ) : reviews.length === 0 ? (
           <p style={{ textAlign: "center", color: "gray" }}>No reviews yet.</p>
         ) : (
-          <div
-            style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
-          >
-            {[...reviews]
-              .slice(-5)
-              .reverse()
-              .map((review, index) => (
+          <>
+            <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+              {displayedReviews.map((review, index) => (
                 <div
                   key={index}
                   style={{
@@ -244,6 +246,7 @@ export const AddReview = () => {
                         width: "40px",
                         height: "40px",
                         borderRadius: "50%",
+                        border:"0.5px solid black",
                         objectFit: "cover"
                       }}
                     />
@@ -258,18 +261,50 @@ export const AddReview = () => {
                     </div>
                   </div>
                   <p>{review.comment}</p>
-                  <p
-                    style={{
-                      fontSize: "0.8rem",
-                      color: "gray",
-                      marginTop: "0.5rem"
-                    }}
-                  >
+                  <p style={{ fontSize: "0.8rem", color: "gray", marginTop: "0.5rem" }}>
                     {new Date(review.createdAt).toLocaleString()}
                   </p>
+
+                  {review.userId?._id === userId && (
+                    <div style={{ marginTop: "0.5rem", display: "flex", gap: "1rem" }}>
+                      <button
+                        onClick={() => handleEdit(review)}
+                        style={{ background: "none", border: "none", cursor: "pointer" }}
+                        title="Edit"
+                      >
+                        <FaEdit color="#007bff" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(review._id)}
+                        style={{ background: "none", border: "none", cursor: "pointer" }}
+                        title="Delete"
+                      >
+                        <FaTrash color="#dc3545" />
+                      </button>
+                    </div>
+                  )}
                 </div>
               ))}
-          </div>
+            </div>
+
+            {reviews.length > 5 && (
+              <div style={{ textAlign: "center", marginTop: "1rem" }}>
+                <button
+                  onClick={() => setShowAllReviews(!showAllReviews)}
+                  style={{
+                    padding: "0.5rem 1rem",
+                    backgroundColor: "#444",
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: "5px",
+                    cursor: "pointer"
+                  }}
+                >
+                  {showAllReviews ? "View Less" : "View More"}
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

@@ -108,7 +108,7 @@ export const ContactUs = () => {
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link contact-head-link" to="/aboutus">
+                    <Link className="nav-link contact-head-link" to="/about">
                       About Us
                     </Link>
                   </li>

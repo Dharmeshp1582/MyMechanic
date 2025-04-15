@@ -1,18 +1,26 @@
-const router = require('express').Router();
+const routes = require('express').Router();
 const reviewController = require('../controllers/ReviewController');
 
 // POST a new review
-router.post('/addreview/:garageId', reviewController.createReview);
+routes.post('/addreview/:garageId', reviewController.createReview);
 
 // GET all reviews
-router.get('/allreview', reviewController.getAllReviews);
+routes.get('/allreview', reviewController.getAllReviews);
 
 // GET reviews for a specific garage
-router.get('/getreviews/:garageId', reviewController.getReviewsByGarage);
+routes.get('/getreviews/:garageId', reviewController.getReviewsByGarage);
 
 // DELETE a review
-router.delete('/:id', reviewController.deleteReview);
+// router.delete('/:id', reviewController.deleteReview);
 
-router.get("/average/:garageId", reviewController.getAverageRating);
+routes.get("/average/:garageId", reviewController.getAverageRating);
 
-module.exports = router;
+
+//Update review by user id
+routes.put("/updatereview/:reviewId",reviewController.updateReview);
+
+//delete review by user id
+routes.delete("/deletereview/:reviewId",reviewController.deleteReviewByUserId);
+
+
+module.exports = routes;

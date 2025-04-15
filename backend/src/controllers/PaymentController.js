@@ -10,7 +10,7 @@ const razorpay = new Razorpay({
   key_secret: "MmScO4oyfCk1mGQIMVQsJBB6",
 });
 
-// 1️⃣ Create Order
+//  Create Order
 const create_order = async (req, res) => {
   const { amount, currency = "INR", receipt } = req.body;
 

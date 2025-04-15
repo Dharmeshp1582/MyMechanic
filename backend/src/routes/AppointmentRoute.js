@@ -12,6 +12,11 @@ routes.delete(
   "/deleteappointment/:id",
   appointmentController.deleteAppointmentById
 );
+
+//delete appointment at user side 
+routes.put("/cancel/:id", appointmentController.cancelAppointment);
+
+
 routes.get("/getappointmentbyuserid/:userId", appointmentController.getAllAppointmentByUserId);//for fetch details at user side
 
 routes.get("/getappointmentsbygarageowneruserid/:userId",appointmentController.getAppointmentsByGarageownerUserId)

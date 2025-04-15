@@ -6,7 +6,7 @@ const garageSchema = new Schema(
     name: {
       type: String,
       required: true
-      // unique:true
+      
     },
     owner: {
       type: String,

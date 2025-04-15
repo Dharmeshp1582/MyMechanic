@@ -80,59 +80,66 @@ const getReviewsByGarage = async (req, res) => {
 };
 
 // Delete a review
-const deleteReview = async (req, res) => {
+// const deleteReview = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     await Review.findByIdAndDelete(id);
+//     res
+//       .status(200)
+//       .json({ success: true, message: "Review deleted successfully" });
+//   } catch (error) {
+//     res
+//       .status(500)
+//       .json({
+//         success: false,
+//         message: "Failed to delete review",
+//         error: error.message
+//       });
+//   }
+// };
+
+
+//update review
+const updateReview =  async (req, res) => {
+  const { userId, rating, comment } = req.body;
+
   try {
-    const { id } = req.params;
-    await Review.findByIdAndDelete(id);
-    res
-      .status(200)
-      .json({ success: true, message: "Review deleted successfully" });
-  } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Failed to delete review",
-        error: error.message
-      });
+    const review = await ReviewModel.findById(req.params.reviewId);
+
+    if (!review) return res.status(404).json({ error: "Review not found" });
+    if (review.userId.toString() !== userId)
+      return res.status(403).json({ error: "Unauthorized" });
+
+    review.rating = rating;
+    review.comment = comment;
+    await review.save();
+
+    res.status(200).json({ message: "Review updated", review });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to update review" });
   }
 };
 
-// controllers/reviewController.js (update to calculate average rating)
+// Delete review (only own)
+const deleteReviewByUserId = async (req, res) => {
+  const { userId } = req.query;
 
-// const updateGarageRating = async (garageId) => {
-//   const reviews = await Review.find({ garageId });
-//   const averageRating = reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length;
-  
-//   await Garage.findByIdAndUpdate(garageId, { averageRating });
-// };
+  try {
+    const review = await ReviewModel.findById(req.params.reviewId);
 
-// const addReview = async (req, res) => {
-//   try {
-//     const { garageId, rating, review } = req.body;
-//     const userId = req.user._id;
+    if (!review) return res.status(404).json({ error: "Review not found" });
+    if (review.userId.toString() !== userId)
+      return res.status(403).json({ error: "Unauthorized" });
 
-//     const garage = await Garage.findById(garageId);
-//     if (!garage) {
-//       return res.status(404).json({ success: false, message: "Garage not found" });
-//     }
+    await review.deleteOne();
+    res.status(200).json({ message: "Review deleted" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to delete review" });
+  }
+};
 
-//     const newReview = new Review({ garageId, userId, rating, review });
-//     await newReview.save();
-
-//     // Update garage rating
-//     await updateGarageRating(garageId);
-
-//     return res.status(201).json({
-//       success: true,
-//       message: "Review added successfully!",
-//       data: newReview,
-//     });
-//   } catch (error) {
-//     console.error(error);
-//     return res.status(500).json({ success: false, message: "Server error" });
-//   }
-// };
 
 
 const getAverageRating = async (req, res) => {
@@ -164,7 +171,9 @@ const getAverageRating = async (req, res) => {
 module.exports = {
   createReview,
   getAllReviews,
-  deleteReview,
+  // deleteReview,
   getReviewsByGarage,
-  getAverageRating
+  getAverageRating,
+  updateReview,
+  deleteReviewByUserId
 };

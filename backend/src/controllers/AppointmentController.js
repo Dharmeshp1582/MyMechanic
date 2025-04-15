@@ -316,7 +316,7 @@ const updateVehicleReturnStatus = async (req, res) => {
       // ✅ Send email if status is "returned"
       if (vehicleStatus === "returned") {
         const userEmail = updated.userId.email;
-        const userName = updated.userId.firstname || "Customer";
+        const userName = updated.userId.fullName || "Customer";
         const vehicle = updated.vehicleId;
         const garageName = updated.garageownerId?.name || "Garage";
         const formattedDate = new Date(updated.appointmentDate).toLocaleDateString("en-GB", {
@@ -353,6 +353,51 @@ const updateVehicleReturnStatus = async (req, res) => {
     }
   };
 
+
+  //Delete appointment
+//   const deleteAppointment = async (req, res) => {
+//   const appointmentId = req.params.id;
+
+//   try {
+//     const appointment = await appointmentModel.findById(appointmentId);
+//     if (!appointment) {
+//       return res.status(404).json({ success: false, message: "Appointment not found" });
+//     }
+
+//     if (appointment.status !== "pending") {
+//       return res.status(400).json({ success: false, message: "Only pending appointments can be deleted" });
+//     }
+
+//     await appointmentModel.findByIdAndDelete(appointmentId);
+//     res.status(200).json({ success: true, message: "Appointment deleted successfully" });
+//   } catch (error) {
+//     console.error("Error deleting appointment:", error);
+//     res.status(500).json({ success: false, message: "Internal server error" });
+//   }
+// };
+
+
+const cancelAppointment = async (req, res) => {
+    try {
+      const appointmentId = req.params.id;
+      const updated = await appointmentModel.findByIdAndUpdate(
+        appointmentId,
+        { status: "cancelled" },
+        { new: true }
+      );
+  
+      if (!updated) {
+        return res.status(404).json({ message: "Appointment not found" });
+      }
+  
+      res.status(200).json({ message: "Appointment cancelled successfully", data: updated });
+    } catch (error) {
+      res.status(500).json({ message: "Error cancelling appointment", error });
+    }
+  };
+
+
+
 module.exports = {
-    getAllAppointments, addAppointments, deleteAppointmentById, getAppointmentsById, getAllAppointmentByUserId,getAppointmentsByGarageownerUserId,UpdateStatus,updateVehicleReturnStatus
+    getAllAppointments, addAppointments, deleteAppointmentById, getAppointmentsById, getAllAppointmentByUserId,getAppointmentsByGarageownerUserId,UpdateStatus,updateVehicleReturnStatus ,cancelAppointment
 }

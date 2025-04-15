@@ -53,7 +53,7 @@ export const UserNavbar = ({ toggleSidebar }) => {
     fetchUserData(); // Initial fetch
 
     const interval = setInterval(() => {
-      fetchUserData(); // Fetch data every 3 seconds
+      fetchUserData(); // Fetch data every 2 seconds
     }, 2000);
 
     return () => clearInterval(interval); // Cleanup to prevent memory leaks
