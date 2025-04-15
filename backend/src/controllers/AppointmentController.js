@@ -332,7 +332,7 @@ const updateVehicleReturnStatus = async (req, res) => {
             <p>Your vehicle has been successfully returned by <strong>${garageName}</strong>.</p>
             <h4>Appointment Details:</h4>
             <ul>
-              <li><strong>Vehicle:</strong> ${vehicle.make} ${vehicle.model} (${vehicle.licensePlate})</li>
+              <li><strong>Vehicle:</strong>  ${vehicle.model} (${vehicle.licensePlate})</li>
               <li><strong>Appointment Date:</strong> ${formattedDate}</li>
             </ul>
             <p>Thank you for choosing <strong>E-Garage</strong> for your service needs.</p>

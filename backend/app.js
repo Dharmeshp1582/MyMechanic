@@ -9,6 +9,7 @@ const cors = require("cors");
 app.use(express.json()); //to accept data as json format
 app.use(cookieParser());
 app.use(cors()); // *
+require("dotenv").config();
 
 //http://localhost:3000/test
 app.get("/test", (req, res) => {
@@ -74,9 +75,6 @@ app.use("/garage", garageRoutes);
 const vehicleRoutes = require("./src/routes/VehicleRoute");
 app.use("/vehicle", vehicleRoutes);
 
-//import Mechanic routes
-const mechanicRoutes = require("./src/routes/MechanicRoute");
-app.use("/mechanic", mechanicRoutes);
 
 // import Appointment routes
 const appointmentRoutes = require("./src/routes/AppointmentRoute");

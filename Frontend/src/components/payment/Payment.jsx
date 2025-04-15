@@ -14,6 +14,21 @@ const Payment = ({ appointmentId, userId, amount, onSuccess }) => {
   };
 
   const [userDetails, setUserDetails] = useState(null);
+  const [razorpayKey, setRazorpayKey] = useState("");
+
+
+  useEffect(() => {
+    const fetchKey = async () => {
+      try {
+        const res = await axios.get("/payment/getkey");
+        setRazorpayKey(res.data.key);
+      } catch (err) {
+        console.error("Failed to fetch Razorpay key:", err);
+      }
+    };
+  
+    fetchKey();
+  },[]);
 
   const handlePayment = async () => {
     const isScriptLoaded = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
@@ -32,7 +47,7 @@ const Payment = ({ appointmentId, userId, amount, onSuccess }) => {
       const orderData = orderRes.data;
 
       const options = {
-        key: "rzp_test_TLAOGmfDbK3zor" ,//use your key,
+        key: razorpayKey ,//use your key,
         amount: orderData.amount,
         currency: orderData.currency,
         name: "My Mechanic",

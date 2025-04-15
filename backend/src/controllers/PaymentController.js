@@ -6,9 +6,13 @@ const { sendingMail } = require("../utils/MailUtil");
 
 // Razorpay Instance
 const razorpay = new Razorpay({
-  key_id: "rzp_test_TLAOGmfDbK3zor",
-  key_secret: "MmScO4oyfCk1mGQIMVQsJBB6",
+  key_id: process.env.RAZORPAY_KEY,
+  key_secret:  process.env.RAZORPAY_SECRET,
 });
+
+const getRazorpayKey = (req, res) => {
+  res.status(200).json({ key: razorpay.key_id});
+};
 
 //  Create Order
 const create_order = async (req, res) => {
@@ -323,5 +327,6 @@ module.exports = {
   getTotalRevenue,
   getRevenueChartData,
   getAllPayments,
-  getGarageOwnerPayments
+  getGarageOwnerPayments,
+  getRazorpayKey
 };
