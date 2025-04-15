@@ -128,7 +128,7 @@ export const ViewMyVehicle = () => {
 
     const handleServiceNow = (vehicle) => {
         navigate("/user/garages", {
-            state: { selectedVehicle: vehicle } // ✅ Passing full vehicle object (you can also pass just vehicle._id if preferred)
+            state: { selectedVehicle: vehicle } //  Passing full vehicle object (you can also pass just vehicle._id if preferred)
         });
     };
 

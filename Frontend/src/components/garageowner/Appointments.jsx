@@ -126,7 +126,7 @@ export const Appointments = () => {
                       .join(", ") || "N/A"}
                   </td>
                   <td>
-                    {appointment.vehicleId?.make} {appointment.vehicleId?.model}
+                     {appointment.vehicleId?.model}
                   </td>
                   <td>{appointment.vehicleId?.licensePlate}</td>
                   <td>

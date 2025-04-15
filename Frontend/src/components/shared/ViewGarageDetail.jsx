@@ -240,7 +240,7 @@ export const ViewGarageDetail = () => {
                   />
                   <h3 style={{ margin: "0.5rem 0" }}>
                     {service.name}
-                    <p><StarBorderIcon /></p>
+                    {/* <p><StarBorderIcon /></p> */}
                   </h3>
                   <p style={{ fontSize: "0.9rem", color: "#555" }}>
                     {service.description}
@@ -283,7 +283,7 @@ export const ViewGarageDetail = () => {
               style={{
                 padding: "0.75rem 2rem",
                 fontSize: "1rem",
-                backgroundColor: "rgb(72, 72, 243)",
+                backgroundColor: "rgb(60, 60, 118)",
                 color: "#fff",
                 border: "none",
                 borderRadius: "6px",

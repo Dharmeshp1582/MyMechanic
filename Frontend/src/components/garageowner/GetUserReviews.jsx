@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 export const GetUserReviews = () => {
@@ -9,6 +9,7 @@ export const GetUserReviews = () => {
   const [garageName, setGarageName] = useState("");
   const [loading, setLoading] = useState(true);
   const [showAll, setShowAll] = useState(false); // NEW STATE
+  const navigate = useNavigate();
 
   const fetchReviews = async () => {
     try {
@@ -41,8 +42,13 @@ export const GetUserReviews = () => {
 
   return (
     <div style={{ padding: "2rem", background: "#f4f4f6", minHeight: "80vh" }}>
+      <button onClick={() => navigate(-1)} className="" style={{backgroundColor:"#ffff"}}>
+        ← Go Back
+      </button>
+
       <h2 style={{ textAlign: "center", marginBottom: "0.5rem" }}>
-        Customer Feedback - <span style={{ color: "#2c3e50" }}>{garageName}</span>
+        Customer Feedback -{" "}
+        <span style={{ color: "#2c3e50" }}>{garageName}</span>
       </h2>
 
       {averageRating && (
@@ -66,7 +72,7 @@ export const GetUserReviews = () => {
               flexDirection: "column",
               gap: "1rem",
               maxWidth: "800px",
-              margin: "0 auto",
+              margin: "0 auto"
             }}
           >
             {visibleReviews.map((review, index) => (
@@ -76,7 +82,7 @@ export const GetUserReviews = () => {
                   background: "#fff",
                   padding: "1rem",
                   borderRadius: "10px",
-                  boxShadow: "0 0 5px rgba(0,0,0,0.1)",
+                  boxShadow: "0 0 5px rgba(0,0,0,0.1)"
                 }}
               >
                 <div
@@ -84,17 +90,20 @@ export const GetUserReviews = () => {
                     display: "flex",
                     alignItems: "center",
                     gap: "1rem",
-                    marginBottom: "0.5rem",
+                    marginBottom: "0.5rem"
                   }}
                 >
                   <img
-                    src={review.userId?.imageURL || "https://via.placeholder.com/40"}
+                    src={
+                      review.userId?.imageURL ||
+                      "https://via.placeholder.com/40"
+                    }
                     alt={review.userId?.fullName || "Anonymous"}
                     style={{
                       width: "40px",
                       height: "40px",
                       borderRadius: "50%",
-                      objectFit: "cover",
+                      objectFit: "cover"
                     }}
                   />
                   <div>
@@ -113,7 +122,7 @@ export const GetUserReviews = () => {
                   style={{
                     fontSize: "0.8rem",
                     color: "gray",
-                    marginTop: "0.5rem",
+                    marginTop: "0.5rem"
                   }}
                 >
                   {new Date(review.createdAt).toLocaleString()}
@@ -133,7 +142,7 @@ export const GetUserReviews = () => {
                   color: "#fff",
                   border: "none",
                   borderRadius: "5px",
-                  cursor: "pointer",
+                  cursor: "pointer"
                 }}
               >
                 {showAll ? "View Less" : "View More"}

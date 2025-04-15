@@ -90,6 +90,7 @@
 
 .own-appoint-status-btn {
   background-color: #007bff;
+  width: 100%;
 }
 .own-appoint-status-btn:hover {
   background-color: #0056b3;
@@ -104,6 +105,8 @@
 
 .own-appoint-reject-btn {
   background-color: #ff9800;
+  width: 100%;
+  margin-top: 5px;
 }
 .own-appoint-reject-btn:hover {
   background-color: #e68900;

@@ -84,6 +84,7 @@ export const AddReview = () => {
   };
 
   const handleEdit = (review) => {
+    window.scrollTo(0,0)
     setRating(Number(review.rating));
     setComment(review.comment);
     setEditingReviewId(review._id);
