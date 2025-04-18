@@ -5,16 +5,6 @@ import "../../assets/landing/css/Footer.css"
 
 export const Footer = () => {
   return (
-    // <footer class="bg-dark text-white text-center py-2" style={{position:"relative", bottom:"0", width:"100%"}}>
-    //     <div class="">
-    //       <p class="mb-1">&copy; 2025 E-Garage. All rights reserved.</p>
-    //       <p class="mb-0" style={{color:"gray", fontSize:"0.8rem"}}>
-    //         <Link to="#" class=" me-3" style={{color:"grey"}}>Privacy Policy</Link> |
-    //         <Link to="#" class=" ms-3" style={{color:"gray"}}>Terms of Service</Link>
-    //       </p>
-    //     </div>
-    //   </footer>
-
     <footer className="footer">
     <div className="footer-container">
       <div className="footer-grid">

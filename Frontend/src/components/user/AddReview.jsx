@@ -135,11 +135,11 @@ export const AddReview = () => {
         {editingReviewId ? "Update Review for" : "Add Review for"}{" "}
         <span style={{ color: "rgb(92, 159, 242)" }}>{selectedGarage.name}</span>
       </h2>
-
+       <div>
       <form
         onSubmit={handleSubmit}
         style={{
-          maxWidth: "600px",
+          maxWidth: "700px",
           margin: "0 auto",
           display: "flex",
           flexDirection: "column",
@@ -147,7 +147,8 @@ export const AddReview = () => {
           padding: "2rem",
           boxShadow: "0 0 10px rgba(0,0,0,0.1)",
           borderRadius: "10px",
-          background: "white"
+          background: "white",
+          
         }}
       >
         <label>
@@ -196,6 +197,7 @@ export const AddReview = () => {
           {editingReviewId ? "Update Review" : "Submit Review"}
         </button>
       </form>
+      </div>
 
       {/* Reviews Section */}
       <div style={{ maxWidth: "700px", margin: "2rem auto" }}>

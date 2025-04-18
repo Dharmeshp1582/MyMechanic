@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { GarageOwnerNavbar } from "./GarageOwnerNavbar";
 import GarageLogo from "../../../src/assets/images/logo.webp";
 import { Link, NavLink, Outlet } from "react-router-dom";
-import { Footer } from "../common/Footer";
+
 import { FaPlusSquare, FaWarehouse, FaWrench } from "react-icons/fa";
+import { GarageFooter } from "../common/GarageFooter";
 
 export const GarageOwnerSidebar = () => {
   const [hover, setHover] = useState(false);
@@ -157,6 +158,20 @@ export const GarageOwnerSidebar = () => {
                 <span style={{fontSize:"20px"}}>🛠️</span>
                 <p>Garage Services</p>
               </NavLink>
+              {/* <NavLink
+                to="deleteservice/${serviceId}"
+                className="nav-link"
+                style={({ isActive }) => ({
+                  color: isActive ? "rgb(48 75 196)" : "white",
+                  display: "flex",
+                  alignItems: "center",
+                  padding: "10px",
+                  borderRadius: "5px"
+                })}
+              >
+                <FaPlusSquare size={20} style={{ marginRight: "10px" }} />
+                <p>Manage Services</p>
+              </NavLink> */}
             </ul>
           </nav>
         </div>
@@ -167,7 +182,7 @@ export const GarageOwnerSidebar = () => {
         style={{ paddingBottom: "0" }}
       >
         <Outlet />
-        <Footer />
+      <GarageFooter/>
       </main>
     </>
   );

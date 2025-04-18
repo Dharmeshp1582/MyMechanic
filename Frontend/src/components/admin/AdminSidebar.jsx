@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { AdminNavbar } from "./AdminNavbar";
 import GarageLogo from "../../assets/images/logo.webp";
-import { Footer } from "../common/Footer";
 
 // Importing Different Icons
 import { MdDashboard } from "react-icons/md"; // Dashboard Icon
@@ -11,6 +10,7 @@ import { RiUserSettingsLine } from "react-icons/ri"; // Manage Users Icon
 import { TbLayoutDashboard } from "react-icons/tb"; // Dashboard v3 Icon
 import { FiEdit } from "react-icons/fi"; // Theme Generate Icon
 import { IoMdApps } from "react-icons/io"; // Widgets Icon
+import { GarageFooter } from "../common/GarageFooter";
 
 export const AdminSidebar = () => {
   const [hover, setHover] = useState(false);
@@ -213,7 +213,7 @@ export const AdminSidebar = () => {
         style={{ backgroundColor: "#87aac9", paddingBottom: "0" }}
       >
         <Outlet />
-        <Footer />
+        <GarageFooter />
       </main>
     </>
   );

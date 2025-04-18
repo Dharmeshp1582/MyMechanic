@@ -149,6 +149,10 @@
   color: black !important;
 }
 
+.admin-dash-mui-pie{
+  height: 250px !important;
+}
+
 /* Optional: Responsive tweaks for small screens */
 @media (max-width: 600px) {
   .admin-revenue-container {

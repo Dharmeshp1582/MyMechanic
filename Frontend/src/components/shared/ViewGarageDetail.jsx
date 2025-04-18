@@ -218,8 +218,8 @@ export const ViewGarageDetail = () => {
                 <div
                   key={service._id}
                   style={{
-                    width: "33%",
-                    maxWidth: "33%",
+                    width: "390px",
+                    maxWidth: "390px",
                     flex: "1 1 300px",
                     border: "1px solid #ccc",
                     borderRadius: "10px",

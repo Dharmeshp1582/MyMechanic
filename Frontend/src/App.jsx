@@ -59,6 +59,7 @@ import UsersPayments from "./components/admin/UsersPayments";
 import { GarageUserPayments } from "./components/garageowner/GarageUserPayments";
 import { AddReview } from "./components/user/AddReview";
 import { GetUserReviews } from "./components/garageowner/GetUserReviews";
+import { DeleteService } from "./components/garageowner/DeleteService";
 
 
 function App() {
@@ -137,6 +138,7 @@ function App() {
             <Route path="contact" element={<Contact />} />
             <Route path="earning" element={<GarageUserPayments/>}></Route>
             <Route path="garagereviews/:garageId" element={<GetUserReviews/>}></Route>
+            <Route path="deleteservice/${serviceId}" element={<DeleteService/>}></Route>
           </Route>
 
           {/* USER ROUTES */}

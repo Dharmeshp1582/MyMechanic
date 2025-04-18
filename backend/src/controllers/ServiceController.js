@@ -53,20 +53,50 @@ const getAllServices = async (req, res) => {
 };
 
 //delete Service by id
-const deleteService = async (req, res) => {
-  //delete from service where id=>
-  //req.params
-  // console.log(req.params) //params object
+// const deleteService = async (req, res) => {
+//   //delete from service where id=>
+//   //req.params
+//   // console.log(req.params) //params object
+//   try {
+//     const deletedService = await serviceModel.findByIdAndDelete(req.params.id);
+
+//     res.status(200).json({
+//       message: "service deleted successfully",
+//       data: deletedService
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       message: error
+//     });
+//   }
+// };
+
+// DELETE /service/delete/:id
+const deleteServiceById = async (req, res) => {
   try {
-    const deletedService = await serviceModel.findByIdAndDelete(req.params.id);
+    const { id } = req.params;
+    
+
+    const deletedService = await serviceModel.findByIdAndDelete(id);
+
+    if (!deletedService) {
+      return res.status(404).json({
+        success: false,
+        message: "Service not found",
+      });
+    }
 
     res.status(200).json({
-      message: "service deleted successfully",
-      data: deletedService
+      success: true,
+      message: "Service deleted successfully",
+      data: deletedService,
     });
   } catch (error) {
+    console.error("Error deleting service:", error);
     res.status(500).json({
-      message: error
+      success: false,
+      message: "Something went wrong while deleting the service",
+      error: error.message,
     });
   }
 };
@@ -242,11 +272,12 @@ const getServicesByGarageId = async (req, res) => {
 module.exports = {
   addService,
   getAllServices,
-  deleteService,
+  // deleteService,
   addServiceWithFile,
   updateServiceWithFile,
   getAllServicesByUserId,
   // getServiceByServiceId,
   getservicebyId,
-  getServicesByGarageId
+  getServicesByGarageId,
+  deleteServiceById
 };
