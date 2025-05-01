@@ -74,12 +74,12 @@ export const GarageOwnerNavbar = ({ toggleSidebar }) => {
 
   return (
     <nav className="app-header navbar navbar-expand bg-body">
-      <ToastContainer
+      {/* <ToastContainer
         position="top-right"
         autoClose={2000}
         theme="dark"
         transition={Bounce}
-      />
+      /> */}
       <div className="container-fluid">
         <ul className="navbar-nav">
           <li className="nav-item">

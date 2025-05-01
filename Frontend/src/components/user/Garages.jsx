@@ -80,7 +80,7 @@ export const Garages = () => {
 
   return (
     <div className="user-gara-container">
-      <ToastContainer
+      {/* <ToastContainer
         position="top-right"
         autoClose={2000}
         hideProgressBar={false}
@@ -92,7 +92,7 @@ export const Garages = () => {
         pauseOnHover
         theme="dark"
         transition={Bounce}
-      />
+      /> */}
 
       <h2 className="user-gara-title">Garages</h2>
 
@@ -118,8 +118,8 @@ export const Garages = () => {
               <h3 className="user-gara-name">{garage.name}</h3>
               <p className="user-gara-owner">Owner: {garage.owner}</p>
               <p className="user-gara-contact">
-                📍 {garage.stateId?.name}, {garage.cityId?.cityName},{" "}
-                {garage.areaId?.name}
+                📍 {garage.areaId?.name}, {garage.cityId?.cityName},{" "}
+                {garage.stateId?.name}
               </p>
               <p className="user-gara-contact">📞 {garage.phoneno}</p>
               <p className="user-gara-contact">📧 {garage.email}</p>

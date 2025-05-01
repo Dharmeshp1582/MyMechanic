@@ -17,7 +17,7 @@ const sendingMail = async (to,subject,text,html = null) =>{
         from :process.env.EMAIL_USER,
         to:to,
         subject:subject,
-        text:text ,
+        text:text,
         ...(html && { html })
 
         // html: "<h1>"+text+"</h1>",

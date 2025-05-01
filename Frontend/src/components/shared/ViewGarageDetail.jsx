@@ -99,10 +99,11 @@ export const ViewGarageDetail = () => {
         <button
           onClick={() => navigate(-1)}
           style={{
-            marginLeft: "20px",
+            marginLeft: "3px",
             backgroundColor: "#d0d7e4",
             color: "black",
-            border: "1px solid #fff"
+            border: "1px solid #fff",
+            cursor: "pointer",
           }}
         >
           ← Go Back
@@ -168,8 +169,8 @@ export const ViewGarageDetail = () => {
             <p><strong>Email:</strong> {garage.email}</p>
             <p><strong>Opening Hours:</strong> {garage.openingHours}</p>
             <p style={{ marginTop: "1rem" }}>
-              <strong>Location:</strong> {garage.stateId?.name},{" "}
-              {garage.cityId?.cityName}, {garage.areaId?.name}
+              <strong>Location:</strong> {garage.areaId?.name},{" "}
+              {garage.cityId?.cityName}, {garage.stateId?.name}
             </p>
             <p>
               <strong>Rating:</strong>{" "}

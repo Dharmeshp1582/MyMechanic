@@ -4,7 +4,7 @@ import GarageLogo from "../../../src/assets/images/logo.webp";
 import { Link, Outlet } from "react-router-dom";
 import { Footer } from "../common/Footer";
 import { FaRegSquareCaretDown } from "react-icons/fa6";
-import { FaBox, FaCar, FaTachometerAlt, FaWrench } from "react-icons/fa";
+import {  FaCar, FaTachometerAlt, FaWrench } from "react-icons/fa";
 import { PiGarage } from "react-icons/pi";
 
 export const UserSidebar = () => {

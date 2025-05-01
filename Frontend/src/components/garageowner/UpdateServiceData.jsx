@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import { Bounce, toast, ToastContainer } from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 
 export const UpdateServiceData = () => {
   const { id } = useParams();
@@ -16,6 +16,7 @@ export const UpdateServiceData = () => {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors }
   } = useForm();
 
@@ -27,14 +28,15 @@ export const UpdateServiceData = () => {
         const serviceData = res.data.data;
 
         if (serviceData) {
-          Object.keys(serviceData).forEach((key) =>
-            setValue(key, serviceData[key])
-          );
-          setImagePreview(serviceData.image); // Set existing image preview
+          Object.keys(serviceData).forEach((key) => {
+            setValue(key, serviceData[key]);
+          });
+          setImagePreview(serviceData.image);
         }
         setLoading(false);
       } catch (err) {
-        setError("Failed to load service data.", err);
+        console.error(err);
+        setError("Failed to load service data.");
         setLoading(false);
       }
     };
@@ -46,14 +48,14 @@ export const UpdateServiceData = () => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setSelectedFile(file);
-    setImagePreview(URL.createObjectURL(file)); // Show preview of selected image
+    setImagePreview(URL.createObjectURL(file));
   };
 
   const submitHandler = async (data) => {
     try {
       const userId = localStorage.getItem("id");
       data.userId = userId;
-      delete data._id; // Prevent sending MongoDB ID in update request
+      delete data._id;
 
       const formData = new FormData();
       Object.keys(data).forEach((key) => formData.append(key, data[key]));
@@ -77,11 +79,10 @@ export const UpdateServiceData = () => {
       }
     } catch (error) {
       toast.error(
-        error.response?.data?.message ||
-          "Service not updated! Please try again.",
+        error.response?.data?.message || "Service not updated! Please try again.",
         {
           position: "top-center",
-          autoClose: 2000,
+          // autoClose: 2000,
           theme: "dark",
           transition: Bounce
         }
@@ -91,7 +92,7 @@ export const UpdateServiceData = () => {
 
   return (
     <div style={{ backgroundColor: "rgb(250, 251, 254)" }}>
-      <ToastContainer />
+    
       <div
         style={{
           padding: "20px",
@@ -252,7 +253,7 @@ export const UpdateServiceData = () => {
               </p>
             )}
 
-            {/* Image Upload Field */}
+            {/* Image Upload */}
             <input
               type="file"
               accept="image/*"
@@ -266,7 +267,6 @@ export const UpdateServiceData = () => {
               }}
             />
 
-            {/* Show Image Preview */}
             {imagePreview && (
               <img
                 src={imagePreview}
@@ -279,7 +279,7 @@ export const UpdateServiceData = () => {
               />
             )}
 
-            {/* Checkbox for Availability */}
+            {/* Checkbox */}
             <div
               style={{
                 display: "flex",
@@ -291,6 +291,8 @@ export const UpdateServiceData = () => {
               <input
                 type="checkbox"
                 {...register("availability")}
+                checked={watch("availability")}
+                onChange={(e) => setValue("availability", e.target.checked)}
                 style={{ width: "20px", height: "20px", cursor: "pointer" }}
               />
               <label style={{ fontSize: "16px", fontWeight: "bold" }}>
@@ -303,7 +305,7 @@ export const UpdateServiceData = () => {
               style={{
                 width: "30%",
                 padding: "12px",
-                backgroundColor: " rgb(30, 32, 35)",
+                backgroundColor: "rgb(30, 32, 35)",
                 color: "white",
                 border: "none",
                 borderRadius: "5px",
@@ -313,8 +315,8 @@ export const UpdateServiceData = () => {
                 transition: "background 0.3s",
                 margin: "0px auto"
               }}
-              onMouseOver={(e) => (e.target.style.backgroundColor = " rgb(112, 117, 133)")}
-              onMouseOut={(e) => (e.target.style.backgroundColor = " rgb(31, 32, 35)")}
+              onMouseOver={(e) => (e.target.style.backgroundColor = "rgb(112, 117, 133)")}
+              onMouseOut={(e) => (e.target.style.backgroundColor = "rgb(30, 32, 35)")}
             >
               Update Service
             </button>

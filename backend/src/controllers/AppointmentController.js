@@ -125,7 +125,7 @@ const getAllAppointmentByUserId = async (req, res) => {
             .populate({
 
                 path: "garageownerId",
-                select: "name userId", // Get garage name & userId
+                select: "name userId latitude longitude", // Get garage name & userId
                 populate: {
                     path: "userId", // Nested: garage owner
                     select: "fullName email", // Get owner's name & email
@@ -400,4 +400,5 @@ const cancelAppointment = async (req, res) => {
 
 module.exports = {
     getAllAppointments, addAppointments, deleteAppointmentById, getAppointmentsById, getAllAppointmentByUserId,getAppointmentsByGarageownerUserId,UpdateStatus,updateVehicleReturnStatus ,cancelAppointment
+
 }

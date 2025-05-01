@@ -98,7 +98,7 @@ export const Appointments = () => {
 
   return (
     <div className="own-appoint-containers">
-      <h2 className="own-appoint-title">Garage Owner's Appointments</h2>
+      <h2 className="own-appoint-title">Garage Owner&apos;s Appointments</h2>
       <div className="own-appoint-table-container">
         <table className="own-appoint-table">
           <thead>

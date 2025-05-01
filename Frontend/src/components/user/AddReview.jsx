@@ -17,6 +17,7 @@ export const AddReview = () => {
   const [comment, setComment] = useState("");
   const [reviews, setReviews] = useState([]);
   const [averageRating, setAverageRating] = useState(null);
+  const [ratingDistribution, setRatingDistribution] = useState({});
   const [loadingReviews, setLoadingReviews] = useState(true);
   const [editingReviewId, setEditingReviewId] = useState(null);
   const [showAllReviews, setShowAllReviews] = useState(false);
@@ -30,8 +31,16 @@ export const AddReview = () => {
       if (reviewList.length > 0) {
         const total = reviewList.reduce((sum, r) => sum + Number(r.rating), 0);
         setAverageRating((total / reviewList.length).toFixed(1));
+
+        const distribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+        reviewList.forEach(r => {
+          const rInt = Math.round(Number(r.rating));
+          distribution[rInt] = (distribution[rInt] || 0) + 1;
+        });
+        setRatingDistribution(distribution);
       } else {
         setAverageRating(null);
+        setRatingDistribution({});
       }
     } catch (error) {
       console.error("Error fetching reviews:", error);
@@ -84,7 +93,7 @@ export const AddReview = () => {
   };
 
   const handleEdit = (review) => {
-    window.scrollTo(0,0)
+    window.scrollTo(0, 0);
     setRating(Number(review.rating));
     setComment(review.comment);
     setEditingReviewId(review._id);
@@ -116,7 +125,7 @@ export const AddReview = () => {
 
   return (
     <div style={{ minHeight: "90vh", padding: "2rem", backgroundColor: "rgb(221, 221, 223)" }}>
-      <ToastContainer position="top-right" autoClose={1000} theme="dark" />
+      {/* <ToastContainer position="top-right" autoClose={1000} theme="dark" /> */}
 
       <button
         onClick={() => navigate(-1)}
@@ -135,81 +144,103 @@ export const AddReview = () => {
         {editingReviewId ? "Update Review for" : "Add Review for"}{" "}
         <span style={{ color: "rgb(92, 159, 242)" }}>{selectedGarage.name}</span>
       </h2>
-       <div>
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          maxWidth: "700px",
-          margin: "0 auto",
-          display: "flex",
-          flexDirection: "column",
-          gap: "1rem",
-          padding: "2rem",
-          boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-          borderRadius: "10px",
-          background: "white",
-          
-        }}
-      >
-        <label>
-          Rating:
-          <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
-            {[1, 2, 3, 4, 5].map((star) => (
-              <span
-                key={star}
-                onClick={() => setRating(star)}
-                onMouseEnter={() => setHover(star)}
-                onMouseLeave={() => setHover(0)}
-                style={{
-                  cursor: "pointer",
-                  fontSize: "2rem",
-                  color: (hover || rating) >= star ? "#FFD700" : "#ccc"
-                }}
-              >
-                ★
-              </span>
-            ))}
-          </div>
-        </label>
 
-        <label>
-          Comment:
-          <textarea
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            rows={5}
-            placeholder="Write your review..."
-            style={{ padding: "0.5rem", width: "100%" }}
-          />
-        </label>
-
-        <button
-          type="submit"
+      {/* Review Form */}
+      <div>
+        <form
+          onSubmit={handleSubmit}
           style={{
-            padding: "0.75rem",
-            backgroundColor: "rgb(69, 70, 73)",
-            color: "#fff",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer"
+            maxWidth: "700px",
+            margin: "0 auto",
+            display: "flex",
+            flexDirection: "column",
+            gap: "1rem",
+            padding: "2rem",
+            boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+            borderRadius: "10px",
+            background: "white"
           }}
         >
-          {editingReviewId ? "Update Review" : "Submit Review"}
-        </button>
-      </form>
+          <label>
+            Rating:
+            <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
+              {[1, 2, 3, 4, 5].map((star) => (
+                <span
+                  key={star}
+                  onClick={() => setRating(star)}
+                  onMouseEnter={() => setHover(star)}
+                  onMouseLeave={() => setHover(0)}
+                  style={{
+                    cursor: "pointer",
+                    fontSize: "2rem",
+                    color: (hover || rating) >= star ? "#FFD700" : "#ccc"
+                  }}
+                >
+                  ★
+                </span>
+              ))}
+            </div>
+          </label>
+
+          <label>
+            Comment:
+            <textarea
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              rows={5}
+              placeholder="Write your review..."
+              style={{ padding: "0.5rem", width: "100%" }}
+            />
+          </label>
+
+          <button
+            type="submit"
+            style={{
+              padding: "0.75rem",
+              backgroundColor: "rgb(69, 70, 73)",
+              color: "#fff",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer"
+            }}
+          >
+            {editingReviewId ? "Update Review" : "Submit Review"}
+          </button>
+        </form>
       </div>
+
+      {/* Rating Summary Bar */}
+      {averageRating && (
+        <div style={{ background: "#fff", padding: "1.5rem", borderRadius: "10px", boxShadow: "0 0 8px rgba(0,0,0,0.1)", maxWidth: "700px", margin: "2rem auto" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "2rem" }}>
+            <div style={{ textAlign: "center" }}>
+              <div style={{ fontSize: "2.5rem", fontWeight: "bold" }}>{averageRating}</div>
+              <div style={{ fontSize: "1.5rem", color: "#FFD700" }}>
+                {"★".repeat(Math.floor(averageRating))}{averageRating % 1 >= 0.5 ? "½" : ""}
+              </div>
+              <div style={{ color: "gray" }}>{reviews.length} reviews</div>
+            </div>
+            <div style={{ flex: 1 }}>
+              {[5, 4, 3, 2, 1].map(star => {
+                const count = ratingDistribution[star] || 0;
+                const percentage = reviews.length ? (count / reviews.length) * 100 : 0;
+                return (
+                  <div key={star} style={{ display: "flex", alignItems: "center", marginBottom: "0.5rem" }}>
+                    <span style={{ width: "20px" }}>{star}</span>
+                    <div style={{ flex: 1, margin: "0 10px", height: "10px", background: "#eee", borderRadius: "5px" }}>
+                      <div style={{ width: `${percentage}%`, background: "#FFD700", height: "100%", borderRadius: "5px" }}></div>
+                    </div>
+                    <span style={{ minWidth: "30px", textAlign: "right" }}>{count}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Reviews Section */}
       <div style={{ maxWidth: "700px", margin: "2rem auto" }}>
-        {averageRating && (
-          <div style={{ textAlign: "center", marginBottom: "0.5rem" }}>
-            <span style={{ fontSize: "1.2rem", color: "#333" }}>
-              ⭐ Average Rating:{" "}
-              <strong style={{ color: "rgb(26, 42, 106)" }}>{averageRating} / 5</strong>
-            </span>
-          </div>
-        )}
-
         <h3 style={{ fontSize: "1.5rem", margin: "1rem 0", fontWeight: "bold" }}>
           Customer Reviews
         </h3>
@@ -240,16 +271,13 @@ export const AddReview = () => {
                     }}
                   >
                     <img
-                      src={
-                        review.userId?.imageURL ||
-                        "https://via.placeholder.com/40"
-                      }
+                      src={review.userId?.imageURL || "https://via.placeholder.com/40"}
                       alt={review.userId?.fullName}
                       style={{
                         width: "40px",
                         height: "40px",
                         borderRadius: "50%",
-                        border:"0.5px solid black",
+                        border: "0.5px solid black",
                         objectFit: "cover"
                       }}
                     />

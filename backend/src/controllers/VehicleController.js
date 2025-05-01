@@ -59,4 +59,28 @@ const getVehicleByUserId = async (req,res) => {
   }
 }
 
-module.exports = { addVehicle, getAllVehicles, deleteVehicleById, getVehicleByUserId };
+// Update Vehicle By Id
+const updateVehicleById = async (req, res) => {
+  try {
+    const updatedVehicle = await vehicleModel.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true } // returns the updated document
+    );
+
+    if (!updatedVehicle) {
+      return res.status(404).json({ message: "Vehicle not found" });
+    }
+
+    res.status(200).json({
+      message: "Vehicle updated successfully",
+      data: updatedVehicle,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: err.message,
+    });
+  }
+};
+
+module.exports = { addVehicle, getAllVehicles, deleteVehicleById, getVehicleByUserId , updateVehicleById };

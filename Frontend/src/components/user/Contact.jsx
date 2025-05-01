@@ -11,6 +11,7 @@ export const Contact = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);  // Added loading state
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -34,6 +35,7 @@ export const Contact = () => {
       return;
     }
     setErrors({});
+    setLoading(true);  // Set loading state to true
 
     try {
       const response = await axios.post("/contact", formData, {
@@ -43,13 +45,18 @@ export const Contact = () => {
       });
 
       if (response.status === 200) {
-        toast.success("Message sent successfully!");
+        toast.success("Message sent successfully!", {
+          theme: "dark",
+          autoClose: 2000,
+        });
         setFormData({ name: "", email: "", message: "" });
       } else {
         toast.error("Something went wrong!");
       }
     } catch (error) {
       toast.error(`Error submitting form: ${error.message}`);
+    } finally {
+      setLoading(false);  // Set loading state back to false
     }
   };
 
@@ -59,7 +66,7 @@ export const Contact = () => {
         minHeight: "100vh",
         overflowY: "auto",
         padding: "40px",
-        backgroundColor:"rgb(220, 225, 245)"
+        backgroundColor: "rgb(220, 225, 245)",
       }}
     >
       <div
@@ -84,7 +91,6 @@ export const Contact = () => {
         >
           Send Us a Message
         </h2>
-        <ToastContainer />
         <form
           onSubmit={handleSubmit}
           style={{ display: "flex", flexDirection: "column", gap: "20px" }}
@@ -155,9 +161,7 @@ export const Contact = () => {
               }}
             />
             {errors.message && (
-              <p style={{ color: "red", marginTop: "5px" }}>
-                {errors.message}
-              </p>
+              <p style={{ color: "red", marginTop: "5px" }}>{errors.message}</p>
             )}
           </div>
 
@@ -176,18 +180,17 @@ export const Contact = () => {
                 width: "180px",
                 boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
               }}
-              onMouseOver={(e) =>
-                (e.target.style.backgroundColor = "#1d4f91")
-              }
-              onMouseOut={(e) =>
-                (e.target.style.backgroundColor = "#0d3b66")
-              }
+              onMouseOver={(e) => (e.target.style.backgroundColor = "#1d4f91")}
+              onMouseOut={(e) => (e.target.style.backgroundColor = "#0d3b66")}
+              disabled={loading}  // Disable button while loading
             >
-              Send Message
+              {loading ? "Sending..." : "Send Message"}
             </button>
           </div>
         </form>
       </div>
+
+      {/* <ToastContainer /> */}
     </div>
   );
 };

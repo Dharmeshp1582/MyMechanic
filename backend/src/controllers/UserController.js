@@ -71,7 +71,6 @@ const loginUser = async (req, res) => {
   }
 };
 
-
 //signup
 const Signup = async (req, res) => {
   try {
@@ -84,10 +83,10 @@ const Signup = async (req, res) => {
     const hashedPassword = bcrypt.hashSync(req.body.password, salt); // access password from req.body
     req.body.password = hashedPassword;
     const createdUser = await userModel.create(req.body);
-  console.log(createdUser)
+    console.log(createdUser);
     //send mail to user
 
-    // const mailResponse = await mailUtil.sendingMail(createdUser.email,"Welcome to MyMechanic platform","This is Welcome mail");
+    const mailResponse = await mailUtil.sendingMail(createdUser.email,"Welcome to MyMechanic platform","This is Welcome mail");
 
     await mailUtil.sendingMail(
       createdUser.email,
@@ -123,24 +122,22 @@ const Signup = async (req, res) => {
 //       message:error.message
 //     })
 //   }
- 
+
 // };
 const getUsers = async (req, res) => {
   try {
-
-      const users = await userModel.find().populate("roleId", "name -_id")
-      const filteredUsers = users.filter(user => user.roleId.name !== "Admin"); 
-      res.status(200).json({
-          message: "users fetched Sucessfully",
-          data: filteredUsers
-      })
+    const users = await userModel.find().populate("roleId", "name -_id");
+    const filteredUsers = users.filter((user) => user.roleId.name !== "Admin");
+    res.status(200).json({
+      message: "users fetched Sucessfully",
+      data: filteredUsers
+    });
   } catch (err) {
-      res.status(500).json({
-          message: err.message
-      })
+    res.status(500).json({
+      message: err.message
+    });
   }
-
-}
+};
 
 //add user
 const addUsers = async (req, res) => {
@@ -280,7 +277,7 @@ const addUserWithFile = async (req, res) => {
 //   }
 // };
 
-//update user 
+//update user
 const updateUser = async (req, res) => {
   upload(req, res, async (err) => {
     if (err) {
@@ -294,16 +291,22 @@ const updateUser = async (req, res) => {
 
       // If a new image is uploaded, store it in Cloudinary
       if (req.file) {
-        const cloudinaryResponse = await cloudinaryUtil.uploadFileToCloudinary(req.file);
+        const cloudinaryResponse = await cloudinaryUtil.uploadFileToCloudinary(
+          req.file
+        );
         updatedData.imageURL = cloudinaryResponse.secure_url;
       }
 
       // Update the user data in the database
-      const updatedUser = await userModel.findByIdAndUpdate(userId, updatedData, { new: true });
+      const updatedUser = await userModel.findByIdAndUpdate(
+        userId,
+        updatedData,
+        { new: true }
+      );
 
       res.status(200).json({
         message: "User updated successfully",
-        data: updatedUser,
+        data: updatedUser
       });
     } catch (err) {
       res.status(500).json({ message: err.message });
@@ -364,7 +367,7 @@ const resetPassword = async (req, res) => {
     );
     res.status(201).json({
       message: "password updated successfully..",
-      data:updatedUser
+      data: updatedUser
     });
   } catch (error) {
     console.log(error.message);

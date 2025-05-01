@@ -1,19 +1,23 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { Bounce, toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Bounce, toast } from "react-toastify";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../../assets/css/bookappointment.css";
 
 export const Booking = () => {
-  const [vehicles, setVehicles] = useState([]);
-  const [selectedServiceIds, setSelectedServiceIds] = useState([]);
+  const userId = localStorage.getItem("id");
   const navigate = useNavigate();
   const location = useLocation();
   const { selectedVehicle, selectedGarage, selectedServices } = location.state || {};
 
-  const [formData, setFormData] = useState({
-    userId: localStorage.getItem("id"),
+  const [vehicles, setVehicles] = useState([]);
+  const [selectedServiceIds, setSelectedServiceIds] = useState([]);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const dropdownRef = useRef(null);
+
+  const getInitialFormData = () => ({
+    userId: userId,
     serviceId: [],
     vehicleId: "",
     garageownerId: "",
@@ -24,16 +28,13 @@ export const Booking = () => {
     reason: "",
   });
 
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
+  const [formData, setFormData] = useState(getInitialFormData());
 
   useEffect(() => {
-    const userId = localStorage.getItem("id");
-
     if (userId) {
-      axios.get(`/vehicle/getvehiclebyuserid/${userId}`).then((res) => {
-        setVehicles(res.data.data);
-      });
+      axios.get(`/vehicle/getvehiclebyuserid/${userId}`)
+        .then((res) => setVehicles(res.data.data))
+        .catch((err) => console.error("Failed to fetch vehicles", err));
     }
 
     if (selectedVehicle) {
@@ -44,7 +45,7 @@ export const Booking = () => {
       setFormData((prev) => ({ ...prev, garageownerId: selectedGarage._id }));
     }
 
-    if (selectedServices && selectedServices.length > 0) {
+    if (selectedServices?.length > 0) {
       const serviceIds = selectedServices.map((s) => s._id);
       const totalPrice = selectedServices.reduce((sum, s) => sum + s.price, 0);
 
@@ -56,7 +57,7 @@ export const Booking = () => {
         finalPrice: totalPrice,
       }));
     }
-  }, [selectedVehicle, selectedGarage, selectedServices]);
+  }, [userId, selectedVehicle, selectedGarage, selectedServices]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -64,7 +65,6 @@ export const Booking = () => {
         setDropdownOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -77,7 +77,7 @@ export const Booking = () => {
         : [...prev, service._id];
 
       const totalPrice = updatedServiceIds.reduce((sum, id) => {
-        const s = selectedServices.find((s) => s._id === id);
+        const s = selectedServices?.find((s) => s._id === id);
         return sum + (s ? s.price : 0);
       }, 0);
 
@@ -90,6 +90,8 @@ export const Booking = () => {
 
       return updatedServiceIds;
     });
+
+    setDropdownOpen(false);
   };
 
   const handleChange = (e) => {
@@ -115,37 +117,34 @@ export const Booking = () => {
     }
 
     try {
+      setIsLoading(true);
+
       await axios.post("/appointment/addappointment", formData);
+
       toast.success("Appointment booked successfully!", {
         position: "top-right",
         autoClose: 2000,
         theme: "dark",
         transition: Bounce,
-        onClose: () => navigate("/user/appointment"),
       });
 
-      setFormData({
-        userId: localStorage.getItem("id"),
-        serviceId: [],
-        vehicleId: "",
-        garageownerId: "",
-        appointmentDate: "",
-        basePrice: 0,
-        finalPrice: 0,
-        status: "pending",
-        reason: "",
-      });
+      // Delay navigation to allow toast to display
+      setTimeout(() => {
+        navigate("/user/appointment");
+      }, 1600);
 
+      setFormData(getInitialFormData());
       setSelectedServiceIds([]);
     } catch (error) {
       console.error("Booking failed", error);
       toast.error("Booking failed. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <div className="booking-page">
-      <ToastContainer />
       <div className="book-app-container">
         <button onClick={() => navigate(-1)} className="book-app-go-back-button">
           ← Go Back
@@ -165,7 +164,7 @@ export const Booking = () => {
                 : "Select Services"}
             </div>
 
-            {dropdownOpen && (
+            {dropdownOpen && selectedServices?.length > 0 && (
               <div className="book-app-dropdown-list">
                 {selectedServices.map((service) => (
                   <div
@@ -228,8 +227,13 @@ export const Booking = () => {
             </p>
           </div>
 
-          <button type="submit" className="book-app-submit-button">
-            Confirm Booking
+          <button
+            type="submit"
+            className="book-app-submit-button"
+            disabled={isLoading}
+            style={{ opacity: isLoading ? 0.7 : 1 }}
+          >
+            {isLoading ? "Booking..." : "Confirm Booking"}
           </button>
         </form>
       </div>

@@ -30,7 +30,7 @@ export const AllServices = () => {
       toast.success("Service deleted successfully!");
       fetchServices();
     } catch (err) {
-      toast.error("Failed to delete the service.");
+      toast.error("Failed to delete the service.",err);
     }
   };
 

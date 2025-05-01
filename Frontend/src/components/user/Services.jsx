@@ -11,7 +11,7 @@ export const Services = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // 🟡 Get selected vehicle from previous page
+  //  Get selected vehicle from previous page
   const { selectedVehicle } = location.state || {};
 
   useEffect(() => {

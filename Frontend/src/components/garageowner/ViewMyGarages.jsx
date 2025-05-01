@@ -85,7 +85,7 @@ export const ViewMyGarages = () => {
             borderRadius: "8px",
             border: "1px solid #ccc",
             fontSize: "16px",
-            boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+            boxShadow: "0 2px 5px rgba(0,0,0,0.1)"
           }}
         />
       </div>
@@ -98,7 +98,7 @@ export const ViewMyGarages = () => {
           gap: "20px",
           justifyContent: "center",
           maxWidth: "1100px",
-          margin: "0 auto",
+          margin: "0 auto"
         }}
       >
         {filteredGarage.length > 0 ? (
@@ -112,7 +112,7 @@ export const ViewMyGarages = () => {
                 padding: "20px",
                 backgroundColor: "rgb(248, 249, 250)",
                 boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
-                textAlign: "center",
+                textAlign: "center"
               }}
             >
               <img
@@ -125,7 +125,7 @@ export const ViewMyGarages = () => {
                   objectFit: "cover",
                   borderRadius: "8px",
                   border: "2px solid black",
-                  cursor: "pointer",
+                  cursor: "pointer"
                 }}
               />
 
@@ -141,19 +141,33 @@ export const ViewMyGarages = () => {
                   alignItems: "center",
                   gap: "5px",
                   margin: "10px 0",
-                  cursor: "pointer",
+                  cursor: "pointer"
                 }}
               >
                 <StarBorderIcon style={{ fontSize: "20px" }} /> Reviews
               </Link>
 
-              <h3 style={{ fontSize: "20px", margin: "10px 0", color: "black" }}>
+              <h3
+                style={{ fontSize: "20px", margin: "10px 0", color: "black" }}
+              >
                 {gr.name}
               </h3>
-              <p><strong>Owner:</strong> {gr.owner}</p>
-              <p><strong>Status:</strong> {gr.avaliability_status ? "Open" : "Closed"}</p>
-              <p><strong>Hours:</strong> {gr.openingHours}</p>
-              <p><strong>Contact:</strong> {gr.phoneno}</p>
+              <p>
+                <strong>Owner:</strong> {gr.owner}
+              </p>
+              {/* <p><strong>Status:</strong> {gr.avaliability_status ? "Open" : "Closed"}</p> */}
+              <p>
+                <strong>Hours:</strong> {gr.openingHours}
+              </p>
+              <p>
+                <strong>State :</strong> {gr.stateId.name}
+              </p>
+
+              <p><strong>City :</strong>{gr.cityId.cityName} </p>
+              <p><strong>Area :</strong>{gr.areaId.name}</p>
+              {/* <p>
+                <strong>Contact:</strong> {gr.phoneno}
+              </p> */}
               <p>
                 <strong>Avg. Rating:</strong>{" "}
                 {garageRatings[gr._id] ?? "Loading..."}
@@ -169,7 +183,7 @@ export const ViewMyGarages = () => {
                   color: "white",
                   textDecoration: "none",
                   borderRadius: "5px",
-                  transition: "background 0.3s",
+                  transition: "background 0.3s"
                 }}
                 onMouseOver={(e) =>
                   (e.currentTarget.style.background = "#0056b3")
@@ -203,7 +217,7 @@ export const ViewMyGarages = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            zIndex: 1000,
+            zIndex: 1000
           }}
         >
           <img
@@ -213,7 +227,7 @@ export const ViewMyGarages = () => {
               maxWidth: "90%",
               maxHeight: "90%",
               borderRadius: "10px",
-              boxShadow: "0 5px 15px rgba(255, 255, 255, 0.2)",
+              boxShadow: "0 5px 15px rgba(255, 255, 255, 0.2)"
             }}
           />
         </div>

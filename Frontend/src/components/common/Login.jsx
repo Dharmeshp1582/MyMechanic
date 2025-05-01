@@ -3,7 +3,6 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 
-
 export const Login = () => {
   const navigate = useNavigate();
 
@@ -231,7 +230,8 @@ export const Login = () => {
       <ToastContainer />
     </div>
     
-    
     </div>
+    
   );
+  
 };

@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "../../assets/css/manageuser.css";
+import { Avatar } from "@mui/material";
 
 export const ManageUsers = () => {
     const [users, setUsers] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const usersPerPage = 5;
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [showModal, setShowModal] = useState(false);
 
     const fetchUsers = async () => {
         try {
@@ -22,11 +25,22 @@ export const ManageUsers = () => {
             try {
                 await axios.delete(`/users/${id}`);
                 toast.success("User deleted successfully");
+
+                //  Close modal after deletion
+                setShowModal(false);
+                setSelectedUser(null);
+
+                //  Refresh user list
                 fetchUsers();
             } catch (error) {
                 toast.error("Error deleting user");
             }
         }
+    };
+
+    const handleShowDetails = (user) => {
+        setSelectedUser(user);
+        setShowModal(true);
     };
 
     useEffect(() => {
@@ -66,13 +80,20 @@ export const ManageUsers = () => {
                                 <td>{user.status ? "Active" : "Inactive"}</td>
                                 <td>{new Date(user.createdAt).toLocaleDateString()}</td>
                                 <td>
-                                    {/* Uncomment below if delete button is needed */}
-                                    {/* <button
-                                        className="admin-userlist-deletebtn"
-                                        onClick={() => handleDelete(user._id)}
+                                    <button
+                                        style={{
+                                            marginLeft: "8px",
+                                            backgroundColor: "#007bff",
+                                            color: "white",
+                                            padding: "5px 10px",
+                                            border: "none",
+                                            borderRadius: "5px",
+                                            cursor: "pointer"
+                                        }}
+                                        onClick={() => handleShowDetails(user)}
                                     >
-                                        Delete
-                                    </button> */}
+                                        View Details
+                                    </button>
                                 </td>
                             </tr>
                         ))}
@@ -92,6 +113,52 @@ export const ManageUsers = () => {
                     </button>
                 ))}
             </div>
+
+            {/* User Details Modal */}
+            {showModal && selectedUser && (
+                <div className="admin-userlist-modal">
+                    <div className="admin-userlist-modal-content">
+                        <h3>User Details</h3>
+
+                        <Avatar
+                            alt={selectedUser?.fullName || "User"}
+                            src={selectedUser?.imageURL || "/default-avatar.png"}
+                            sx={{ width: 80, height: 80, margin: "10px auto", border: "2px solid black", cursor: "pointer" }}
+                        />
+
+                        <p><strong>Name:</strong> {selectedUser.fullName}</p>
+                        <p><strong>Email:</strong> {selectedUser.email}</p>
+                        <p><strong>Contact:</strong> {selectedUser.contact}</p>
+                        <p><strong>Role:</strong> {selectedUser.roleId?.name || "N/A"}</p>
+                        <p><strong>Status:</strong> {selectedUser.status ? "Active" : "Inactive"}</p>
+                        <p><strong>Created At:</strong> {new Date(selectedUser.createdAt).toLocaleString()}</p>
+
+                        <div style={{ marginTop: "20px", display: "flex", justifyContent: "center" }}>
+                            <button
+                                style={{
+                                    backgroundColor: "red",
+                                    color: "white",
+                                    padding: "8px 16px",
+                                    border: "none",
+                                    borderRadius: "5px",
+                                    cursor: "pointer",
+                                    marginRight: "10px"
+                                }}
+                                onClick={() => setShowModal(false)}
+                            >
+                                Close
+                            </button>
+
+                            <button
+                                className="admin-userlist-deletebtn"
+                                onClick={() => handleDelete(selectedUser._id)}
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

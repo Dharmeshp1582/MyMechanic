@@ -80,6 +80,7 @@ export const MyAppointments = () => {
                   <th>Status</th>
                   <th>Paid</th>
                   <th>Vehicle Status</th>
+                  <th>Map</th>
                   <th>Reason</th>
                   <th>Action</th>
                 </tr>
@@ -105,6 +106,19 @@ export const MyAppointments = () => {
                     </td>
                     <td>{appt.isPaid ? "✅ Yes" : "❌ No"}</td>
                     <td>{getVehicleStatusLabel(appt.vehicleStatus)}</td>
+                    <td>
+                  {appt.garageownerId?.latitude && appt.garageownerId?.longitude ? (
+                    <a
+                      href={`https://www.google.com/maps?q=${appt.garageownerId?.latitude},${appt.garageownerId?.longitude}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      View Map
+                    </a>
+                  ) : (
+                    "N/A"
+                  )}
+                </td>
                     <td>{appt.reason || "-"}</td>
                     <td>
                       {appt.status === "completed" && !appt.isPaid && (

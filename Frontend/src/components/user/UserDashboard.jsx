@@ -102,7 +102,7 @@ export const UserDashboard = () => {
                   alignItems: "center",
                   justifyContent: "space-evenly",
                   padding: "20px",
-                  // flexDirection: index % 2 === 0 ? "row" : "row-reverse",
+                  flexDirection: index % 2 === 0 ? "row" : "row-reverse",
 
                   border: "1px solid rgb(96 84 84)",
                   boxShadow: "0 6px 12px rgba(0, 0, 0, 0.1)",

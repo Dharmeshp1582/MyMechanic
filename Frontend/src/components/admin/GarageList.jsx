@@ -53,7 +53,7 @@ export const GarageList = () => {
       toast.success("Garage approved & mail sent");
       getAllGarages();
     } catch (err) {
-      toast.error("Approval failed");
+      toast.error("Approval failed",err);
     }
   };
 
@@ -88,7 +88,7 @@ export const GarageList = () => {
 
   return (
     <div className="garage-container">
-      <ToastContainer position="top-right" autoClose={3000} />
+      {/* <ToastContainer position="top-right" autoClose={3000} /> */}
       <h2 className="garage-heading">Garage List</h2>
 
       <div className="garage-table-wrapper">

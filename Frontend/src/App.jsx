@@ -60,6 +60,9 @@ import { GarageUserPayments } from "./components/garageowner/GarageUserPayments"
 import { AddReview } from "./components/user/AddReview";
 import { GetUserReviews } from "./components/garageowner/GetUserReviews";
 import { DeleteService } from "./components/garageowner/DeleteService";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 function App() {
@@ -82,6 +85,7 @@ function App() {
           : "app-wrapper"
       }
     >
+    <ToastContainer />
       <ScrollToTop />
       <Routes>
         <Route path="/login" element={<Login />}></Route>
