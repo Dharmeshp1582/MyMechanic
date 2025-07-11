@@ -31,11 +31,15 @@ export const Booking = () => {
   const [formData, setFormData] = useState(getInitialFormData());
 
   useEffect(() => {
-    if (userId) {
-      axios.get(`/vehicle/getvehiclebyuserid/${userId}`)
-        .then((res) => setVehicles(res.data.data))
-        .catch((err) => console.error("Failed to fetch vehicles", err));
+    if (!userId) {
+      toast.error("Please login first.");
+      navigate("/login");
+      return;
     }
+
+    axios.get(`/vehicle/getvehiclebyuserid/${userId}`)
+      .then((res) => setVehicles(res.data.data))
+      .catch((err) => console.error("Failed to fetch vehicles", err));
 
     if (selectedVehicle) {
       setFormData((prev) => ({ ...prev, vehicleId: selectedVehicle._id }));
@@ -70,26 +74,23 @@ export const Booking = () => {
   }, []);
 
   const handleServiceChange = (service) => {
-    setSelectedServiceIds((prev) => {
-      const isSelected = prev.includes(service._id);
-      const updatedServiceIds = isSelected
-        ? prev.filter((id) => id !== service._id)
-        : [...prev, service._id];
+    const isSelected = selectedServiceIds.includes(service._id);
+    const updatedServiceIds = isSelected
+      ? selectedServiceIds.filter((id) => id !== service._id)
+      : [...selectedServiceIds, service._id];
 
-      const totalPrice = updatedServiceIds.reduce((sum, id) => {
-        const s = selectedServices?.find((s) => s._id === id);
-        return sum + (s ? s.price : 0);
-      }, 0);
+    const totalPrice = updatedServiceIds.reduce((sum, id) => {
+      const s = selectedServices?.find((s) => s._id === id);
+      return sum + (s?.price || 0);
+    }, 0);
 
-      setFormData((prevData) => ({
-        ...prevData,
-        serviceId: updatedServiceIds,
-        basePrice: totalPrice,
-        finalPrice: totalPrice,
-      }));
-
-      return updatedServiceIds;
-    });
+    setSelectedServiceIds(updatedServiceIds);
+    setFormData((prevData) => ({
+      ...prevData,
+      serviceId: updatedServiceIds,
+      basePrice: totalPrice,
+      finalPrice: totalPrice,
+    }));
 
     setDropdownOpen(false);
   };
@@ -103,7 +104,12 @@ export const Booking = () => {
     e.preventDefault();
 
     if (formData.serviceId.length === 0) {
-      toast.error("Please select at least one service before booking an appointment.");
+      toast.error("Please select at least one service.");
+      return;
+    }
+
+    if (!formData.vehicleId) {
+      toast.error("Please select a vehicle.");
       return;
     }
 
@@ -128,7 +134,6 @@ export const Booking = () => {
         transition: Bounce,
       });
 
-      // Delay navigation to allow toast to display
       setTimeout(() => {
         navigate("/user/appointment");
       }, 1600);
@@ -164,7 +169,7 @@ export const Booking = () => {
                 : "Select Services"}
             </div>
 
-            {dropdownOpen && selectedServices?.length > 0 && (
+            {dropdownOpen && selectedServices?.length > 0 ? (
               <div className="book-app-dropdown-list">
                 {selectedServices.map((service) => (
                   <div
@@ -183,7 +188,9 @@ export const Booking = () => {
                   </div>
                 ))}
               </div>
-            )}
+            ) : dropdownOpen ? (
+              <p style={{ padding: "10px", color: "gray" }}>No services available</p>
+            ) : null}
           </div>
 
           <label className="book-app-label">Select Vehicle</label>
@@ -206,6 +213,7 @@ export const Booking = () => {
           <input
             type="date"
             name="appointmentDate"
+            min={new Date().toISOString().split("T")[0]} // disable past dates
             value={formData.appointmentDate}
             onChange={handleChange}
             required
@@ -219,6 +227,7 @@ export const Booking = () => {
             value={formData.reason}
             onChange={handleChange}
             className="book-app-input"
+            placeholder="Optional"
           />
 
           <div className="book-app-price-box">

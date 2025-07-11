@@ -7,7 +7,7 @@ import { SliderSection } from "../layouts/SliderSection";
 import { motion } from 'framer-motion'
 // import "../../assets/landing/css/style.css";
 // import "../../assets/landing/css/responsive.css";
-import aboutImage from "../../../public/assets/img/garage.avif";
+import aboutImage from "../../assets/images/garage.avif";
 import contactImage from "../../assets/images/Contact_us_img_1.avif"
 // import sliderImage from "../../assets/landing/images/slider-img.png";
 // import garagelogo from "../../assets/images/logo.webp"
