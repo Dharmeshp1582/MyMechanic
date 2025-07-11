@@ -86,7 +86,7 @@ const Signup = async (req, res) => {
     console.log(createdUser);
     //send mail to user
 
-    const mailResponse = await mailUtil.sendingMail(createdUser.email,"Welcome to MyMechanic platform","This is Welcome mail");
+    // const mailResponse = await mailUtil.sendingMail(createdUser.email,"Welcome to MyMechanic platform","This is Welcome mail");
 
     await mailUtil.sendingMail(
       createdUser.email,
@@ -108,22 +108,7 @@ const Signup = async (req, res) => {
   }
 };
 
-//get user
-// const getUsers = async (req, res) => {
-//   try {
-//     const users = await userModel.find().populate("roleId", "name -_id");
 
-//     res.json({
-//       message: "users fetched successful",
-//       data: users
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       message:error.message
-//     })
-//   }
-
-// };
 const getUsers = async (req, res) => {
   try {
     const users = await userModel.find().populate("roleId", "name -_id");
@@ -182,18 +167,7 @@ const getUserById = async (req, res) => {
   }
 };
 
-//update user
-// const updateUser = async(req,res) =>{
-//     const updatedUser = await userModel.updateOne(req.body)
-//     console.log(updatedUser)
 
-//     res.json({
-//         message:"user updated success",
-//         data:updatedUser
-//     })
-// }
-
-//try catch if users
 
 const addUser1 = async (req, res) => {
   try {
@@ -223,9 +197,7 @@ const addUserWithFile = async (req, res) => {
       }
 
       // Upload image to Cloudinary
-      const cloudinaryResponse = await cloudinaryUtil.uploadFileToCloudinary(
-        req.file
-      );
+      const cloudinaryResponse = await cloudinaryUtil.uploadFileToCloudinary(req.file);
       req.body.imageURL = cloudinaryResponse.secure_url;
 
       // Hash the password
@@ -233,8 +205,21 @@ const addUserWithFile = async (req, res) => {
       const hashedPassword = await bcrypt.hash(req.body.password, salt);
       req.body.password = hashedPassword;
 
-      // Store data in the database
+      // Save user
       const savedUser = await userModel.create(req.body);
+
+      // ✅ Send welcome email
+      try {
+        await mailUtil.sendingMail(
+          savedUser.email,
+          "Welcome to MyMechanic platform",
+          `<p>Hello ${savedUser.fullName || "User"}, welcome to the platform!</p>`,
+          "Welcome to MyMechanic!"
+        );
+      } catch (mailErr) {
+        console.error("Email error:", mailErr.message);
+        // Optionally continue without throwing error
+      }
 
       res.status(200).json({
         message: "User registered successfully ✅",
@@ -247,35 +232,7 @@ const addUserWithFile = async (req, res) => {
   });
 };
 
-// const updateUser = async (req, res) => {
-//   try {
-//     const userId = req.params.id;
 
-//     // Check if the user exists before updating
-//     const existingUser = await userModel.findById(userId);
-//     if (!existingUser) {
-//       return res.status(404).json({ message: "User not found" });
-//     }
-
-//     // Update user data with validation
-//     const updatedUser = await userModel.findByIdAndUpdate(
-//       userId,
-//       req.body,
-//       { new: true, runValidators: true } // Ensures data integrity
-//     );
-
-//     res.status(200).json({
-//       message: "User updated successfully",
-//       data: updatedUser
-//     });
-//   } catch (error) {
-//     console.error("Update Error:", error);
-//     res.status(500).json({
-//       message: "Error updating user details",
-//       error: error.message // Send a meaningful error message
-//     });
-//   }
-// };
 
 //update user
 const updateUser = async (req, res) => {
