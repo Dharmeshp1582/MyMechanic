@@ -17,7 +17,7 @@ import {
 } from "recharts";
 
 import dayjs from "dayjs";
-import "../../assets/css/admindashboard.css";
+import "../../assets/css/AdminDashboard.css";
 
 export const AdminDashboard = () => {
   const [appointments, setAppointments] = useState([]);

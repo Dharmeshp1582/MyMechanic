@@ -6,7 +6,7 @@ const cookieParser = require("cookie-parser");
 const app = express();
 const cors = require("cors");
 
-app.use(express.json()); //to accept data as json format
+app.use(express.json()); //to accept data as json format middleware
 app.use(cookieParser());
 app.use(cors()); // *
 require("dotenv").config();
