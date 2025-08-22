@@ -7,7 +7,7 @@ import { FaUser, FaArrowRight } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+ 
 export const UserNavbar = ({ toggleSidebar }) => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);

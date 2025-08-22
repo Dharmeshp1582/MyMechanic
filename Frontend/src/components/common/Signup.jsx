@@ -6,6 +6,8 @@ import { Bounce, toast } from "react-toastify";
 
 export const Signup = () => {
   const [roles, setRoles] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -18,58 +20,63 @@ export const Signup = () => {
   useEffect(() => {
     const fetchRoles = async () => {
       try {
+        setLoading(true);
         const response = await axios.get("/role/roles");
         setRoles(response.data.data);
       } catch (error) {
         console.error("Error fetching roles:", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchRoles();
   }, []);
 
-  // ✅ Submit handler
+  // Submit handler
+
   const submitHandler = async (data) => {
-    try {
-      data.status = !!data.status; // convert checkbox to boolean
-      const selectedRole = roles.find((role) => role.name === data.role);
-      data.roleId = selectedRole ? selectedRole._id : null;
+  try {
+    setLoading(true); // start loading
+    data.status = !!data.status;
+    const selectedRole = roles.find((role) => role.name === data.role);
+    data.roleId = selectedRole ? selectedRole._id : null;
 
-      if (!data.roleId) {
-        toast.error("Invalid role selected! ❌");
-        return;
-      }
-
-      const formData = new FormData();
-      Object.keys(data).forEach((key) => {
-        if (key === "image") {
-          formData.append("image", data.image[0]); // send file
-        } else {
-          formData.append(key, data[key]);
-        }
-      });
-
-      const res = await axios.post("/adduserwithfile", formData, {
-        withCredentials: true,
-        headers: { "Content-Type": "multipart/form-data" }
-      });
-
-      if (res.status === 200) {
-        toast.success("Signup successful! 🎉", {
-          position: "top-right",
-          autoClose: 2000,
-          theme: "dark",
-          onClose: () => navigate("/login"),
-          transition: Bounce
-        });
-      }
-    } catch (error) {
-      console.error("Signup Error:", error);
-      toast.error(
-        error.response?.data?.message || "Signup failed! Please try again. ❌",
-        { position: "top-right" }
-      );
+    if (!data.roleId) {
+      toast.error("Invalid role selected! ❌");
+      setLoading(false);
+      return;
     }
-  };
+
+    const formData = new FormData();
+    Object.keys(data).forEach((key) => {
+      if (key === "image") formData.append("image", data.image[0]);
+      else formData.append(key, data[key]);
+    });
+
+    const res = await axios.post("/adduserwithfile", formData, {
+      withCredentials: true,
+      headers: { "Content-Type": "multipart/form-data" }
+    });
+
+    if (res.status === 200) {
+      toast.success("Signup successful! 🎉", {
+        position: "top-right",
+        autoClose: 2000,
+        theme: "dark",
+        onClose: () => navigate("/login")
+      });
+    }
+  } catch (error) {
+    console.error("Signup Error:", error);
+    toast.error(error.response?.data?.message || "Signup failed! ❌", {
+      position: "top-right"
+    });
+  } finally {
+    setLoading(false); // stop loading after request finishes or fails
+  }
+};
+
+
 
   return (
     <div
@@ -144,7 +151,7 @@ export const Signup = () => {
                   {label}:
                 </label>
                 <input
-                  type={type}
+                  type={type} disabled={loading}
                   {...register(name, {
                     required: `${label} is required`,
                     minLength:
@@ -179,7 +186,7 @@ export const Signup = () => {
               <label style={{ display: "block", fontWeight: "bold", fontSize: "14px" }}>
                 Your Role:
               </label>
-              <select
+              <select disabled={loading}
                 {...register("role", { required: "Role is required" })}
                 style={{
                   width: "100%",
@@ -204,7 +211,7 @@ export const Signup = () => {
             {/* Profile Picture */}
             <div style={{ marginBottom: "10px" }}>
               <label style={{ display: "block", fontWeight: "bold" }}>Profile Picture:</label>
-              <input
+              <input disabled={loading}
                 type="file"
                 {...register("image", { required: "Image is required" })}
                 style={{
@@ -226,7 +233,7 @@ export const Signup = () => {
             </div>
 
             {/* Submit */}
-            <button
+            <button disabled={loading} 
               type="submit"
               style={{
                 background: "#2d3436",
@@ -240,7 +247,7 @@ export const Signup = () => {
                 transition: "0.3s"
               }}
             >
-              Signup
+              {loading ? "Signing up..." : "Signup"}
             </button>
           </form>
 

@@ -2,8 +2,10 @@ import { useForm } from "react-hook-form";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Bounce, toast } from "react-toastify";
+import { useState } from "react";
 
 export const Login = () => {
+  const [loading,setLoading] = useState(false);
   const navigate = useNavigate();
 
   const {
@@ -14,6 +16,7 @@ export const Login = () => {
 
   const submitHandler = async (data) => {
     try {
+      setLoading(true);
       const res = await axios.post("/user/login", data);
       console.log(res);
       if (res.status === 200) {
@@ -43,6 +46,7 @@ export const Login = () => {
         });
       }
     } catch (error) {
+      setLoading(false);
       console.error("Login error:", error);
       toast.error(error.response?.data?.message || "Login failed!", {
         position: "top-right"
@@ -159,7 +163,7 @@ export const Login = () => {
           <div>
             <label>Email:</label>
             <input
-              type="email"
+              type="email" disabled={loading}
               placeholder="Email Address"
               {...register("email", { required: "Email is required" })}
               style={{
@@ -176,7 +180,7 @@ export const Login = () => {
           <div>
             <label>Password:</label>
             <input
-              type="password"
+              type="password" disabled={loading}
               placeholder="Password"
               {...register("password", { required: "Password is required" })}
               style={{
@@ -191,7 +195,7 @@ export const Login = () => {
             <span>{errors.password?.message}</span>
           </div>
           <button
-            type="submit"
+            type="submit" disabled={loading}
             style={{
               background: "#2d3436",
               color: "white",
@@ -203,7 +207,7 @@ export const Login = () => {
               transition: "0.3s"
             }}
           >
-            Login
+             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
         <p style={{marginTop:"10px"}}>

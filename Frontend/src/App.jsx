@@ -64,7 +64,9 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-  axios.defaults.baseURL = "http://localhost:3000";
+  axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
+  // axios.defaults.withCredentials = true; // Enable cookies for cross-origin requests
+  console.log(axios.defaults.baseURL);
   const location = useLocation();
 
   useEffect(() => {
