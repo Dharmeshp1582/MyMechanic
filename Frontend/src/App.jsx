@@ -61,9 +61,7 @@ import { AddReview } from "./components/user/AddReview";
 import { GetUserReviews } from "./components/garageowner/GetUserReviews";
 import { DeleteService } from "./components/garageowner/DeleteService";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
-
-
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   axios.defaults.baseURL = "http://localhost:3000";
@@ -85,7 +83,7 @@ function App() {
           : "app-wrapper"
       }
     >
-    <ToastContainer />
+      <ToastContainer />
       <ScrollToTop />
       <Routes>
         <Route path="/login" element={<Login />}></Route>
@@ -114,9 +112,12 @@ function App() {
             <Route path="service" element={<AllServices />} />
             <Route path="appointment" element={<AppointmentReport />} />
             <Route path="updateservices/:id" element={<UpdateService />} />
-            <Route path="completeappointment" element={<CompleteAppointments/>}></Route>
-            <Route path="addstate" element={<AddArea/>}></Route>
-            <Route path="payment" element={<UsersPayments/>}></Route>
+            <Route
+              path="completeappointment"
+              element={<CompleteAppointments />}
+            ></Route>
+            <Route path="addstate" element={<AddArea />}></Route>
+            <Route path="payment" element={<UsersPayments />}></Route>
           </Route>
 
           {/* GARAGE OWNER ROUTES */}
@@ -140,9 +141,15 @@ function App() {
             <Route path="availableservice" element={<AvailableServices />} />
             <Route path="updateservice/:id" element={<UpdateServiceData />} />
             <Route path="contact" element={<Contact />} />
-            <Route path="earning" element={<GarageUserPayments/>}></Route>
-            <Route path="garagereviews/:garageId" element={<GetUserReviews/>}></Route>
-            <Route path="deleteservice/${serviceId}" element={<DeleteService/>}></Route>
+            <Route path="earning" element={<GarageUserPayments />}></Route>
+            <Route
+              path="garagereviews/:garageId"
+              element={<GetUserReviews />}
+            ></Route>
+            <Route
+              path="deleteservice/${serviceId}"
+              element={<DeleteService />}
+            />
           </Route>
 
           {/* USER ROUTES */}
@@ -165,13 +172,15 @@ function App() {
             <Route path="booking" element={<Booking />} />
             <Route path="getvehiclebyuserid" element={<ViewMyVehicle />} />
             <Route path="viewgarage/:id" element={<ViewGarageDetail />} />
-            <Route path="mypayments" element={<UserPayments/>}></Route>
-            <Route path="appointment/paymentdetail/:id" element={<Invoice/>}></Route>
+            <Route path="mypayments" element={<UserPayments />}></Route>
+            <Route
+              path="appointment/paymentdetail/:id"
+              element={<Invoice />}
+            ></Route>
             <Route path="addreview/:garageId" element={<AddReview />} />
-           
-            <Route path="appointment" element={<MyAppointments/>} />
+
+            <Route path="appointment" element={<MyAppointments />} />
           </Route>
-         
         </Route>
         <Route path="/unauthorized" element={<Unauthorized />} />
 

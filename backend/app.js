@@ -5,11 +5,16 @@ const cookieParser = require("cookie-parser");
 //express object
 const app = express();
 const cors = require("cors");
+const dotenv = require("dotenv")
+dotenv.config();
 
 app.use(express.json()); //to accept data as json format middleware
 app.use(cookieParser());
-app.use(cors()); // *
-require("dotenv").config();
+app.use(cors({
+  origin:"http://localhost:5173",
+  credentials:true
+})); // *
+
 
 //http://localhost:3000/test
 app.get("/test", (req, res) => {
@@ -17,6 +22,7 @@ app.get("/test", (req, res) => {
   res.send("hello test api called...");
 });
 
+port = process.env.PORT || 5000
 // //http://localhost:3000/users
 // app.get("/users", (req, res) => {
 //   res.json({
@@ -49,7 +55,7 @@ app.use("/role", roleRoutes);
 
 //import user routes
 const userRoutes = require("./src/routes/UserRoute");
-app.use(userRoutes);
+app.use("/",userRoutes);
 
 //import state routes
 const stateRoutes = require("./src/routes/StateRoute");
@@ -75,26 +81,26 @@ app.use("/garage", garageRoutes);
 const vehicleRoutes = require("./src/routes/VehicleRoute");
 app.use("/vehicle", vehicleRoutes);
 
-
 // import Appointment routes
 const appointmentRoutes = require("./src/routes/AppointmentRoute");
 app.use("/appointment", appointmentRoutes);
 
-//status mail 
+//status mail
 const mailRoutes = require("./src/routes/Mail"); // make sure the path is correct
-app.use("/mail",mailRoutes);
+app.use("/mail", mailRoutes);
 
 //landing page mail
 const contactRoutes = require("./src/routes/LandingMail");
 app.use("/landingcontact", contactRoutes);
 
 //review add
-const reviewRoutes = require("./src/routes/ReviewRoute")
-app.use("/review", reviewRoutes)
+const reviewRoutes = require("./src/routes/ReviewRoute");
+app.use("/review", reviewRoutes);
 
 //payment route
-const paymentRoutes = require("./src/routes/PaymentRoute")
-app.use("/payment", paymentRoutes)
+const paymentRoutes = require("./src/routes/PaymentRoute");
+const  {connectDB}  = require("./src/utils/database");
+app.use("/payment", paymentRoutes);
 
 //contact form validation with controller
 app.post("/contact", async (req, res) => {
@@ -108,16 +114,16 @@ app.post("/contact", async (req, res) => {
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "alpeshpatelvirpur@gmail.com",
-      pass: "xopi zvba daav aoub" // Use App Password for security
-    }
+      user:  process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS, // Use App Password for security
+    },
   });
 
   let mailOptions = {
     from: email,
-    to: "alpeshpatelvirpur@gmail.com",
+    to: process.env.EMAIL_USER,
     subject: `New Contact Form Message from ${email}`,
-    text: message
+    text: message,
   };
 
   try {
@@ -130,13 +136,12 @@ app.post("/contact", async (req, res) => {
   }
 });
 
-//database connection
-mongoose.connect("mongodb://127.0.0.1:27017/25_node_internship").then(() => {
-  console.log("database connection successful...");
-});
+
 
 //server creation
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log("server started successfully at PORT", PORT);
-});
+
+  app.listen(port, async() => {
+   await connectDB()
+    console.log("server started successfully at port", port);
+  });
+

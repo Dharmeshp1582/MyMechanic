@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
 export const AddReview = () => {
@@ -125,7 +125,6 @@ export const AddReview = () => {
 
   return (
     <div style={{ minHeight: "90vh", padding: "2rem", backgroundColor: "rgb(221, 221, 223)" }}>
-      {/* <ToastContainer position="top-right" autoClose={1000} theme="dark" /> */}
 
       <button
         onClick={() => navigate(-1)}

@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { Bounce, toast, ToastContainer } from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 
 export const Signup = () => {
   const [roles, setRoles] = useState([]);
@@ -14,6 +14,7 @@ export const Signup = () => {
 
   const navigate = useNavigate();
 
+  // ✅ Fetch roles
   useEffect(() => {
     const fetchRoles = async () => {
       try {
@@ -23,13 +24,13 @@ export const Signup = () => {
         console.error("Error fetching roles:", error);
       }
     };
-
     fetchRoles();
   }, []);
 
+  // ✅ Submit handler
   const submitHandler = async (data) => {
     try {
-      data.status = !!data.status;
+      data.status = !!data.status; // convert checkbox to boolean
       const selectedRole = roles.find((role) => role.name === data.role);
       data.roleId = selectedRole ? selectedRole._id : null;
 
@@ -41,13 +42,14 @@ export const Signup = () => {
       const formData = new FormData();
       Object.keys(data).forEach((key) => {
         if (key === "image") {
-          formData.append("image", data.image[0]);
+          formData.append("image", data.image[0]); // send file
         } else {
           formData.append(key, data[key]);
         }
       });
 
       const res = await axios.post("/adduserwithfile", formData, {
+        withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" }
       });
 
@@ -55,25 +57,8 @@ export const Signup = () => {
         toast.success("Signup successful! 🎉", {
           position: "top-right",
           autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
           theme: "dark",
           onClose: () => navigate("/login"),
-          transition: Bounce
-        });
-      } else {
-        toast.error("Something went wrong! ❌", {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
           transition: Bounce
         });
       }
@@ -104,88 +89,38 @@ export const Signup = () => {
             <Link className="navbar-brand" to="/">
               <span className="bg-orange-400">My Mechanic</span>
             </Link>
-            <button
-              className="navbar-toggler"
-              type="button"
-              data-toggle="collapse"
-              data-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <span className="s-1"> </span>
-              <span className="s-2"> </span>
-              <span className="s-3"> </span>
-            </button>
-            <div
-              className="collapse navbar-collapse"
-              id="navbarSupportedContent"
-            >
+            <div className="collapse navbar-collapse" id="navbarSupportedContent">
               <div className="d-flex mx-auto flex-column flex-lg-row align-items-center">
-                <ul className="navbar-nav  ">
+                <ul className="navbar-nav">
                   <li className="nav-item active">
-                    <Link className="nav-link landing-head-link" to="/">
-                      Home
-                    </Link>
-                  </li>
-                  <li className="nav-item ">
-                    <Link className="nav-link landing-head-link" to="/about">
-                      {" "}
-                      About Us
-                    </Link>
+                    <Link className="nav-link landing-head-link" to="/">Home</Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link landing-head-link" to="/services">
-                      {" "}
-                      Services{" "}
-                    </Link>
+                    <Link className="nav-link landing-head-link" to="/about">About Us</Link>
                   </li>
                   <li className="nav-item">
-                    <Link
-                      className="nav-link landing-head-link"
-                      to="/contactus"
-                    >
-                      Contact Us
-                    </Link>
+                    <Link className="nav-link landing-head-link" to="/services">Services</Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link landing-head-link" to="/contactus">Contact Us</Link>
                   </li>
                 </ul>
               </div>
-              <div
-                className="quote_btn-container "
-                style={{ marginBottom: "7px" }}
-              >
-                <div className="">
-                  <Link to="/login" className="btn-1 ">
-                    Login
-                  </Link>
-                  <Link
-                    to="/signup"
-                    className="btn-2"
-                    style={{ color: "black" }}
-                  >
+              <div className="quote_btn-container" style={{ marginBottom: "7px" }}>
+                <div>
+                  <Link to="/login" className="btn-1">Login</Link>
+                  <Link to="/signup" className="btn-2" style={{ color: "black" }}>
                     Signup
                   </Link>
                 </div>
-                <form className="form-inline">
-                  <button
-                    className="btn  my-2 my-sm-0 nav_search-btn"
-                    type="submit"
-                  />
-                </form>
               </div>
             </div>
           </nav>
         </div>
       </header>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: "16px"
-        }}
-      >
-        <ToastContainer />
+
+      {/* Signup Form */}
+      <div style={{ display: "flex", justifyContent: "center", marginTop: "16px" }}>
         <div
           style={{
             background: "rgba(255, 255, 255, 0.9)",
@@ -195,10 +130,9 @@ export const Signup = () => {
             width: "350px"
           }}
         >
-          <h2 style={{ textAlign: "center", marginBottom: "0.6rem" }}>
-            Sign Up
-          </h2>
+          <h2 style={{ textAlign: "center", marginBottom: "0.6rem" }}>Sign Up</h2>
           <form onSubmit={handleSubmit(submitHandler)}>
+            {/* Input fields */}
             {[
               { name: "fullName", type: "text", label: "Full Name" },
               { name: "email", type: "email", label: "Email" },
@@ -206,13 +140,7 @@ export const Signup = () => {
               { name: "contact", type: "text", label: "Contact" }
             ].map(({ name, type, label }, index) => (
               <div key={index} style={{ marginBottom: "8px" }}>
-                <label
-                  style={{
-                    display: "block",
-                    fontWeight: "bold",
-                    fontSize: "14px"
-                  }}
-                >
+                <label style={{ display: "block", fontWeight: "bold", fontSize: "14px" }}>
                   {label}:
                 </label>
                 <input
@@ -246,33 +174,11 @@ export const Signup = () => {
               </div>
             ))}
 
+            {/* Role Dropdown */}
             <div style={{ marginBottom: "8px" }}>
-              <label
-                style={{
-                  display: "block",
-                  fontWeight: "bold",
-                  fontSize: "14px"
-                }}
-              >
+              <label style={{ display: "block", fontWeight: "bold", fontSize: "14px" }}>
                 Your Role:
               </label>
-              {/* <select
-              {...register("role", { required: "Role is required" })}
-              style={{
-                width: "100%",
-                padding: "8px",
-                border: "1px solid #ccc",
-                borderRadius: "5px",
-                fontSize: "14px"
-              }}
-            >
-              <option value="">Select your role</option>
-              {roles.map((role) => (
-                <option key={role._id} value={role.name}>
-                  {role.name}
-                </option>
-              ))}
-            </select> */}
               <select
                 {...register("role", { required: "Role is required" })}
                 style={{
@@ -292,15 +198,12 @@ export const Signup = () => {
                     </option>
                   ))}
               </select>
-
-              <span style={{ color: "red", fontSize: "12px" }}>
-                {errors.role?.message}
-              </span>
+              <span style={{ color: "red", fontSize: "12px" }}>{errors.role?.message}</span>
             </div>
+
+            {/* Profile Picture */}
             <div style={{ marginBottom: "10px" }}>
-              <label style={{ display: "block", fontWeight: "bold" }}>
-                Profile Picture:
-              </label>
+              <label style={{ display: "block", fontWeight: "bold" }}>Profile Picture:</label>
               <input
                 type="file"
                 {...register("image", { required: "Image is required" })}
@@ -312,22 +215,17 @@ export const Signup = () => {
                   background: "#dfe6e9"
                 }}
               />
-              <span style={{ color: "red", fontSize: "12px" }}>
-                {errors.image?.message}
-              </span>
+              <span style={{ color: "red", fontSize: "12px" }}>{errors.image?.message}</span>
             </div>
 
-            <div style={{ textAlign: "left" }}>
+            {/* Status */}
+            <div style={{ textAlign: "left", marginBottom: "10px" }}>
               <label>Status:</label>
-              <input
-                type="checkbox"
-                {...register("status")}
-                value="true"
-                style={{ marginLeft: "10px" }}
-              />
+              <input type="checkbox" {...register("status")} style={{ marginLeft: "10px" }} />
               <span style={{ marginLeft: "5px" }}>Active</span>
             </div>
 
+            {/* Submit */}
             <button
               type="submit"
               style={{
@@ -348,10 +246,7 @@ export const Signup = () => {
 
           <p style={{ textAlign: "center", marginTop: "15px" }}>
             Already have an account?{" "}
-            <NavLink
-              to="/login"
-              style={{ color: "#0984e3", textDecoration: "none" }}
-            >
+            <NavLink to="/login" style={{ color: "#0984e3", textDecoration: "none" }}>
               Login now
             </NavLink>
           </p>

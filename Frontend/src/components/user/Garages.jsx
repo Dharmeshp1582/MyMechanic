@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "../../assets/css/approvedgarages.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Bounce, toast, ToastContainer } from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 
 export const Garages = () => {
   const [garages, setGarages] = useState([]);
@@ -80,20 +80,6 @@ export const Garages = () => {
 
   return (
     <div className="user-gara-container">
-      {/* <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-        transition={Bounce}
-      /> */}
-
       <h2 className="user-gara-title">Garages</h2>
 
       {/* 🔍 Search Input */}

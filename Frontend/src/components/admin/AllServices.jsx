@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../../assets/css/allservices.css";
 
@@ -47,7 +47,6 @@ export const AllServices = () => {
 
   return (
     <div className="allservices-container">
-      <ToastContainer />
 
       {error && <p style={{ color: "red" }}>{error}</p>}
 

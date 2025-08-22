@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Bounce, toast, ToastContainer } from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 
 export const ResetPassword = () => {
   const navigate = useNavigate();
@@ -58,7 +58,6 @@ export const ResetPassword = () => {
 
   return (
     <>
-     <ToastContainer />
     <div style={{
       display: "flex", justifyContent: "center", alignItems: "center",
       height: "100vh", width: "100vw", backgroundColor: "#f5f6fa"

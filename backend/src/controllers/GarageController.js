@@ -5,17 +5,12 @@ const cloudinaryUtil = require("../utils/Cloudinary");
 
 //storage engine
 
-const storage = multer.diskStorage({
-  destination: "./uploads",
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
-  }
-});
+const storage = multer.memoryStorage(); // Use memory storage for Vercel compatibility
 
 //multer object...
 
 const upload = multer({
-  storage: storage
+  storage: storage,
   //fileFilter:
 }).single("image");
 
@@ -27,11 +22,11 @@ const addGarage = async (req, res) => {
 
     res.status(200).json({
       message: "garage data added successfully",
-      data: savedGarage
+      data: savedGarage,
     });
   } catch (error) {
     res.status(500).json({
-      message: error
+      message: error,
     });
   }
 };
@@ -45,33 +40,14 @@ const getAllGarages = async (req, res) => {
 
     res.status(200).json({
       message: "Garages fetch successfully",
-      data: getGarages
+      data: getGarages,
     });
   } catch (error) {
     res.status(500).json({
-      message: error
+      message: error,
     });
   }
 };
-
-// const addGarageWithFile = async(req,res) =>{
-//   upload(req,res,(err)=>{
-//     if(err){
-//       res.status(500).json({
-//         message: err.message
-//       })
-//     }else{
-//       //database data store
-//       //cloudinary
-
-//       console.log(req.body);
-//       res.status(200).json({
-//         message:"file uploaded successfully",
-//         data:req.file,
-//       })
-//     }
-// })
-// }
 
 //getGarage by user id
 const getAllGaragesByUserId = async (req, res) => {
@@ -84,7 +60,7 @@ const getAllGaragesByUserId = async (req, res) => {
     } else {
       res.status(200).json({
         message: "Garage found successfully",
-        data: garages
+        data: garages,
       });
     }
   } catch (err) {
@@ -96,7 +72,7 @@ const addGarageWithFile = async (req, res) => {
   upload(req, res, async (err) => {
     if (err) {
       res.status(500).json({
-        message: err.message
+        message: err.message,
       });
     } else {
       // database data store
@@ -114,36 +90,12 @@ const addGarageWithFile = async (req, res) => {
 
       res.status(200).json({
         message: "garage saved successfully",
-        data: savedGarage
+        data: savedGarage,
       });
     }
   });
 };
 
-//update garage detail
-// const updateGarage = async (req, res) => {
-//   //update tablename set ? where id = ?
-//   //update new data -->req.body
-//   //id --> req.params.id
-//   try {
-//     const updatedGarage = await garageModel.findByIdAndUpdate(
-//       req.params.id,
-//       req.body,
-//       { new: true }
-//     );
-//     console.log(req.body);
-
-//     res.status(200).json({
-//       message: "garage update successfully",
-//       data: updatedGarage
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       message: "error while update garage detail",
-//       err: error
-//     });
-//   }
-// };
 const updateGarageWithFile = async (req, res) => {
   try {
     await new Promise((resolve, reject) => {
@@ -158,12 +110,18 @@ const updateGarageWithFile = async (req, res) => {
 
     if (req.file) {
       // Upload new image to Cloudinary
-      const cloudinaryResponse = await cloudinaryUtil.uploadFileToCloudinary(req.file)
+      const cloudinaryResponse = await cloudinaryUtil.uploadFileToCloudinary(
+        req.file
+      );
       updateData.imageURL = cloudinaryResponse.secure_url;
     }
 
     // Update garage details in the database
-    const updatedGarage = await garageModel.findByIdAndUpdate(garageId, updateData, { new: true });
+    const updatedGarage = await garageModel.findByIdAndUpdate(
+      garageId,
+      updateData,
+      { new: true }
+    );
 
     if (!updatedGarage) {
       return res.status(404).json({ message: "Garage not found" });
@@ -173,7 +131,6 @@ const updateGarageWithFile = async (req, res) => {
       message: "Garage updated successfully",
       data: updatedGarage,
     });
-
   } catch (error) {
     res.status(500).json({
       message: error.message || "Error updating garage details",
@@ -181,20 +138,24 @@ const updateGarageWithFile = async (req, res) => {
   }
 };
 
-
 //get garage by garage id
 const getGarageByGarageId = async (req, res) => {
   try {
-    const getGarageById = await garageModel.findById(req.params.id).populate("stateId","name -_id").populate("cityId","cityName -_id").populate("areaId","name -_id").populate("rating");
+    const getGarageById = await garageModel
+      .findById(req.params.id)
+      .populate("stateId", "name -_id")
+      .populate("cityId", "cityName -_id")
+      .populate("areaId", "name -_id")
+      .populate("rating");
 
     res.status(200).json({
       message: " Garage fetched successfully",
-      data: getGarageById
+      data: getGarageById,
     });
   } catch (error) {
     res.status(500).json({
       message: "failed to fetch garage",
-      error: error
+      error: error,
     });
   }
 };
@@ -215,7 +176,6 @@ const DeletedGarage = async (req, res) => {
   }
 };
 
-
 //approve garage
 const approveGarage = async (req, res) => {
   try {
@@ -227,30 +187,30 @@ const approveGarage = async (req, res) => {
 
     res.status(200).json({
       message: "Garage approved successfully",
-      data: updatedGarage
+      data: updatedGarage,
     });
   } catch (err) {
     res.status(500).json({
-      message: err.message
+      message: err.message,
     });
   }
 };
-
 
 const getApprovedGarages = async (req, res) => {
   try {
-    const garages = await garageModel.find({ avaliability_status: true }).populate("stateId cityId areaId userId");
+    const garages = await garageModel
+      .find({ avaliability_status: true })
+      .populate("stateId cityId areaId userId");
     res.status(200).json({
       message: "Approved garages only",
-      data: garages
+      data: garages,
     });
   } catch (err) {
     res.status(500).json({
-      message: err.message
+      message: err.message,
     });
   }
 };
-
 
 module.exports = {
   addGarage,
@@ -260,6 +220,6 @@ module.exports = {
   updateGarageWithFile,
   getGarageByGarageId,
   DeletedGarage,
-  approveGarage ,
-  getApprovedGarages 
+  approveGarage,
+  getApprovedGarages,
 };

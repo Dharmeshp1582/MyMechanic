@@ -12,12 +12,6 @@ const createReview = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    // Optional: prevent duplicate reviews from same user
-    // const existingReview = await ReviewModel.findOne({ userId, garageId });
-    // if (existingReview) {
-    //   return res.status(400).json({ message: "You have already reviewed this garage." });
-    // }
-
     const review = await ReviewModel.create({
       userId,
       garageId,
@@ -34,9 +28,6 @@ const createReview = async (req, res) => {
     res.status(500).json({ message: "Failed to add review" });
   }
 };
-
-
-
 
 
 // Get all reviews
@@ -79,24 +70,6 @@ const getReviewsByGarage = async (req, res) => {
   }
 };
 
-// Delete a review
-// const deleteReview = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     await Review.findByIdAndDelete(id);
-//     res
-//       .status(200)
-//       .json({ success: true, message: "Review deleted successfully" });
-//   } catch (error) {
-//     res
-//       .status(500)
-//       .json({
-//         success: false,
-//         message: "Failed to delete review",
-//         error: error.message
-//       });
-//   }
-// };
 
 
 //update review
@@ -171,7 +144,6 @@ const getAverageRating = async (req, res) => {
 module.exports = {
   createReview,
   getAllReviews,
-  // deleteReview,
   getReviewsByGarage,
   getAverageRating,
   updateReview,

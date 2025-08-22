@@ -5,12 +5,7 @@ const cloudinaryUtil = require("../utils/Cloudinary");
 
 //storage engine
 
-const storage = multer.diskStorage({
-  destination: "./uploads",
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
-  }
-});
+const storage = multer.memoryStorage(); // Use memory storage for Vercel compatibility
 
 //multer object...
 
@@ -51,25 +46,6 @@ const getAllServices = async (req, res) => {
     });
   }
 };
-
-//delete Service by id
-// const deleteService = async (req, res) => {
-//   //delete from service where id=>
-//   //req.params
-//   // console.log(req.params) //params object
-//   try {
-//     const deletedService = await serviceModel.findByIdAndDelete(req.params.id);
-
-//     res.status(200).json({
-//       message: "service deleted successfully",
-//       data: deletedService
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       message: error
-//     });
-//   }
-// };
 
 // DELETE /service/delete/:id
 const deleteServiceById = async (req, res) => {
@@ -112,14 +88,14 @@ const addServiceWithFile = async (req, res) => {
       // database data store
       //cloundinary
 
-      const cloundinaryResponse = await cloudinaryUtil.uploadFileToCloudinary(
+      const cloudinaryResponse = await cloudinaryUtil.uploadFileToCloudinary(
         req.file
       );
-      console.log(cloundinaryResponse);
+      console.log(cloudinaryResponse);
       console.log(req.body);
 
       //store data in database
-      req.body.imageURL = cloundinaryResponse.secure_url;
+      req.body.imageURL = cloudinaryResponse.secure_url;
       const savedService = await serviceModel.create(req.body);
 
       res.status(200).json({
@@ -200,25 +176,6 @@ const getAllServicesByUserId = async (req, res) => {
   }
 };
 
-//get Service by service id
-// const getServiceByServiceId = async (req, res) => {
-//   try {
-//      const {id} =req.params;
-
-//     const getServiceById = await serviceModel
-//       .findById(id)
-
-//     res.status(200).json({
-//       message: "service fetched successfully",
-//       data: getServiceById
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       message: "failed to fetch service",
-//       error: error
-//     });
-//   }
-// };
 
 const getservicebyId = async (req, res) => {
   try {

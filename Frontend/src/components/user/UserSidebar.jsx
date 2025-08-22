@@ -164,33 +164,7 @@ export const UserSidebar = () => {
                   <p>Garages</p>
                 </Link>
               </li>
-              {/* <li className="nav-item">
-                <Link href="" className="nav-link">
-                  <i className="nav-icon bi bi-box-seam-fill" />
-                  <FaBox size={20} style={{ marginRight: "10px" }} />
-                  <p>Widgets</p>
-                </Link>
-                <ul className="nav nav-treeview">
-                  <li className="nav-item">
-                    <a href="./widgets/small-box.html" className="nav-link">
-                      <i className="nav-icon bi bi-circle" />
-                      <p>Small Box</p>
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a href="./widgets/info-box.html" className="nav-link">
-                      <i className="nav-icon bi bi-circle" />
-                      <p>info Box</p>
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a href="./widgets/cards.html" className="nav-link">
-                      <i className="nav-icon bi bi-circle" />
-                      <p>Cards</p>
-                    </a>
-                  </li>
-                </ul>
-              </li> */}
+              
             </ul>
           </nav>
         </div>

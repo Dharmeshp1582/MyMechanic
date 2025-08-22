@@ -27,7 +27,7 @@ const authMiddleware = (req,res,next)=>{
     }
   }
     else{
-      res.status(400).json({
+      return res.status(400).json({
         message:"token is required"
       })
     }

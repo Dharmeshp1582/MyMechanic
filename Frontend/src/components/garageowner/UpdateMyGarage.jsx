@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "../../assets/css/addgarage.css";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import { Bounce, toast, ToastContainer } from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 
 export const UpdateMyGarage = () => {
@@ -91,12 +91,6 @@ export const UpdateMyGarage = () => {
 
   return (
     <>
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        theme="dark"
-        transition={Bounce}
-      />
       <div className="addgarage-container">
         <div className="addgarage-wrapper">
           <div className="addgarage-card">

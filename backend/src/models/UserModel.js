@@ -22,7 +22,26 @@ const userSchema = new Schema(
     },
     imageURL:{
       type: String
+    },    // ...existing code...
+    fullName: {
+      type: String,
+      required: true
     },
+    email: {
+      type: String,
+      unique: true,
+      required: true,
+      match: [/.+\@.+\..+/, "Please fill a valid email address"]
+    },
+    password: {
+      type: String,
+      required: true
+    },
+    contact: {
+      type: String,
+      required: true
+    },
+    // ...existing code...
     status:{
       type: Boolean,
       default: true

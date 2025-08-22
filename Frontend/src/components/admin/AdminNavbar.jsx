@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { CiLogout } from "react-icons/ci";
 import { FaUser, FaArrowRight } from "react-icons/fa";
 import axios from "axios";
-import { Bounce, toast, ToastContainer } from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 
 export const AdminNavbar = ({ toggleSidebar }) => {
   const navigate = useNavigate();
@@ -74,12 +74,6 @@ export const AdminNavbar = ({ toggleSidebar }) => {
 
   return (
     <nav className="app-header navbar navbar-expand bg-body">
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        theme="dark"
-        transition={Bounce}
-      />
       <div className="container-fluid">
         <ul className="navbar-nav">
           <li className="nav-item">

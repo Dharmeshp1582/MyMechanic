@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Bounce, toast, ToastContainer } from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export const AddVehicle = () => {
@@ -181,7 +181,6 @@ export const AddVehicle = () => {
           </button>
         </form>
       </div>
-      {/* <ToastContainer /> Toast container to render the toasts */}
     </div>
   );
 };

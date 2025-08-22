@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import { Bounce, toast, ToastContainer } from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 import "../../../src/assets/css/UpdateUser.css";
 
 export const ProfileDetail = () => {
@@ -76,12 +76,6 @@ export const ProfileDetail = () => {
 
   return (
     <>
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        theme="dark"
-        transition={Bounce}
-      />
       <div className="profile-container">
         <div className="profile-card">
           <h2 className="profile-header">Update Profile</h2>

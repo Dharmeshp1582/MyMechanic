@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import { Bounce, toast, ToastContainer } from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 
 export const UpdateService = () => {
   const { id } = useParams();
@@ -91,7 +91,6 @@ export const UpdateService = () => {
 
   return (
     <>
-      <ToastContainer />
       <div
         style={{
           padding: "20px",

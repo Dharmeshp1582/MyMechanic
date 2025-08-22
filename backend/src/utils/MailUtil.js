@@ -28,7 +28,6 @@ const sendingMail = async (to,subject,text,html = null) =>{
       return mailResponse
 } 
 
-// sendMail("dharmeshpatelvirpur123@gmail.com","Test mail","This is the test mail");
 
 module.exports ={
     sendingMail

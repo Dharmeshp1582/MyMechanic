@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Bounce, ToastContainer, toast } from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -227,7 +227,6 @@ export const Login = () => {
               textAlign:"right",
               textDecoration: "none"}}>Forget password?</NavLink>
       </div>
-      <ToastContainer />
     </div>
     
     </div>

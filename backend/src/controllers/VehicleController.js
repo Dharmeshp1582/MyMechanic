@@ -29,10 +29,10 @@ const getAllVehicles = async (req, res) => {
 // Delete Vehicle
 const deleteVehicleById = async (req,res) => {
   try{
-      const deletedvehicle = await vehicleModel.findByIdAndDelete(req.params.id)
+      const deletedVehicle = await vehicleModel.findByIdAndDelete(req.params.id)
       res.status(200).json({
           message:"Vehicle deleted..",
-          data:deletedvehicle
+          data:deletedVehicle
       })
   } catch(err) {
       res.status(500).json({

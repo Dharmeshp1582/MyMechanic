@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { Bounce, toast, ToastContainer } from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "../../../src/assets/css/addservice.css";
 
@@ -88,12 +88,6 @@ export const AddServices = () => {
         backgroundColor:"rgb(220, 225, 245)"
       }}
     >
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        theme="dark"
-        transition={Bounce}
-      />
       <h1>Add Service</h1>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <form

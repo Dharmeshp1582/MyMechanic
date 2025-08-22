@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { Bounce, toast, ToastContainer } from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 import { FaRegClock, FaWarehouse } from "react-icons/fa";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 
@@ -109,7 +109,7 @@ export const ViewGarageDetail = () => {
           ← Go Back
         </button>
       </div>
-      <ToastContainer />
+   
 
       <div
         style={{

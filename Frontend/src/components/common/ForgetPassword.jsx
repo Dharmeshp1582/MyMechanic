@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { CgMail } from "react-icons/cg";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -30,7 +30,6 @@ export const ForgotPassword = () => {
 
   return (
     <>
-      <ToastContainer />
       <div
         style={{
           display: "flex",

@@ -1,108 +1,10 @@
-// import { useEffect, useState } from "react";
-// import axios from "axios";
-// import { useForm } from "react-hook-form";
-// import { useNavigate } from "react-router-dom";
-// import { Bounce, toast, ToastContainer } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
-// import "../../../src/assets/css/addgarage.css"; // Import external CSS
 
-// export const AddGarage2 = () => {
-//   const navigate = useNavigate();
-//   const [states, setStates] = useState([]);
-//   const [cities, setCities] = useState([]);
-//   const [areas, setAreas] = useState([]);
-
-//   useEffect(() => {
-//     const getAllStates = async () => {
-//       const res = await axios.get("/state/getallstates");
-//       setStates(res.data.data);
-//     };
-//     getAllStates();
-//   }, []);
-
-//   const getCityByStateId = async (id) => {
-//     const res = await axios.get("/city/getcitybystate/" + id);
-//     setCities(res.data.data);
-//   };
-
-//   const getAreaByCityId = async (id) => {
-//     const res = await axios.get("/area/getareabycity/" + id);
-//     setAreas(res.data.data);
-//   };
-
-//   const { register, handleSubmit, formState: { errors } } = useForm();
-
-//   const submitHandler = async (data) => {
-//     try {
-//       data.userId = localStorage.getItem("id");
-//       const formData = new FormData();
-//       Object.keys(data).forEach((key) => formData.append(key, data[key]));
-//       formData.append("image", data.image[0]);
-
-//       const res = await axios.post("/garage/addgaragewithfile", formData);
-//       if (res.status === 200) {
-//         toast.success("Garage added successfully!", {
-//           position: "top-right",
-//           autoClose: 2000,
-//           theme: "dark",
-//           transition: Bounce,
-//           onClose: () => navigate("/garageowner/mygarages"),
-//         });
-//       }
-//     } catch (error) {
-//       toast.error("Garage not added!", {
-//         position: "top-center",
-//         autoClose: 2000,
-//         theme: "dark",
-//         transition: Bounce,
-//       });
-//     }
-//   };
-
-//   return (
-//     <div className="container">
-//       <ToastContainer position="top-right" autoClose={2000} theme="dark" transition={Bounce} />
-//       <div className="card">
-//         <h2 className="title">Add Garage</h2>
-//         <form onSubmit={handleSubmit(submitHandler)}>
-//           <input type="text" placeholder="Garage Name" {...register("name", { required: "Name is required" })} className="input-field" />
-//           {errors.name && <p className="error">{errors.name.message}</p>}
-
-//           <input type="text" placeholder="Owner Name" {...register("owner", { required: "Owner name is required" })} className="input-field" />
-//           {errors.owner && <p className="error">{errors.owner.message}</p>}
-
-//           <input type="text" placeholder="Phone No" {...register("phoneno", { required: "Contact number is required" })} className="input-field" />
-//           {errors.phoneno && <p className="error">{errors.phoneno.message}</p>}
-
-//           <select {...register("stateId")} className="input-field" onChange={(e) => getCityByStateId(e.target.value)}>
-//             <option value="">Select State</option>
-//             {states.map(state => <option key={state._id} value={state._id}>{state.name}</option>)}
-//           </select>
-
-//           <select {...register("cityId")} className="input-field" onChange={(e) => getAreaByCityId(e.target.value)}>
-//             <option value="">Select City</option>
-//             {cities.map(city => <option key={city._id} value={city._id}>{city.cityName}</option>)}
-//           </select>
-
-//           <select {...register("areaId")} className="input-field">
-//             <option value="">Select Area</option>
-//             {areas.map(area => <option key={area._id} value={area._id}>{area.name}</option>)}
-//           </select>
-
-//           <input type="file" {...register("image")} className="input-field file-input" />
-
-//           <button type="submit" className="submit-btn">Submit</button>
-//         </form>
-//       </div>
-//     </div>
-//   );
-// };
 
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { Bounce, toast, ToastContainer } from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 import {
   Card,
   CardContent,
@@ -179,12 +81,6 @@ export const AddGarage2 = () => {
   return (
     <div style={{backgroundColor:"rgb(220, 225, 245)"}}>
     <Container maxWidth="md" style={{ marginTop: "32px", marginBottom: "32px" }}>
-  <ToastContainer
-    position="top-right"
-    autoClose={2000}
-    theme="dark"
-    transition={Bounce}
-  />
   <Card style={{ boxShadow: "0px 4px 20px rgba(0,0,0,0.2)", borderRadius: "16px", padding: "24px" }}>
     <CardContent>
       <Typography
