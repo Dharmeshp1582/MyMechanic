@@ -11,7 +11,7 @@ const GarageMapModal = ({ garage, onClose }) => {
     <div className="map-overlay">
       <div className="map-container">
         <button className="map-close-btn" onClick={onClose}>✖ Close</button>
-        <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
+        <LoadScript googleMapsApiKey={import.meta.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
           <GoogleMap mapContainerStyle={{ width: '100%', height: '400px' }} center={center} zoom={15}>
             <Marker position={center} />
           </GoogleMap>
