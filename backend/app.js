@@ -17,27 +17,12 @@ app.use(cors({
 
 
 //http://localhost:3000/test
-app.get("/test", (req, res) => {
+app.get("/", (req, res) => {
   console.log("test api called...");
   res.send("hello test api called...");
 });
 
 port = process.env.PORT || 5000
-// //http://localhost:3000/users
-// app.get("/users", (req, res) => {
-//   res.json({
-//     message: "user api called..",
-//     data: ["ram", "shyam", "hemang"]
-//   });
-// });
-
-// //http://localhost:3000/employee
-// app.get("/employee",(req,res)=>{
-//     res.json({
-//         message:"employee api called..",
-//         data:["ram","shyam","hemang"]
-//     })
-// })
 
 // Logout route
 app.post("/logout", (req, res) => {
