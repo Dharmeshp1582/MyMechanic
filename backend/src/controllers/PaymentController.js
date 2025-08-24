@@ -15,11 +15,31 @@ const getRazorpayKey = (req, res) => {
 };
 
 //  Create Order
+// const create_order = async (req, res) => {
+//   const { amount, currency = "INR", receipt } = req.body;
+
+//   const options = {
+//     amount: amount, // paise
+//     currency,
+//     receipt,
+//   };
+
+//   try {
+//     const order = await razorpay.orders.create(options);
+//     res.status(200).json(order);
+//   } catch (err) {
+//     console.error("Error creating Razorpay order:", err.message);
+//     res.status(500).json({ message: "Something went wrong while creating order" });
+//   }
+// };
 const create_order = async (req, res) => {
-  const { amount, currency = "INR", receipt } = req.body;
+  let { amount, currency = "INR", receipt } = req.body;
+
+  // rupees to  paise convert
+  amount = amount * 100;
 
   const options = {
-    amount: amount * 100 , // paise
+    amount,  
     currency,
     receipt,
   };
@@ -32,6 +52,7 @@ const create_order = async (req, res) => {
     res.status(500).json({ message: "Something went wrong while creating order" });
   }
 };
+
 
 
 const verify_order = async (req, res) => {

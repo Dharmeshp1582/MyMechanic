@@ -125,7 +125,7 @@ export const MyAppointments = () => {
                         <Payment
                           appointmentId={appt._id}
                           userId={userId}
-                          amount={appt.finalPrice * 100}
+                          amount={appt.finalPrice}
                           onSuccess={handlePaymentSuccess}
                         />
                       )}

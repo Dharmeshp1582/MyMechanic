@@ -59,7 +59,7 @@ export const UserPayments = () => {
                                         ?  `${vehicle.model} (${vehicle.licensePlate})`
                                         : "N/A"}
                                 </td>
-                                <td>₹{(payment.amount / 100).toFixed(2)}</td>
+                                <td>₹{(payment.amount).toFixed(2)}</td>
                                 <td>{payment.razorpay_order_id}</td>
                                 <td>{payment.razorpay_payment_id}</td>
                                 <td><span className="userpay-paid">Paid</span></td>

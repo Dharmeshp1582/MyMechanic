@@ -11,7 +11,7 @@ dotenv.config();
 app.use(express.json()); //to accept data as json format middleware
 app.use(cookieParser());
 app.use(cors({
-  origin:"http://localhost:5173",
+  origin:["http://localhost:5173","https://my-mechanic-client.vercel.app"],
   credentials:true
 })); // *
 
@@ -35,7 +35,7 @@ app.post("/logout", (req, res) => {
 });
 
 //import role routes
-const roleRoutes = require("./src/routes/RoleRoute");
+const roleRoutes = require("./src/routes/RoleRoute"); 
 app.use("/role", roleRoutes);
 
 //import user routes
@@ -125,7 +125,7 @@ app.post("/contact", async (req, res) => {
 
 //server creation
 
-  app.listen(port, async() => {
+app.listen(port, async() => {
    await connectDB()
     console.log("server started successfully at port", port);
   });

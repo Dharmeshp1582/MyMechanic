@@ -112,7 +112,7 @@ const Payment = ({ appointmentId, userId, amount, onSuccess }) => {
 
   return (
     <button onClick={handlePayment} style={{ padding: "8px 16px", background: "#0d6efd", color: "#fff", border: "none", borderRadius: "4px" }}>
-      Pay ₹{amount / 100}
+      Pay ₹{amount}
     </button>
   );
 };

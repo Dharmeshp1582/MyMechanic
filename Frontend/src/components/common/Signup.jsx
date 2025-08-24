@@ -62,7 +62,7 @@ export const Signup = () => {
       toast.success("Signup successful! 🎉", {
         position: "top-right",
         autoClose: 2000,
-        theme: "dark",
+        theme: "dark", 
         onClose: () => navigate("/login")
       });
     }
